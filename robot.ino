@@ -10,7 +10,7 @@
 void setup() {
     
     Serial.begin(115200);             // opens serial port, sets data rate to 115200 baud
-    delay(2000);
+    delay(1000);
 
     
     pinMode(ROUND_START_BUTTON, INPUT_PULLUP);
