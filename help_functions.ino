@@ -23,15 +23,21 @@ void modeButton() {
 }
 
 
+
 void roundButton() {
+  int buttonState = digitalRead(SET_NUM_OF_ROUND_BUTTON);
+  unsigned long currentMillis = millis();
 
-  if (!digitalRead(SET_NUM_OF_ROUND_BUTTON) == HIGH) {
+  // Перевірка стану кнопки та "дребезгу"
+  if (buttonState != lastButtonStateRound && (currentMillis - lastDebounceTimeRound) > debounceDelay) {
+    lastDebounceTimeRound = currentMillis;
 
-    curr_round++;
-    if (curr_round == 4) {
-      curr_round = 1;
-    }
-    switch(curr_round){
+    if (buttonState == HIGH) {
+      curr_round++;
+      if (curr_round == 4) {
+        curr_round = 1;
+      }
+       switch(curr_round){
         case 1:
             digitalWrite(LED_ROUND_1, HIGH);
         break;
@@ -42,16 +48,28 @@ void roundButton() {
             digitalWrite(LED_ROUND_3, HIGH);
         break;        
     }
+    }
   }
+  lastButtonStateRound = buttonState;
 }
 
 void startRoundButton() {
-  if (!digitalRead(ROUND_START_BUTTON) == HIGH) {
-    round_length_time = millis();
-    round_start_flag = 1;
-    digitalWrite(LED_ROUND_START, HIGH);
+  int buttonState = digitalRead(ROUND_START_BUTTON);
+  unsigned long currentMillis = millis();
+
+  // Перевірка стану кнопки та "дребезгу"
+  if (buttonState != lastButtonStateStart && (currentMillis - lastDebounceTimeStart) > debounceDelay) {
+    lastDebounceTimeStart = currentMillis;
+
+    if (buttonState == HIGH) {
+      round_length_time = currentMillis;
+      round_start_flag = 1;
+      digitalWrite(LED_ROUND_START, HIGH);
+    }
   }
+  lastButtonStateStart = buttonState;
 }
+
 
 
 
