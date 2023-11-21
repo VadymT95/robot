@@ -7,6 +7,11 @@
 #define MODE_TOGGLE_SWITCH A10 
 #define TOTAL_ROUND_LENGTH 20000
 
+#define LED_ROUND_START A11
+#define LED_ROUND_1 A12
+#define LED_ROUND_2 A13
+#define LED_ROUND_3 A14
+#define LED_MODE A15
 
 // interrupts for listening port
 volatile byte interrupts_count = 0;

@@ -13,10 +13,9 @@ void setup() {
     Serial.begin(115200);             // opens serial port, sets data rate to 115200 baud
     delay(1000);
 
-    
-    pinMode(ROUND_START_BUTTON, INPUT_PULLUP);
-    pinMode(SET_NUM_OF_ROUND_BUTTON, INPUT_PULLUP);
-    pinMode(MODE_TOGGLE_SWITCH, INPUT_PULLUP);
+    setup_leds_and_buttons();
+
+
    
     Timer2.setPeriod(1000);           // set
     Timer2.enableISR();               // Подключить стандартное прерывание, канал А, без сдига фаз
@@ -24,16 +23,16 @@ void setup() {
 
 
 void loop() {
-  if(round_start_flag == 1 && millis() - round_length_time <= TOTAL_ROUND_LENGTH){
-
-  if(curr_mode == 1){
-    defence_mode();
-  }
-  if(curr_mode == 2){
-    atack_mode();
-  }
+    if(round_start_flag == 1 && millis() - round_length_time <= TOTAL_ROUND_LENGTH){
   
-}
+        if(curr_mode == 1){
+            defence_mode();
+        }
+        if(curr_mode == 2){
+            atack_mode();
+        }
+    }
+     digitalWrite(LED_ROUND_START, LOW);
 
   
 ////////////////
