@@ -25,14 +25,14 @@ void modeButton() {
 
 
 void roundButton() {
-  int buttonState = digitalRead(SET_NUM_OF_ROUND_BUTTON);
+  int buttonState = !digitalRead(SET_NUM_OF_ROUND_BUTTON);
   unsigned long currentMillis = millis();
 
   // Перевірка стану кнопки та "дребезгу"
   if (buttonState == 1 && lastButtonStateRound == 0 && millis() - lastDebounceTimeRound > debounceDelay) {
     lastDebounceTimeRound = currentMillis;
+    lastButtonStateRound = 1;
 
-    if (buttonState == HIGH) {
       curr_round++;
       if (curr_round == 4) {
         curr_round = 1;
@@ -51,7 +51,7 @@ void roundButton() {
             digitalWrite(LED_ROUND_3, HIGH);
         break;        
     }
-    }
+    
   }
     if (buttonState == 0 && lastButtonStateRound == 1) {
     lastButtonStateRound = 0;
@@ -61,12 +61,13 @@ void roundButton() {
 
 
 void startRoundButton() {
-  int buttonState = digitalRead(ROUND_START_BUTTON);
+  int buttonState = !digitalRead(ROUND_START_BUTTON);
   unsigned long currentMillis = millis();
 
   // Перевірка стану кнопки та "дребезгу"
   if (buttonState == 1 && lastButtonStateStart == 0 && millis() - lastDebounceTimeStart > debounceDelay) {
     lastDebounceTimeStart = currentMillis;
+    lastButtonStateStart = 1;
 
     if (buttonState == HIGH) {
       round_length_time = currentMillis;
