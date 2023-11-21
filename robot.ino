@@ -31,8 +31,9 @@ void loop() {
         if(curr_mode == 2){
             atack_mode();
         }
+    }else{
+      digitalWrite(LED_ROUND_START, LOW);
     }
-     digitalWrite(LED_ROUND_START, LOW);
 
   
 ////////////////

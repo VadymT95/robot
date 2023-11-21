@@ -29,7 +29,7 @@ void roundButton() {
   unsigned long currentMillis = millis();
 
   // Перевірка стану кнопки та "дребезгу"
-  if (buttonState != lastButtonStateRound && (currentMillis - lastDebounceTimeRound) > debounceDelay) {
+  if (buttonState == 1 && lastButtonStateRound == 0 && millis() - lastDebounceTimeRound > debounceDelay) {
     lastDebounceTimeRound = currentMillis;
 
     if (buttonState == HIGH) {
@@ -40,25 +40,32 @@ void roundButton() {
        switch(curr_round){
         case 1:
             digitalWrite(LED_ROUND_1, HIGH);
+            digitalWrite(LED_ROUND_3, LOW);
         break;
         case 2:
+            digitalWrite(LED_ROUND_1, LOW);
             digitalWrite(LED_ROUND_2, HIGH);
         break;       
         case 3:
+            digitalWrite(LED_ROUND_2, LOW);
             digitalWrite(LED_ROUND_3, HIGH);
         break;        
     }
     }
   }
-  lastButtonStateRound = buttonState;
+    if (buttonState == 0 && lastButtonStateRound == 1) {
+    lastButtonStateRound = 0;
+  }
 }
+
+
 
 void startRoundButton() {
   int buttonState = digitalRead(ROUND_START_BUTTON);
   unsigned long currentMillis = millis();
 
   // Перевірка стану кнопки та "дребезгу"
-  if (buttonState != lastButtonStateStart && (currentMillis - lastDebounceTimeStart) > debounceDelay) {
+  if (buttonState == 1 && lastButtonStateStart == 0 && millis() - lastDebounceTimeStart > debounceDelay) {
     lastDebounceTimeStart = currentMillis;
 
     if (buttonState == HIGH) {
@@ -67,7 +74,9 @@ void startRoundButton() {
       digitalWrite(LED_ROUND_START, HIGH);
     }
   }
-  lastButtonStateStart = buttonState;
+  if (buttonState == 0 && lastButtonStateStart == 1) {
+    lastButtonStateStart = 0;
+  }
 }
 
 
