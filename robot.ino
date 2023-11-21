@@ -23,6 +23,16 @@ void setup() {
 
 
 void loop() {
+  if(round_start_flag == 1 && millis() - round_length_time <= TOTAL_ROUND_LENGTH){
+
+  if(curr_mode == 1){
+    defence_mode();
+  }
+  if(curr_mode == 2){
+    atack_mode();
+  }
+  
+}
 
   
 ////////////////
@@ -38,18 +48,13 @@ ISR(TIMER2_A) {
       
       if(interrupts_count == COLOR_SENSOR_DELAY_CHECK){
           interrupts_count = 0;
-          
-        bool buttonStateA8 = !digitalRead(ROUND_START_BUTTON) == LOW;
-        bool buttonStateA9 = !digitalRead(SET_NUM_OF_ROUND_BUTTON) == LOW;
-        bool buttonStateA10 = !digitalRead(MODE_TOGGLE_SWITCH) == LOW;
 
-        // Виведення стану кнопок в консоль
-        Serial.print("Button A8: ");
-        Serial.print(buttonStateA8 ? "Pressed" : "Released");
-        Serial.print(", Button A9: ");
-        Serial.print(buttonStateA9 ? "Pressed" : "Released");
-        Serial.print(", Button A10: ");
-        Serial.println(buttonStateA10 ? "Pressed" : "Released");                 
+          
+          // виклик функція для перевірки кольору обох датчиків.
+          // якщо колір чорний то зупинитися і поставить змінну відповідну у 1. щоб потім від'їхать.  
+
+          // чекать акселерометр щоб знать чи нас штовхнули. якщо штовхнули бити табло. 
+                       
       }
 
     Timer2.resume();
