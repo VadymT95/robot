@@ -50,7 +50,9 @@ ISR(TIMER2_A) {
       if(interrupts_count == COLOR_SENSOR_DELAY_CHECK){
           interrupts_count = 0;
 
-          
+          roundButton();
+          modeButton();
+          startRoundButton();
           // виклик функція для перевірки кольору обох датчиків.
           // якщо колір чорний то зупинитися і поставить змінну відповідну у 1. щоб потім від'їхать.  
 
