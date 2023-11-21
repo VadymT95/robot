@@ -1,6 +1,4 @@
 // connecting libraries
-
-
 #define COLOR_SENSOR_DELAY_CHECK 4       // (ms)
 
 
@@ -13,9 +11,9 @@
 // interrupts for listening port
 volatile byte interrupts_count = 0;
 
-unsigned long round_length_time = 0;
+long round_length_time = 0;
 boolean round_start_flag = 0;
 
 
-unsigned byte curr_mode = 1;
-unsigned byte curr_round = 1;
+byte curr_mode = 1;
+byte curr_round = 1;
