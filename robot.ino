@@ -17,7 +17,7 @@ void setup() {
 
     setup_leds_and_buttons();
     init_color_sensors();
-
+    setupSensorsPins();
    
     Timer2.setPeriod(1000);           // set
     Timer2.enableISR();               // Подключить стандартное прерывание, канал А, без сдига фаз
@@ -25,6 +25,7 @@ void setup() {
 
 
 void loop() {
+  printSensorsData();
     if(round_start_flag == 1 && millis() - round_length_time <= TOTAL_ROUND_LENGTH){
   
         if(curr_mode == 1){
@@ -57,7 +58,7 @@ ISR(TIMER2_A) {
           startRoundButton();
 
           processSensor(tcsFront, "Front"); // Обробка переднього датчика
-          processSensor(tcsRear, "Rear", 1.0); // Обробка заднього датчика з множником
+          processSensor(tcsRear, "Rear"); // Обробка заднього датчика з множником
   
           // виклик функція для перевірки кольору обох датчиків.
           // якщо колір чорний то зупинитися і поставить змінну відповідну у 1. щоб потім від'їхать.  

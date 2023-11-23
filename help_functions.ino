@@ -90,7 +90,7 @@ void defence_mode(){
 
 }
 
-void processSensor(Adafruit_TCS34725softi2c &tcs, const char* sensorName, float multiplier = 1.0) {
+void processSensor(Adafruit_TCS34725softi2c &tcs, const char* sensorName) {
   uint16_t clear1, red, green, blue;
 
   tcs.setInterrupt(false); // Включення світлодіода
@@ -133,4 +133,68 @@ void init_color_sensors(){
   } else {
     Serial.println("No rear sensor found ... check your connections");
   }
+}
+
+
+
+// Функції для інфрачервоних датчиків
+float getFrontInfraredDistance() {
+  int sensorValue = analogRead(pinInfraredFront);
+  return convertToDistance(sensorValue);
+}
+
+float getRearInfraredDistance() {
+  int sensorValue = analogRead(pinInfraredRear);
+  return convertToDistance(sensorValue);
+}
+
+// Конвертація значення сенсора в відстань
+float convertToDistance(int sensorValue) {
+  return 30431 * pow(sensorValue, -1.169); // Формула може потребувати калібрування
+}
+
+// Функції для ультразвукових датчиків
+float getFrontRightUltrasonicDistance() {
+  return getDistance(pinUltrasonicFrontRightTrig, pinUltrasonicFrontRightEcho);
+}
+
+float getFrontLeftUltrasonicDistance() {
+  return getDistance(pinUltrasonicFrontLeftTrig, pinUltrasonicFrontLeftEcho);
+}
+
+float getRearUltrasonicDistance() {
+  return getDistance(pinUltrasonicRearTrig, pinUltrasonicRearEcho);
+}
+
+// Отримання відстані для ультразвукового датчика
+float getDistance(int trigPin, int echoPin) {
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  long duration = pulseIn(echoPin, HIGH);
+  return duration * 0.034 / 2; // Швидкість звуку поділена на 2 (туди і назад)
+}
+
+void printSensorsData(){
+  Serial.print("Front IR Distance: ");
+  Serial.print(getFrontInfraredDistance());
+  Serial.print(" cm\tRear IR Distance: ");
+  Serial.print(getRearInfraredDistance());
+  Serial.print(" cm\tFR Ultrasonic Distance: ");
+  Serial.print(getFrontRightUltrasonicDistance());
+  Serial.print(" cm\tFL Ultrasonic Distance: ");
+  Serial.print(getFrontLeftUltrasonicDistance());
+  Serial.print(" cm\tRear Ultrasonic Distance: ");
+  Serial.print(getRearUltrasonicDistance());
+  Serial.println(" cm");  
+}
+void setupSensorsPins(){
+  pinMode(pinUltrasonicFrontRightTrig, OUTPUT);
+  pinMode(pinUltrasonicFrontRightEcho, INPUT);
+  pinMode(pinUltrasonicFrontLeftTrig, OUTPUT);
+  pinMode(pinUltrasonicFrontLeftEcho, INPUT);
+  pinMode(pinUltrasonicRearTrig, OUTPUT);
+  pinMode(pinUltrasonicRearEcho, INPUT);  
 }
