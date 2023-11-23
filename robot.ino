@@ -6,8 +6,8 @@
 #include "avr/wdt.h"
 
 
-Adafruit_TCS34725softi2c tcsFront = Adafruit_TCS34725softi2c(TCS34725_INTEGRATIONTIME_700MS, TCS34725_GAIN_1X, SDApinFront, SCLpinFront);
-Adafruit_TCS34725softi2c tcsRear = Adafruit_TCS34725softi2c(TCS34725_INTEGRATIONTIME_50MS, TCS34725_GAIN_4X, SDApinRear, SCLpinRear);
+Adafruit_TCS34725softi2c tcsFront = Adafruit_TCS34725softi2c(TCS34725_INTEGRATIONTIME_2_4MS, TCS34725_GAIN_4X, SDApinFront, SCLpinFront);
+Adafruit_TCS34725softi2c tcsRear = Adafruit_TCS34725softi2c(TCS34725_INTEGRATIONTIME_2_4MS, TCS34725_GAIN_4X, SDApinRear, SCLpinRear);
 
 
 void setup() {
@@ -55,6 +55,10 @@ ISR(TIMER2_A) {
           roundButton();
           modeButton();
           startRoundButton();
+
+          processSensor(tcsFront, "Front"); // Обробка переднього датчика
+          processSensor(tcsRear, "Rear", 1.0); // Обробка заднього датчика з множником
+  
           // виклик функція для перевірки кольору обох датчиків.
           // якщо колір чорний то зупинитися і поставить змінну відповідну у 1. щоб потім від'їхать.  
 
