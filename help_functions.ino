@@ -73,6 +73,7 @@ void startRoundButton() {
       round_length_time = currentMillis;
       round_start_flag = 1;
       digitalWrite(LED_ROUND_START, HIGH);
+      defaultColorValue = lastColorValue;
     }
   }
   if (buttonState == 0 && lastButtonStateStart == 1) {
@@ -90,28 +91,29 @@ void defence_mode(){
 }
 
 void processSensor(Adafruit_TCS34725softi2c &tcs, const char* sensorName, float multiplier = 1.0) {
-  uint16_t clear, red, green, blue;
+  uint16_t clear1, red, green, blue;
 
   tcs.setInterrupt(false); // Включення світлодіода
   //delay(60); // Час для зчитування
-  tcs.getRawData(&red, &green, &blue, &clear);
+  tcs.getRawData(&red, &green, &blue, &clear1);
   tcs.setInterrupt(true); // Вимикання світлодіода
 
-  clear *= multiplier;
-  red *= multiplier;
-  green *= multiplier;
-  blue *= multiplier;
+ // clear *= multiplier;
+ // red *= multiplier;
+ // green *= multiplier;
+ // blue *= multiplier;
+   lastColorValue = clear1;
 
   if (millis() - last_print1 >= 500 && sensorName != lastSensorName) { // Перевіряємо, чи минуло 50 мс
     last_print1 = millis(); // Оновлюємо час останнього виводу
     lastSensorName = sensorName;
     
-    Serial.print(sensorName); Serial.print(" - C:\t"); Serial.print(clear);
+    Serial.print(sensorName); Serial.print(" - C:\t"); Serial.print(clear1);
     Serial.print("\tR:\t"); Serial.print(red);
     Serial.print("\tG:\t"); Serial.print(green);
     Serial.print("\tB:\t"); Serial.println(blue);
   
-    int isBlack = clear < 2000 ? 1 : 0;
+    int isBlack = clear1 < defaultColorValue/2 ? 1 : 0;
     Serial.print(sensorName); Serial.print(" Is Black: "); Serial.println(isBlack);
     
   }
