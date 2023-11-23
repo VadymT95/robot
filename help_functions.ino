@@ -190,15 +190,15 @@ float getDistance(int trigPin, int echoPin) {
 }
 
 void printSensorsData(){
-  Serial.print("Front IR Distance: ");
+  Serial.print("Front IR: ");
   Serial.print(getFrontInfraredDistance());
-  Serial.print(" cm\tRear IR Distance: ");
+  Serial.print(" cm\tRear IR: ");
   Serial.print(getRearInfraredDistance());
-  Serial.print(" cm\tFR Ultrasonic Distance: ");
+  Serial.print(" cm\tFR Ultr: ");
   Serial.print(getFrontRightUltrasonicDistance());
-  Serial.print(" cm\tFL Ultrasonic Distance: ");
+  Serial.print(" cm\tFL Ultr: ");
   Serial.print(getFrontLeftUltrasonicDistance());
-  Serial.print(" cm\tRear Ultrasonic Distance: ");
+  Serial.print(" cm\tRear Ultr: ");
   Serial.print(getRearUltrasonicDistance());
   Serial.println(" cm");  
 }
