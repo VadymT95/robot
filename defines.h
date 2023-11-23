@@ -2,6 +2,9 @@
 #define COLOR_SENSOR_DELAY_CHECK 4       // (ms)
 
 
+//#define ENABLE_COLOR_SENSOR_PRINTS
+#define ENABLE_INIT_PRINTS
+
 #define ROUND_START_BUTTON A8 
 #define SET_NUM_OF_ROUND_BUTTON A9 
 #define MODE_TOGGLE_SWITCH A10 
@@ -19,6 +22,9 @@
 
 #define SDApinRear 20 
 #define SCLpinRear 21
+
+
+
 // Піни для інфрачервоних датчиків
 const int pinInfraredFront = A1; // Front sensor connected to A1
 const int pinInfraredRear = A0;  // Rear sensor connected to A0
