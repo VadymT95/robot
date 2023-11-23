@@ -6,7 +6,7 @@ unsigned long last_print1 = 0;
 
 int lastButtonStateRound = LOW; // Попередній стан круглої кнопки
 int lastButtonStateStart = LOW; // Попередній стан кнопки старту
-
+char* lastSensorName;
 
 
 void modeButton();

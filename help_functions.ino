@@ -102,9 +102,10 @@ void processSensor(Adafruit_TCS34725softi2c &tcs, const char* sensorName, float 
   green *= multiplier;
   blue *= multiplier;
 
-  if (millis() - last_print1 >= 500) { // Перевіряємо, чи минуло 50 мс
+  if (millis() - last_print1 >= 500 && sensorName != lastSensorName) { // Перевіряємо, чи минуло 50 мс
     last_print1 = millis(); // Оновлюємо час останнього виводу
-      
+    lastSensorName = sensorName;
+    
     Serial.print(sensorName); Serial.print(" - C:\t"); Serial.print(clear);
     Serial.print("\tR:\t"); Serial.print(red);
     Serial.print("\tG:\t"); Serial.print(green);
@@ -112,6 +113,7 @@ void processSensor(Adafruit_TCS34725softi2c &tcs, const char* sensorName, float 
   
     int isBlack = clear < 2000 ? 1 : 0;
     Serial.print(sensorName); Serial.print(" Is Black: "); Serial.println(isBlack);
+    
   }
 }
 
