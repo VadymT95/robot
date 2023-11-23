@@ -13,3 +13,5 @@ void startRoundButton();
 void atack_mode();
 void defence_mode();
 void setup_leds_and_buttons();
+void processSensor(Adafruit_TCS34725softi2c &tcs, const char* sensorName, float multiplier = 1.0);
+void init_color_sensors();

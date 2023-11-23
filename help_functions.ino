@@ -81,13 +81,48 @@ void startRoundButton() {
 }
 
 
-
-
-
 void atack_mode(){
     Serial.println("atack_mode");
 }
 void defence_mode(){
     Serial.println("defence_mode");
 
+}
+
+void processSensor(Adafruit_TCS34725softi2c &tcs, const char* sensorName, float multiplier = 1.0) {
+  uint16_t clear, red, green, blue;
+
+  tcs.setInterrupt(false); // Включення світлодіода
+  delay(60); // Час для зчитування
+  tcs.getRawData(&red, &green, &blue, &clear);
+  tcs.setInterrupt(true); // Вимикання світлодіода
+
+  clear *= multiplier;
+  red *= multiplier;
+  green *= multiplier;
+  blue *= multiplier;
+
+  Serial.print(sensorName); Serial.print(" - C:\t"); Serial.print(clear);
+  Serial.print("\tR:\t"); Serial.print(red);
+  Serial.print("\tG:\t"); Serial.print(green);
+  Serial.print("\tB:\t"); Serial.println(blue);
+
+  int isBlack = clear < 2000 ? 1 : 0;
+  Serial.print(sensorName); Serial.print(" Is Black: "); Serial.println(isBlack);
+}
+
+void init_color_sensors(){
+  Serial.println("Color View Test!");
+
+  if (tcsFront.begin()) {
+    Serial.println("Front sensor found");
+  } else {
+    Serial.println("No front sensor found ... check your connections");
+  }
+
+  if (tcsRear.begin()) {
+    Serial.println("Rear sensor found");
+  } else {
+    Serial.println("No rear sensor found ... check your connections");
+  }
 }

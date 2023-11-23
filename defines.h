@@ -13,6 +13,14 @@
 #define LED_ROUND_3 A14
 #define LED_MODE A15
 
+
+#define SDApinFront 33
+#define SCLpinFront 35
+
+#define SDApinRear 20 
+#define SCLpinRear 21
+
+
 // interrupts for listening port
 volatile byte interrupts_count = 0;
 

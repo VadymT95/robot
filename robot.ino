@@ -1,11 +1,13 @@
 #include "defines.h"
 
-
+#include "Adafruit_TCS34725softi2c.h"
 #include "help_functions.h"
 #include "GyverTimers.h"
 #include "avr/wdt.h"
 
 
+Adafruit_TCS34725softi2c tcsFront = Adafruit_TCS34725softi2c(TCS34725_INTEGRATIONTIME_700MS, TCS34725_GAIN_1X, SDApinFront, SCLpinFront);
+Adafruit_TCS34725softi2c tcsRear = Adafruit_TCS34725softi2c(TCS34725_INTEGRATIONTIME_50MS, TCS34725_GAIN_4X, SDApinRear, SCLpinRear);
 
 
 void setup() {
@@ -14,7 +16,7 @@ void setup() {
     delay(1000);
 
     setup_leds_and_buttons();
-
+    init_color_sensors();
 
    
     Timer2.setPeriod(1000);           // set
