@@ -4,6 +4,9 @@
 
 //#define ENABLE_COLOR_SENSOR_PRINTS
 #define ENABLE_INIT_PRINTS
+#define COLOR_SENSOR_TYPE 1 // 0 - I2C color sensors; 1 - photoResistors and leds
+
+
 
 #define ROUND_START_BUTTON A8 
 #define SET_NUM_OF_ROUND_BUTTON A9 

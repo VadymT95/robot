@@ -90,61 +90,64 @@ void defence_mode(){
 
 }
 
-void processSensor(Adafruit_TCS34725softi2c &tcs, const char* sensorName) {
-  uint16_t clear1, red, green, blue;
-
-  tcs.setInterrupt(false); // Включення світлодіода
-  //delay(60); // Час для зчитування
-  tcs.getRawData(&red, &green, &blue, &clear1);
-  tcs.setInterrupt(true); // Вимикання світлодіода
-
- // clear *= multiplier;
- // red *= multiplier;
- // green *= multiplier;
- // blue *= multiplier;
-   lastColorValue = clear1;
-
-  #ifdef ENABLE_COLOR_SENSOR_PRINTS
-  if (millis() - last_print1 >= 500 && sensorName != lastSensorName) {
-    last_print1 = millis(); // Оновлюємо час останнього виводу
-    lastSensorName = sensorName;
-
-
-    Serial.print(sensorName); Serial.print(" - C:\t"); Serial.print(clear1);
-    Serial.print("\tR:\t"); Serial.print(red);
-    Serial.print("\tG:\t"); Serial.print(green);
-    Serial.print("\tB:\t"); Serial.println(blue);
-
-    int isBlack = clear1 < defaultColorValue/2 ? 1 : 0;
-    Serial.print(sensorName); Serial.print(" Is Black: "); Serial.println(isBlack);
-    
+#if COLOR_SENSOR_TYPE == 0
+  void processSensor(Adafruit_TCS34725softi2c &tcs, const char* sensorName) {
+    uint16_t clear1, red, green, blue;
+  
+    tcs.setInterrupt(false); // Включення світлодіода
+    //delay(60); // Час для зчитування
+    tcs.getRawData(&red, &green, &blue, &clear1);
+    tcs.setInterrupt(true); // Вимикання світлодіода
+  
+   // clear *= multiplier;
+   // red *= multiplier;
+   // green *= multiplier;
+   // blue *= multiplier;
+     lastColorValue = clear1;
+  
+    #ifdef ENABLE_COLOR_SENSOR_PRINTS
+    if (millis() - last_print1 >= 500 && sensorName != lastSensorName) {
+      last_print1 = millis(); // Оновлюємо час останнього виводу
+      lastSensorName = sensorName;
+  
+  
+      Serial.print(sensorName); Serial.print(" - C:\t"); Serial.print(clear1);
+      Serial.print("\tR:\t"); Serial.print(red);
+      Serial.print("\tG:\t"); Serial.print(green);
+      Serial.print("\tB:\t"); Serial.println(blue);
+  
+      int isBlack = clear1 < defaultColorValue/2 ? 1 : 0;
+      Serial.print(sensorName); Serial.print(" Is Black: "); Serial.println(isBlack);
+      
+    }
+    #endif
   }
-  #endif
-}
-
+#endif
 void init_color_sensors(){
-  #ifdef ENABLE_INIT_PRINTS
-  Serial.println("Color View Test!");
+  #if COLOR_SENSOR_TYPE == 0
+    #ifdef ENABLE_INIT_PRINTS
+    Serial.println("Color View Test!");
+    #endif
+    if (tcsFront.begin()) {
+      #ifdef ENABLE_INIT_PRINTS
+      Serial.println("Front sensor found");
+      #endif
+    } else {
+      #ifdef ENABLE_INIT_PRINTS
+      Serial.println("No front sensor found ... check your connections");
+      #endif
+    }
+  
+    if (tcsRear.begin()) {
+      #ifdef ENABLE_INIT_PRINTS
+      Serial.println("Rear sensor found");
+      #endif
+    } else {
+      #ifdef ENABLE_INIT_PRINTS
+      Serial.println("No rear sensor found ... check your connections");
+      #endif
+    }
   #endif
-  if (tcsFront.begin()) {
-    #ifdef ENABLE_INIT_PRINTS
-    Serial.println("Front sensor found");
-    #endif
-  } else {
-    #ifdef ENABLE_INIT_PRINTS
-    Serial.println("No front sensor found ... check your connections");
-    #endif
-  }
-
-  if (tcsRear.begin()) {
-    #ifdef ENABLE_INIT_PRINTS
-    Serial.println("Rear sensor found");
-    #endif
-  } else {
-    #ifdef ENABLE_INIT_PRINTS
-    Serial.println("No rear sensor found ... check your connections");
-    #endif
-  }
 }
 
 

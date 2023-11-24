@@ -17,7 +17,11 @@ void startRoundButton();
 void atack_mode();
 void defence_mode();
 void setup_leds_and_buttons();
-void processSensor(Adafruit_TCS34725softi2c &tcs, const char* sensorName);
+
+#if COLOR_SENSOR_TYPE == 0
+    void processSensor(Adafruit_TCS34725softi2c &tcs, const char* sensorName);
+#endif
+
 void init_color_sensors();
 float getFrontInfraredDistance();
 float getRearInfraredDistance();

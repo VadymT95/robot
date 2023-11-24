@@ -1,14 +1,16 @@
 #include "defines.h"
 
+#if COLOR_SENSOR_TYPE == 0
 #include "Adafruit_TCS34725softi2c.h"
+#endif
 #include "help_functions.h"
 #include "GyverTimers.h"
 #include "avr/wdt.h"
 
-
+#if COLOR_SENSOR_TYPE == 0
 Adafruit_TCS34725softi2c tcsFront = Adafruit_TCS34725softi2c(TCS34725_INTEGRATIONTIME_2_4MS, TCS34725_GAIN_4X, SDApinFront, SCLpinFront);
 Adafruit_TCS34725softi2c tcsRear = Adafruit_TCS34725softi2c(TCS34725_INTEGRATIONTIME_2_4MS, TCS34725_GAIN_4X, SDApinRear, SCLpinRear);
-
+#endif
 
 void setup() {
     
@@ -57,8 +59,10 @@ ISR(TIMER2_A) {
           modeButton();
           startRoundButton();
 
-          processSensor(tcsFront, "Front"); // Обробка переднього датчика
-          processSensor(tcsRear, "Rear"); // Обробка заднього датчика з множником
+          #if COLOR_SENSOR_TYPE == 0
+              processSensor(tcsFront, "Front"); // Обробка переднього датчика
+              processSensor(tcsRear, "Rear"); // Обробка заднього датчика з множником
+          #endif
   
           // виклик функція для перевірки кольору обох датчиків.
           // якщо колір чорний то зупинитися і поставить змінну відповідну у 1. щоб потім від'їхать.  
