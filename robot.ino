@@ -28,6 +28,8 @@ void setup() {
     
     servoRight.attach(3); // Right servo connected to D3
     servoLeft.attach(4);  // Left servo connected to D4
+    delay(10);
+    setTusksPosition(DISABLE);
    
     Timer2.setPeriod(1000);           // set
     Timer2.enableISR();               // Подключить стандартное прерывание, канал А, без сдига фаз
@@ -71,15 +73,20 @@ ISR(TIMER2_A) {
       if(millis() - lastTimeMotorSet_Left >= low_time_left && leftMotorStatus == 1){
           lastTimeMotorSet_Left = millis();
           analogWrite(PWM_Left, pwmValueHigh);
+          Serial.println("PWM_Left 111");
       }else{
           analogWrite(PWM_Left, 0);
+          Serial.println("PWM_Left 000");
+
       }
 
-      if(millis() - lastTimeMotorSet_Right >= low_time_right&& rightMotorStatus == 1){
+      if(millis() - lastTimeMotorSet_Right >= low_time_right && rightMotorStatus == 1){
           lastTimeMotorSet_Right = millis();
           analogWrite(PWM_Right, pwmValueHigh);
+          Serial.println("PWM_Right 111");
       }else{
           analogWrite(PWM_Right, 0);
+          Serial.println("PWM_Right 000");
       }
 
 
