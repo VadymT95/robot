@@ -207,11 +207,11 @@ void setupSensorsPins(){
 void setupMotorsPins(){
   pinMode(RPWM, OUTPUT);
   pinMode(LPWM, OUTPUT);
-  pinMode(PWM, OUTPUT);
+  pinMode(PWM_Right, OUTPUT);
 
   pinMode(RPWM2, OUTPUT);
   pinMode(LPWM2, OUTPUT);
-  pinMode(PWM2, OUTPUT);  
+  pinMode(PWM_Left, OUTPUT);  
 }
 void setTusksPosition(TuskPosition position1) {
   if (position1 == ENABLE) {
