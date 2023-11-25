@@ -205,12 +205,12 @@ void setupSensorsPins(){
   pinMode(pinUltrasonicRearEcho, INPUT);  
 }
 void setupMotorsPins(){
-  pinMode(RPWM, OUTPUT);
-  pinMode(LPWM, OUTPUT);
+  pinMode(RIGTH_BACKWARD_PIN, OUTPUT);
+  pinMode(RIGTH_FORWARD_PIN, OUTPUT);
   pinMode(PWM_Right, OUTPUT);
 
-  pinMode(RPWM2, OUTPUT);
-  pinMode(LPWM2, OUTPUT);
+  pinMode(LEFT_BACKWARD_PIN, OUTPUT);
+  pinMode(LEFT_FORWARD_PIN, OUTPUT);
   pinMode(PWM_Left, OUTPUT);  
 }
 void setTusksPosition(TuskPosition position1) {
@@ -233,25 +233,34 @@ void initialDelay() {
 }
 
 void stopMotors() {
-  digitalWrite(RPWM, LOW);
-  digitalWrite(LPWM, LOW);
+  digitalWrite(RIGTH_BACKWARD_PIN, LOW);
+  digitalWrite(RIGTH_FORWARD_PIN, LOW);
   leftMotorStatus = 0;
 
-  digitalWrite(RPWM2, LOW);
-  digitalWrite(LPWM2, LOW);
+  digitalWrite(LEFT_BACKWARD_PIN, LOW);
+  digitalWrite(LEFT_FORWARD_PIN, LOW);
   rightMotorStatus = 0;
 }
-void moveForward() {
+void startMoveForward() {
   leftMotorStatus = 1;
   low_time_left = 20;
   rightMotorStatus = 1;
   low_time_right = 20;
-  digitalWrite(RPWM2, LOW);
-  digitalWrite(LPWM2, LOW);
-  digitalWrite(RPWM, HIGH);
-  digitalWrite(LPWM, LOW);
+  digitalWrite(LEFT_BACKWARD_PIN, LOW);
+  digitalWrite(LEFT_FORWARD_PIN, HIGH);
+  digitalWrite(RIGTH_BACKWARD_PIN, LOW);
+  digitalWrite(RIGTH_FORWARD_PIN, HIGH);
 }
-
+void startTurnLeft() {
+  leftMotorStatus = 1;
+  low_time_left = 15;
+  rightMotorStatus = 1;
+  low_time_right = 15;
+  digitalWrite(LEFT_BACKWARD_PIN, HIGH);
+  digitalWrite(LEFT_FORWARD_PIN, LOW);
+  digitalWrite(RIGTH_BACKWARD_PIN, LOW);
+  digitalWrite(RIGTH_FORWARD_PIN, HIGH);
+}
 
 ////////////////////<<<>>>>>>//////////////////
 void atack_round_1() {
