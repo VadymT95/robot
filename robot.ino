@@ -37,9 +37,15 @@ void setup() {
 }
 
 
+
 void loop() {
   while(true){
+
+      Serial.print("befour = ");
+      Serial.println(leftMotorStatus);
       startTurnLeft();
+      Serial.print("after = ");
+      Serial.println(leftMotorStatus);
       delay(2000);
       stopMotors();
       delay(3000);
