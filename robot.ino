@@ -39,10 +39,14 @@ void setup() {
 
 void loop() {
   while(true){
+    Serial.print("befour = ");
+    Serial.println(leftMotorStatus);
       moveForward();
+      Serial.print("after = ");
+      Serial.println(leftMotorStatus);
       delay(2000);
       stopMotors();
-      delay(5000);
+      delay(3000);
   }
 
   
@@ -77,7 +81,7 @@ ISR(TIMER2_A) {
           Serial.println("PWM_Left 111");
       }else{
           analogWrite(PWM_Left, 0);
-          Serial.println("PWM_Left 000");
+          //Serial.println("PWM_Left 000");
 
       }
 
@@ -87,7 +91,7 @@ ISR(TIMER2_A) {
           Serial.println("PWM_Right 111");
       }else{
           analogWrite(PWM_Right, 0);
-          Serial.println("PWM_Right 000");
+         // Serial.println("PWM_Right 000");
       }
 
 
