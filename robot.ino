@@ -26,10 +26,11 @@ void setup() {
     init_color_sensors();
     setupSensorsPins();
     
-    servoRight.attach(3); // Right servo connected to D3
-    servoLeft.attach(4);  // Left servo connected to D4
-    delay(10);
-    setTusksPosition(DISABLE);
+    //servoRight.attach(3); // Right servo connected to D3
+    //servoLeft.attach(4);  // Left servo connected to D4
+    //setTusksPosition(DISABLE);
+
+    
    
     Timer2.setPeriod(1000);           // set
     Timer2.enableISR();               // Подключить стандартное прерывание, канал А, без сдига фаз

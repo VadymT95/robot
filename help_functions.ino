@@ -242,16 +242,14 @@ void stopMotors() {
   rightMotorStatus = 0;
 }
 void moveForward() {
-  digitalWrite(RPWM, HIGH);
-  digitalWrite(LPWM, LOW);
   leftMotorStatus = 1;
   low_time_left = 20;
-
-  digitalWrite(RPWM2, HIGH);
-  digitalWrite(LPWM2, LOW);
   rightMotorStatus = 1;
   low_time_right = 20;
-
+  digitalWrite(RPWM2, HIGH);
+  digitalWrite(LPWM2, LOW);
+  digitalWrite(RPWM, HIGH);
+  digitalWrite(LPWM, LOW);
 }
 
 
