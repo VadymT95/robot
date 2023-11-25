@@ -41,7 +41,7 @@ void loop() {
   while(true){
     Serial.print("befour = ");
     Serial.println(leftMotorStatus);
-      moveForward();
+      startTurnLeft();
       Serial.print("after = ");
       Serial.println(leftMotorStatus);
       delay(2000);
