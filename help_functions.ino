@@ -246,7 +246,7 @@ void moveForward() {
   low_time_left = 20;
   rightMotorStatus = 1;
   low_time_right = 20;
-  digitalWrite(RPWM2, HIGH);
+  digitalWrite(RPWM2, LOW);
   digitalWrite(LPWM2, LOW);
   digitalWrite(RPWM, HIGH);
   digitalWrite(LPWM, LOW);
