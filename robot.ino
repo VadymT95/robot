@@ -70,7 +70,8 @@ void loop() {
 
 
 } 
-
+int counter1 = 0;
+int counter2 = 0;
 ISR(TIMER2_A) {
       Timer2.disableISR(CHANNEL_A);
       Timer2.stop();
@@ -79,20 +80,27 @@ ISR(TIMER2_A) {
 
       if(millis() - lastTimeMotorSet_Left >= low_time_left && leftMotorStatus == 1){
           lastTimeMotorSet_Left = millis();
+          counter1 = 3;
           analogWrite(PWM_Left, pwmValueHigh);
           //Serial.println("PWM_Left 111");
       }else{
-          analogWrite(PWM_Left, 0);
+          
+          if(counter1 == 0){
+            analogWrite(PWM_Left, 0);
+          }else{counter1--;}
           //Serial.println("PWM_Left 000");
 
       }
 
       if(millis() - lastTimeMotorSet_Right >= low_time_right && rightMotorStatus == 1){
           lastTimeMotorSet_Right = millis();
+          counter2 = 3;
           analogWrite(PWM_Right, pwmValueHigh);
          // Serial.println("PWM_Right 111");
       }else{
-          analogWrite(PWM_Right, 0);
+        if(counter2 == 0){
+            analogWrite(PWM_Right, 0);
+          }else{counter2--;}
          // Serial.println("PWM_Right 000");
       }
 
