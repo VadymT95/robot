@@ -41,12 +41,12 @@ const int pinUltrasonicRearTrig = 8;
 const int pinUltrasonicRearEcho = 5;
 
 // Визначення пінів
-const int RIGTH_BACKWARD_PIN = 24; // purple
-const int RIGTH_FORWARD_PIN = 22; // yellow
+const int RPWM = 24; // purple
+const int LPWM = 22; // yellow
 const int PWM_Right = 7;   // green
 
-const int LEFT_BACKWARD_PIN = 30; // purple
-const int LEFT_FORWARD_PIN = 28; // yellow
+const int RPWM2 = 30; // purple
+const int LPWM2 = 28; // yellow
 const int PWM_Left = 6;   // green
 
 const int pwmValueHigh = 255; // Максимальне значення ШІМ
