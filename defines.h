@@ -40,7 +40,21 @@ const int pinUltrasonicFrontLeftEcho = 9;
 const int pinUltrasonicRearTrig = 8;
 const int pinUltrasonicRearEcho = 5;
 
+// Визначення пінів
+const int RPWM = 24; // purple
+const int LPWM = 22; // yellow
+const int PWM_Right = 7;   // green
 
+const int RPWM2 = 30; // purple
+const int LPWM2 = 28; // yellow
+const int PWM_Left = 6;   // green
+
+const int pwmValueHigh = 255; // Максимальне значення ШІМ
+const int pwmValueLow = 0;    // Мінімальне значення ШІМ
+
+enum MotorDirection { FORWARD, BACKWARD };
+unsigned long lastTimeMotorSet_Right = 0;
+unsigned long lastTimeMotorSet_Left = 0;
 
 // interrupts for listening port
 volatile byte interrupts_count = 0;
@@ -51,3 +65,16 @@ boolean round_start_flag = 0;
 
 byte curr_mode = 1;
 byte curr_round = 1;
+
+enum TuskPosition {
+  DISABLE,
+  ENABLE
+};
+
+/////////////////////////////////////////////////////////////////////////////////
+//////////////////// - main system parameters - /////////////////////////////////
+
+byte low_time_left = 20;
+byte low_time_right = 20;
+boolean leftMotorStatus = 0;
+boolean rightMotorStatus = 0;

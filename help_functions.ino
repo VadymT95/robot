@@ -81,15 +81,6 @@ void startRoundButton() {
   }
 }
 
-
-void atack_mode(){
-    Serial.println("atack_mode");
-}
-void defence_mode(){
-    Serial.println("defence_mode");
-
-}
-
 #if COLOR_SENSOR_TYPE == 0
   void processSensor(Adafruit_TCS34725softi2c &tcs, const char* sensorName) {
     uint16_t clear1, red, green, blue;
@@ -212,4 +203,97 @@ void setupSensorsPins(){
   pinMode(pinUltrasonicFrontLeftEcho, INPUT);
   pinMode(pinUltrasonicRearTrig, OUTPUT);
   pinMode(pinUltrasonicRearEcho, INPUT);  
+}
+void setupMotorsPins(){
+  pinMode(RPWM, OUTPUT);
+  pinMode(LPWM, OUTPUT);
+  pinMode(PWM, OUTPUT);
+
+  pinMode(RPWM2, OUTPUT);
+  pinMode(LPWM2, OUTPUT);
+  pinMode(PWM2, OUTPUT);  
+}
+void setTusksPosition(TuskPosition position1) {
+  if (position1 == ENABLE) {
+    servoRight.write(40);
+    servoLeft.write(120);
+  } else {
+    servoRight.write(80);
+    servoLeft.write(80);
+  }
+}
+
+void initialDelay() {
+  unsigned long function_start_time = millis();
+  while (millis() - function_start_time < 5000) {
+    // Цикл виконується 5 секунд
+
+    // тут має бути визначення позиції робота якщо це можливо. визначення усіх початкових величин. 
+  }
+}
+
+void stopMotors() {
+  digitalWrite(RPWM, LOW);
+  digitalWrite(LPWM, LOW);
+  leftMotorStatus = 0;
+
+  digitalWrite(RPWM2, LOW);
+  digitalWrite(LPWM2, LOW);
+  rightMotorStatus = 0;
+}
+void moveForward() {
+  digitalWrite(RPWM, HIGH);
+  digitalWrite(LPWM, LOW);
+  leftMotorStatus = 1;
+  low_time_left = 20;
+
+  digitalWrite(RPWM2, HIGH);
+  digitalWrite(LPWM2, LOW);
+  rightMotorStatus = 1;
+  low_time_right = 20;
+
+}
+
+
+////////////////////<<<>>>>>>//////////////////
+void atack_round_1() {
+  setTusksPosition(ENABLE); 
+  initialDelay();
+  Serial.println("atack_round_1");
+}
+
+void atack_round_2() {
+  setTusksPosition(ENABLE); 
+  initialDelay();
+  Serial.println("atack_round_2");
+}
+
+void atack_round_3() {
+  setTusksPosition(ENABLE); 
+  initialDelay();
+  Serial.println("atack_round_3");
+}
+
+
+
+void atack_mode() {
+
+  switch (curr_round) {
+    case 1:
+      atack_round_1();
+      break;
+    case 2:
+      atack_round_2();
+      break;
+    case 3:
+      atack_round_3();
+      break;
+    default:
+      Serial.println("Invalid round number");
+      break;
+  }
+}
+void defence_mode(){
+    Serial.println("defence_mode");
+
 }

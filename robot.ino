@@ -6,11 +6,16 @@
 #include "help_functions.h"
 #include "GyverTimers.h"
 #include "avr/wdt.h"
+#include <Servo.h>
+
 
 #if COLOR_SENSOR_TYPE == 0
 Adafruit_TCS34725softi2c tcsFront = Adafruit_TCS34725softi2c(TCS34725_INTEGRATIONTIME_2_4MS, TCS34725_GAIN_4X, SDApinFront, SCLpinFront);
 Adafruit_TCS34725softi2c tcsRear = Adafruit_TCS34725softi2c(TCS34725_INTEGRATIONTIME_2_4MS, TCS34725_GAIN_4X, SDApinRear, SCLpinRear);
 #endif
+
+Servo servoRight;
+Servo servoLeft;
 
 void setup() {
     
@@ -20,6 +25,9 @@ void setup() {
     setup_leds_and_buttons();
     init_color_sensors();
     setupSensorsPins();
+    
+    servoRight.attach(3); // Right servo connected to D3
+    servoLeft.attach(4);  // Left servo connected to D4
    
     Timer2.setPeriod(1000);           // set
     Timer2.enableISR();               // Подключить стандартное прерывание, канал А, без сдига фаз
@@ -27,6 +35,14 @@ void setup() {
 
 
 void loop() {
+  while(true){
+      moveForward();
+      delay(2000);
+      stopMotors();
+      delay(5000);
+  }
+
+  
   printSensorsData();
     if(round_start_flag == 1 && millis() - round_length_time <= TOTAL_ROUND_LENGTH){
   
@@ -51,6 +67,23 @@ ISR(TIMER2_A) {
       Timer2.stop();
       
       interrupts_count++;
+
+      if(millis() - lastTimeMotorSet_Left >= low_time_left && leftMotorStatus == 1){
+          lastTimeMotorSet_Left = millis();
+          analogWrite(PWM_Left, pwmValueHigh);
+      }else{
+          analogWrite(PWM_Left, 0);
+      }
+
+      if(millis() - lastTimeMotorSet_Right >= low_time_right&& rightMotorStatus == 1){
+          lastTimeMotorSet_Right = millis();
+          analogWrite(PWM_Right, pwmValueHigh);
+      }else{
+          analogWrite(PWM_Right, 0);
+      }
+
+
+
       
       if(interrupts_count == COLOR_SENSOR_DELAY_CHECK){
           interrupts_count = 0;
