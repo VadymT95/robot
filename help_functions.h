@@ -33,3 +33,7 @@ float getDistance(int trigPin, int echoPin);
 
 void printSensorsData();
 void setupSensorsPins();
+
+void stopMotors();
+void moveForward();
+void startTurnLeft();
