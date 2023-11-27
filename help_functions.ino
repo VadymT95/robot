@@ -388,7 +388,7 @@ void atack_round_2() {
         Serial.println("atack_round_2");
         Track();
         if(stage == 1){
-            
+            Serial.println("stage == 1");
             if(getFrontInfraredDistance() < 150){
                 stopMotors();
                 stage = 2;
@@ -402,18 +402,23 @@ void atack_round_2() {
                 break;
                 case LEFT_SMALL:
                     startSlowTurnLeft(18, 30);
+                    Serial.println("startSlowTurnLeft");
                 break;       
                 case RIGHT_SMALL:
                     startSlowTurnRight(18, 30);
+                    Serial.println("startSlowTurnRight");
                 break;     
                 case LEFT_LARGE:
                     startSlowTurnLeft(18, 60);
+                    Serial.println("startSlowTurnLeft");
                 break;   
                 case RIGHT_LARGE:
-                    startSlowTurnRight(18, 60);   
+                    startSlowTurnRight(18, 60);  
+                    Serial.println("startSlowTurnRight"); 
                 break; 
                 case UNKNOWN_:
                     startQuickTurnLeft(18);
+                    Serial.println("startQuickTurnLeft");
                     stage = 1;
                 break;            
             }  
@@ -423,7 +428,6 @@ void atack_round_2() {
 
         
   }
-  
 }
 
 void atack_round_3() {
@@ -452,6 +456,7 @@ void atack_mode() {
       Serial.println("Invalid round number");
       break;
   }
+  stopMotors();
 }
 void defence_mode(){
     Serial.println("defence_mode");
