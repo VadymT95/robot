@@ -410,19 +410,19 @@ void atack_round_2() {
                     Serial.println("forward  ");
                 break;
                 case LEFT_SMALL:
-                    startSlowTurnLeft(18, 30);
+                    startSlowTurnRight(18, 30);
                     Serial.println("LEFT_SMALL 3 3 3 3 3 ");
                 break;       
                 case RIGHT_SMALL:
-                    startSlowTurnRight(18, 30);
+                    startSlowTurnLeft(18, 30);
                     Serial.println("RIGHT_SMALL 3 3 3 3 3 ");
                 break;     
                 case LEFT_LARGE:
-                    startSlowTurnLeft(18, 60);
+                    startSlowTurnRight(18, 60);
                     Serial.println("LEFT_LARGE  6 6 6 6 6");
                 break;   
                 case RIGHT_LARGE:
-                    startSlowTurnRight(18, 60);  
+                    startSlowTurnLeft(18, 60);  
                     Serial.println("RIGHT_LARGE 6 6 6 6 6 6"); 
                 break; 
                 case UNKNOWN_:
