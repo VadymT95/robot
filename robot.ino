@@ -80,7 +80,7 @@ ISR(TIMER2_A) {
 
       if(millis() - lastTimeMotorSet_Left >= low_time_left && leftMotorStatus == 1){
           lastTimeMotorSet_Left = millis();
-          counter1 = 3;
+          counter1 = high_time_left;
           analogWrite(PWM_Left, pwmValueHigh);
           //Serial.println("PWM_Left 111");
       }else{
@@ -94,7 +94,7 @@ ISR(TIMER2_A) {
 
       if(millis() - lastTimeMotorSet_Right >= low_time_right && rightMotorStatus == 1){
           lastTimeMotorSet_Right = millis();
-          counter2 = 3;
+          counter2 = high_time_right;
           analogWrite(PWM_Right, pwmValueHigh);
          // Serial.println("PWM_Right 111");
       }else{

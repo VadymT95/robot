@@ -74,7 +74,10 @@ enum TuskPosition {
 /////////////////////////////////////////////////////////////////////////////////
 //////////////////// - main system parameters - /////////////////////////////////
 
-byte low_time_left = 20;
-byte low_time_right = 20;
+byte low_time_left = 15;
+byte low_time_right = 15;
+byte high_time_left = 1;
+byte high_time_right = 1;
+
 boolean leftMotorStatus = 0;
 boolean rightMotorStatus = 0;

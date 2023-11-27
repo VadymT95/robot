@@ -243,9 +243,9 @@ void stopMotors() {
 }
 void startMoveForward() {
   leftMotorStatus = 1;
-  low_time_left = 20;
+  low_time_left = 25;
   rightMotorStatus = 1;
-  low_time_right = 20;
+  low_time_right = 25;
   digitalWrite(RPWM2, LOW);
   digitalWrite(LPWM2, HIGH);
   digitalWrite(RPWM, LOW);
@@ -254,9 +254,9 @@ void startMoveForward() {
 
 void startTurnLeft() {
   leftMotorStatus = 1;
-  low_time_left = 15;
+  low_time_left = 20;
   rightMotorStatus = 1;
-  low_time_right = 15;
+  low_time_right = 20;
   digitalWrite(RPWM2, HIGH);
   digitalWrite(LPWM2, LOW);
   digitalWrite(RPWM, LOW);
