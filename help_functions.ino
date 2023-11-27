@@ -457,6 +457,7 @@ void atack_mode() {
       Serial.println("Invalid round number");
       break;
   }
+  round_start_flag = 0;
   stopMotors();
 }
 void defence_mode(){
