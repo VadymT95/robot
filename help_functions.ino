@@ -350,19 +350,19 @@ else{
 
 ///
 byte get_enemy_position_horizontaly(){
-    if(getFrontInfraredDistance() < 150 && bad_track_right == 0 && bad_track_left == 0) {
+    if(getFrontInfraredDistance() < TRACK_DISTANCE_SENSORS && bad_track_right == 0 && bad_track_left == 0) {
         return FRONT;
     }
-    if(getFrontInfraredDistance() < 150 && bad_track_right == 1 && bad_track_left == 0) {
+    if(getFrontInfraredDistance() < TRACK_DISTANCE_SENSORS && bad_track_right == 1 && bad_track_left == 0) {
         return LEFT_SMALL;
     }
-    if(getFrontInfraredDistance() < 150 && bad_track_right == 0 && bad_track_left == 1) {
+    if(getFrontInfraredDistance() < TRACK_DISTANCE_SENSORS && bad_track_right == 0 && bad_track_left == 1) {
         return RIGHT_SMALL;
     }
-   if(getFrontInfraredDistance() > 150 && bad_track_right == 1 && bad_track_left == 0) {
+   if(getFrontInfraredDistance() > TRACK_DISTANCE_SENSORS && bad_track_right == 1 && bad_track_left == 0) {
         return LEFT_LARGE;
     }
-    if(getFrontInfraredDistance() > 150 && bad_track_right == 0 && bad_track_left == 1) {
+    if(getFrontInfraredDistance() > TRACK_DISTANCE_SENSORS && bad_track_right == 0 && bad_track_left == 1) {
         return RIGHT_LARGE;
     }
     return UNKNOWN_;
@@ -380,7 +380,8 @@ void atack_round_1() {
 void atack_round_2() {
   byte stage = 1;
   byte enemy_position = UNKNOWN_;
-  
+  Serial.println("atack_round_2");
+
   setTusksPosition(ENABLE); 
   initialDelay();
   startQuickTurnLeft(18);
@@ -389,7 +390,7 @@ void atack_round_2() {
         Track();
         if(stage == 1){
             Serial.println("stage == 1");
-            if(getFrontInfraredDistance() < 150){
+            if(getFrontInfraredDistance() < TRACK_DISTANCE_SENSORS){
                 stopMotors();
                 stage = 2;
             }
