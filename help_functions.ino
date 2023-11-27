@@ -294,7 +294,7 @@ void startSlowTurnLeft(byte speed_, byte slow_percent) {
   digitalWrite(LPWM2, HIGH);
   digitalWrite(LPWM2, LOW);
   digitalWrite(RPWM, LOW);
-  digitalWrite(LPWM, HIGH);
+  digitalWrite(LPWM, LOW);
    // digitalWrite(LPWM, HIGH);
 
   
