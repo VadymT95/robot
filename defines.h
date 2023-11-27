@@ -74,8 +74,8 @@ enum TuskPosition {
 /////////////////////////////////////////////////////////////////////////////////
 //////////////////// - main system parameters - /////////////////////////////////
 
-byte low_time_left = 15;
-byte low_time_right = 15;
+byte low_time_left = 10;
+byte low_time_right = 10;
 byte high_time_left = 1;
 byte high_time_right = 1;
 

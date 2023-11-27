@@ -41,18 +41,11 @@ void setup() {
 void loop() {
   while(true){
 
-      Serial.print("befour = ");
-      Serial.println(leftMotorStatus);
-      startTurnLeft();
-      Serial.print("after = ");
-      Serial.println(leftMotorStatus);
-      delay(2000);
-      stopMotors();
-      delay(3000);
+  printSensorsData();
   }
 
   
-  printSensorsData();
+  
     if(round_start_flag == 1 && millis() - round_length_time <= TOTAL_ROUND_LENGTH){
   
         if(curr_mode == 1){
