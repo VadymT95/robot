@@ -384,9 +384,10 @@ void atack_round_2() {
 
   setTusksPosition(ENABLE); 
   initialDelay();
+  Serial.println("go");
   startQuickTurnLeft(18);
     while(millis() - round_length_time <= TOTAL_ROUND_LENGTH){
-        Serial.println("atack_round_2");
+        //Serial.println("atack_round_2");
         Track();
         if(stage == 1){
             Serial.println("stage == 1");
@@ -401,22 +402,23 @@ void atack_round_2() {
                 case FRONT:
                    stopMotors();
                    // startMoveForward(18);
+                    Serial.println("forward  ");
                 break;
                 case LEFT_SMALL:
                     startSlowTurnLeft(18, 30);
-                    Serial.println("startSlowTurnLeft");
+                    Serial.println("startSlowTurnLeft 3 3 3 3 3 ");
                 break;       
                 case RIGHT_SMALL:
                     startSlowTurnRight(18, 30);
-                    Serial.println("startSlowTurnRight");
+                    Serial.println("startSlowTurnRight 3 3 3 3 3 ");
                 break;     
                 case LEFT_LARGE:
                     startSlowTurnLeft(18, 60);
-                    Serial.println("startSlowTurnLeft");
+                    Serial.println("startSlowTurnLeft  6 6 6 6 6");
                 break;   
                 case RIGHT_LARGE:
                     startSlowTurnRight(18, 60);  
-                    Serial.println("startSlowTurnRight"); 
+                    Serial.println("startSlowTurnRight 6 6 6 6 6 6"); 
                 break; 
                 case UNKNOWN_:
                     startQuickTurnLeft(18);
@@ -430,6 +432,7 @@ void atack_round_2() {
 
         
   }
+Serial.println("end");
 }
 
 void atack_round_3() {
