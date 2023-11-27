@@ -280,10 +280,10 @@ void startSlowTurnRight(byte speed_, byte slow_percent) {
   rightMotorStatus = 1;
   low_time_right = (int) speed_ * slow_percent / 100;
   digitalWrite(RPWM2, LOW);
-  digitalWrite(LPWM2, HIGH);
+  //digitalWrite(LPWM2, HIGH);
+  digitalWrite(LPWM2, LOW);
   digitalWrite(RPWM, LOW);
-  //digitalWrite(LPWM, HIGH);
-    digitalWrite(LPWM, LOW);
+  digitalWrite(LPWM, HIGH);
 
 }
 void startSlowTurnLeft(byte speed_, byte slow_percent) {
@@ -291,11 +291,12 @@ void startSlowTurnLeft(byte speed_, byte slow_percent) {
   low_time_left = (int) speed_ * slow_percent / 100;
   rightMotorStatus = 1;
   low_time_right = speed_;
-  digitalWrite(RPWM2, LOW);
-  //digitalWrite(LPWM2, HIGH);
+  digitalWrite(LPWM2, HIGH);
   digitalWrite(LPWM2, LOW);
   digitalWrite(RPWM, LOW);
   digitalWrite(LPWM, HIGH);
+   // digitalWrite(LPWM, HIGH);
+
   
 }
 
