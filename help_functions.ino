@@ -399,6 +399,7 @@ void atack_round_2() {
             enemy_position = get_enemy_position_horizontaly();
                switch(enemy_position){
                 case FRONT:
+                   stopMotors();
                    // startMoveForward(18);
                 break;
                 case LEFT_SMALL:
