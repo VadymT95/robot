@@ -213,6 +213,7 @@ void setupMotorsPins(){
   pinMode(LPWM2, OUTPUT);
   pinMode(PWM_Left, OUTPUT);  
 }
+
 void setTusksPosition(TuskPosition position1) {
   if (position1 == ENABLE) {
     servoRight.write(40);
@@ -241,45 +242,196 @@ void stopMotors() {
   digitalWrite(LPWM2, LOW);
   rightMotorStatus = 0;
 }
-void startMoveForward() {
+void startMoveForward(byte speed_) {
   leftMotorStatus = 1;
-  low_time_left = 25;
+  low_time_left = speed_;
   rightMotorStatus = 1;
-  low_time_right = 25;
+  low_time_right = speed_;
   digitalWrite(RPWM2, LOW);
   digitalWrite(LPWM2, HIGH);
   digitalWrite(RPWM, LOW);
   digitalWrite(LPWM, HIGH);
 }
 
-void startTurnLeft() {
+void startQuickTurnLeft(byte speed_) {
   leftMotorStatus = 1;
-  low_time_left = 20;
+  low_time_left = speed_;
   rightMotorStatus = 1;
-  low_time_right = 20;
+  low_time_right = speed_;
   digitalWrite(RPWM2, HIGH);
   digitalWrite(LPWM2, LOW);
   digitalWrite(RPWM, LOW);
   digitalWrite(LPWM, HIGH);
+}
+void startQuickTurnRight(byte speed_) {
+  leftMotorStatus = 1;
+  low_time_left = speed_;
+  rightMotorStatus = 1;
+  low_time_right = speed_;
+  digitalWrite(RPWM2, LOW);
+  digitalWrite(LPWM2, HIGH);
+  digitalWrite(RPWM, HIGH);
+  digitalWrite(LPWM, LOW);
+}
+
+void startSlowTurnRight(byte speed_, byte slow_percent) {
+  leftMotorStatus = 1;
+  low_time_left = speed_;
+  rightMotorStatus = 1;
+  low_time_right = (int) speed_ * slow_percent / 100;
+  digitalWrite(RPWM2, LOW);
+  digitalWrite(LPWM2, HIGH);
+  digitalWrite(RPWM, LOW);
+  digitalWrite(LPWM, HIGH);
+}
+void startSlowTurnLeft(byte speed_, byte slow_percent) {
+  leftMotorStatus = 1;
+  low_time_left = (int) speed_ * slow_percent / 100;
+  rightMotorStatus = 1;
+  low_time_right = speed_;
+  digitalWrite(RPWM2, LOW);
+  digitalWrite(LPWM2, HIGH);
+  digitalWrite(RPWM, LOW);
+  digitalWrite(LPWM, HIGH);
+}
+
+void Track()
+{
+   float dist=230; //distance between two sensors
+
+   //pins for sensor 1 need to be uploaded
+   digitalWrite(12, LOW);
+   delayMicroseconds(2);
+   digitalWrite(12, HIGH);
+   delayMicroseconds(10);
+   digitalWrite(12, LOW);
+   d1 = pulseIn(11, HIGH);
+   d1=d1*343/2000;
+
+  
+   delay(10);
+   digitalWrite(10, LOW);
+   delayMicroseconds(2);
+   digitalWrite(10, HIGH);
+   delayMicroseconds(10);
+   digitalWrite(10, LOW);
+   d2 = pulseIn(9, HIGH);
+   d2=d2*343/2000;
+  
+theta=acos((((d1*d1)+(dist*dist)-(d2*d2)))/(2*d1*dist));
+
+if(theta<3 && theta>0){               // to avoid impossible values
+  X=d1*cos(theta)+ dist/2; // y coordinate 
+  Y=d1*sin(theta); // X coordinate
+  bad_track_left = false;
+  bad_track_right = false;
+}
+else{
+  #ifdef ENABLE_TRACK_ULTRASONIC_PRINTS
+      Serial.print("bad track");
+      Serial.print("-------->>>>> ");
+      Serial.print(d1);
+      Serial.print("\t");
+      Serial.print(" ------ ");
+      Serial.print(d2);
+      Serial.println("\t");
+  #endif
+  if(d1>d2){ 
+    bad_track_left = true;
+  }else{ 
+    bad_track_right = true;
+  }
+  
+}
+
+//delay(10);
+}
+
+
+///
+byte get_enemy_position_horizontaly(){
+    if(getFrontInfraredDistance() < 150 && bad_track_right == 0 && bad_track_left == 0) {
+        return FRONT;
+    }
+    if(getFrontInfraredDistance() < 150 && bad_track_right == 1 && bad_track_left == 0) {
+        return LEFT_SMALL;
+    }
+    if(getFrontInfraredDistance() < 150 && bad_track_right == 0 && bad_track_left == 1) {
+        return RIGHT_SMALL;
+    }
+   if(getFrontInfraredDistance() > 150 && bad_track_right == 1 && bad_track_left == 0) {
+        return LEFT_LARGE;
+    }
+    if(getFrontInfraredDistance() > 150 && bad_track_right == 0 && bad_track_left == 1) {
+        return RIGHT_LARGE;
+    }
+    return UNKNOWN_;
 }
 
 ////////////////////<<<>>>>>>//////////////////
 void atack_round_1() {
   setTusksPosition(ENABLE); 
   initialDelay();
-  Serial.println("atack_round_1");
+  while(millis() - round_length_time <= TOTAL_ROUND_LENGTH){
+        Serial.println("atack_round_1");
+  }
 }
 
 void atack_round_2() {
+  byte stage = 1;
+  byte enemy_position = UNKNOWN_;
+  
   setTusksPosition(ENABLE); 
   initialDelay();
-  Serial.println("atack_round_2");
+  startQuickTurnLeft(18);
+    while(millis() - round_length_time <= TOTAL_ROUND_LENGTH){
+        Serial.println("atack_round_2");
+        Track();
+        if(stage == 1){
+            
+            if(getFrontInfraredDistance() < 150){
+                stopMotors();
+                stage = 2;
+            }
+        }
+        if(stage == 2){
+            enemy_position = get_enemy_position_horizontaly();
+               switch(enemy_position){
+                case FRONT:
+                   // startMoveForward(18);
+                break;
+                case LEFT_SMALL:
+                    startSlowTurnLeft(18, 30);
+                break;       
+                case RIGHT_SMALL:
+                    startSlowTurnRight(18, 30);
+                break;     
+                case LEFT_LARGE:
+                    startSlowTurnLeft(18, 60);
+                break;   
+                case RIGHT_LARGE:
+                    startSlowTurnRight(18, 60);   
+                break; 
+                case UNKNOWN_:
+                    startQuickTurnLeft(18);
+                    stage = 1;
+                break;            
+            }  
+        }
+
+
+
+        
+  }
+  
 }
 
 void atack_round_3() {
   setTusksPosition(ENABLE); 
   initialDelay();
-  Serial.println("atack_round_3");
+    while(millis() - round_length_time <= TOTAL_ROUND_LENGTH){
+        Serial.println("atack_round_3");
+  }
 }
 
 

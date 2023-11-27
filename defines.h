@@ -3,6 +3,7 @@
 
 
 //#define ENABLE_COLOR_SENSOR_PRINTS
+//#define ENABLE_TRACK_ULTRASONIC_PRINTS
 #define ENABLE_INIT_PRINTS
 #define COLOR_SENSOR_TYPE 1 // 0 - I2C color sensors; 1 - photoResistors and leds
 
@@ -70,7 +71,14 @@ enum TuskPosition {
   DISABLE,
   ENABLE
 };
-
+enum EnemyPosition {
+  FRONT,
+  LEFT_SMALL,
+  RIGHT_SMALL,
+  LEFT_LARGE,
+  RIGHT_LARGE,
+  UNKNOWN_
+};
 /////////////////////////////////////////////////////////////////////////////////
 //////////////////// - main system parameters - /////////////////////////////////
 
@@ -81,3 +89,8 @@ byte high_time_right = 1;
 
 boolean leftMotorStatus = 0;
 boolean rightMotorStatus = 0;
+
+float  X,Y;
+float d1,d2,theta;
+boolean bad_track_left;
+boolean bad_track_right;

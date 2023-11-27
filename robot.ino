@@ -39,14 +39,10 @@ void setup() {
 
 
 void loop() {
-  while(true){
-
-  printSensorsData();
-  }
 
   
   
-    if(round_start_flag == 1 && millis() - round_length_time <= TOTAL_ROUND_LENGTH){
+    if(round_start_flag == 1){
   
         if(curr_mode == 1){
             defence_mode();

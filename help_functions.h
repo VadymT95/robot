@@ -37,4 +37,4 @@ void setupSensorsPins();
 
 void stopMotors();
 void startMoveForward();
-void startTurnLeft();
+void startQuickTurnLeft();
