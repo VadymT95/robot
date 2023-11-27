@@ -406,23 +406,23 @@ void atack_round_2() {
                 break;
                 case LEFT_SMALL:
                     startSlowTurnLeft(18, 30);
-                    Serial.println("startSlowTurnLeft 3 3 3 3 3 ");
+                    Serial.println("LEFT_SMALL 3 3 3 3 3 ");
                 break;       
                 case RIGHT_SMALL:
                     startSlowTurnRight(18, 30);
-                    Serial.println("startSlowTurnRight 3 3 3 3 3 ");
+                    Serial.println("RIGHT_SMALL 3 3 3 3 3 ");
                 break;     
                 case LEFT_LARGE:
                     startSlowTurnLeft(18, 60);
-                    Serial.println("startSlowTurnLeft  6 6 6 6 6");
+                    Serial.println("LEFT_LARGE  6 6 6 6 6");
                 break;   
                 case RIGHT_LARGE:
                     startSlowTurnRight(18, 60);  
-                    Serial.println("startSlowTurnRight 6 6 6 6 6 6"); 
+                    Serial.println("RIGHT_LARGE 6 6 6 6 6 6"); 
                 break; 
                 case UNKNOWN_:
                     startQuickTurnLeft(18);
-                    Serial.println("startQuickTurnLeft");
+                    Serial.println("UNKNOWN_    startQuickTurnLeft");
                     stage = 1;
                 break;            
             }  
