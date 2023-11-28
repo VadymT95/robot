@@ -392,16 +392,16 @@ else{
 
 ///
 byte get_enemy_position_horizontaly(){
-    if(getFrontInfraredDistance() < TRACK_DISTANCE_SENSORS && bad_track_right == 0 && bad_track_left == 0) {
+    if(getFrontInfraredDistance() < TRACK_DISTANCE_SENSORS/10 && bad_track_right == 0 && bad_track_left == 0) {
         return FRONT;
     }
-    if(getFrontInfraredDistance() < TRACK_DISTANCE_SENSORS && bad_track_right == 1 && bad_track_left == 1) {
+    if(getFrontInfraredDistance() < TRACK_DISTANCE_SENSORS/10 && bad_track_right == 1 && bad_track_left == 1) {
         return FRONT;
     }
-    if(getFrontInfraredDistance() < TRACK_DISTANCE_SENSORS && bad_track_right == 1 && bad_track_left == 0) {
+    if(getFrontInfraredDistance() < TRACK_DISTANCE_SENSORS/10 && bad_track_right == 1 && bad_track_left == 0) {
         return LEFT_SMALL;
     }
-    if(getFrontInfraredDistance() < TRACK_DISTANCE_SENSORS && bad_track_right == 0 && bad_track_left == 1) {
+    if(getFrontInfraredDistance() < TRACK_DISTANCE_SENSORS/10 && bad_track_right == 0 && bad_track_left == 1) {
         return RIGHT_SMALL;
     }
     if(getFrontInfraredDistance() > TRACK_DISTANCE_SENSORS/10 && bad_track_right == 1 && bad_track_left == 0) {
