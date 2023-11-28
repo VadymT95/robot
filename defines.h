@@ -93,6 +93,7 @@ boolean leftMotorStatus = 0;
 boolean rightMotorStatus = 0;
 
 float  X,Y;
-float d1,d2,theta;
+float d1_sum,d2_sum;
+float d1,d2, theta;
 boolean bad_track_left;
 boolean bad_track_right;

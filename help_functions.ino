@@ -341,12 +341,13 @@ else{
       Serial.print(d2);
       Serial.println("\t");
   #endif
-  if(d1>d2){ 
-    bad_track_left = true;
+  //
+  if(d1>d2){
+      if(d1 - d2 > 20) bad_track_left = true;
   }else{ 
-    bad_track_right = true;
+      if(d2 - d1 > 20) bad_track_right = true;
   }
-  
+  //
 }
 
 //delay(10);
