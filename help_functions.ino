@@ -349,6 +349,12 @@ if(theta<3 && theta>0){               // to avoid impossible values
   Y=d1_filtred*sin(theta); // X coordinate
   bad_track_left = false;
   bad_track_right = false;
+        Serial.print("d1_filtred  ");  
+      Serial.print(d1_filtred);
+      Serial.print("           ");
+      Serial.print("d2_filtred  ");
+      Serial.println(d2_filtred);
+      
 }
 else{
   #ifdef ENABLE_TRACK_ULTRASONIC_PRINTS
@@ -361,13 +367,9 @@ else{
       Serial.println("\t");
   #endif
   //
-  //if(d1_filtred >= TRACK_DISTANCE_SENSORS) bad_track_left = true;
-  //if(d2_filtred >= TRACK_DISTANCE_SENSORS) bad_track_right = true;
-      Serial.print("d1_filtred  ");  
-      Serial.print(d1_filtred);
-      Serial.print("           ");
-      Serial.print("d2_filtred  ");
-      Serial.print(d2_filtred);
+  if(d1_filtred >= TRACK_DISTANCE_SENSORS) bad_track_left = true;
+  if(d2_filtred >= TRACK_DISTANCE_SENSORS) bad_track_right = true;
+
       Serial.print("  bad_track_left-");  
       Serial.print(bad_track_left);
       Serial.print("           ");
