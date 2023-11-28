@@ -344,7 +344,7 @@ void Track()
       
 theta=acos((((d1_filtred*d1_filtred)+(dist*dist)-(d2_filtred*d2_filtred)))/(2*d1_filtred*dist));
 
-if(theta<3 && theta>0 || d1_filtred >= TRACK_DISTANCE_SENSORS || if(d2_filtred >= TRACK_DISTANCE_SENSORS){               // to avoid impossible values
+if(theta<3 && theta>0 && d1_filtred <= TRACK_DISTANCE_SENSORS && d2_filtred <= TRACK_DISTANCE_SENSORS){               // to avoid impossible values
   X=d1_filtred*cos(theta)+ dist/2; // y coordinate 
   Y=d1_filtred*sin(theta); // X coordinate
   bad_track_left = false;
@@ -367,8 +367,8 @@ else{
       Serial.println("\t");
   #endif
   //
-  if(d1_filtred >= TRACK_DISTANCE_SENSORS) bad_track_left = true;
-  if(d2_filtred >= TRACK_DISTANCE_SENSORS) bad_track_right = true;
+  if(d1_filtred >= TRACK_DISTANCE_SENSORS) bad_track_right = true;
+  if(d2_filtred >= TRACK_DISTANCE_SENSORS) bad_track_left = true;
       
   /*if(d1_filtred > d2_filtred && d1_filtred < TRACK_DISTANCE_SENSORS && d2_filtred < TRACK_DISTANCE_SENSORS){
       if(d1_filtred - d2_filtred > 20)bad_track_right = true;
@@ -408,12 +408,12 @@ byte get_enemy_position_horizontaly(){
     if(getFrontInfraredDistance() < TRACK_DISTANCE_SENSORS && bad_track_right == 0 && bad_track_left == 1) {
         return RIGHT_SMALL;
     }
-   if(getFrontInfraredDistance() > TRACK_DISTANCE_SENSORS && bad_track_right == 1 && bad_track_left == 0) {
-        return LEFT_LARGE;
-    }
-    if(getFrontInfraredDistance() > TRACK_DISTANCE_SENSORS && bad_track_right == 0 && bad_track_left == 1) {
-        return RIGHT_LARGE;
-    }
+    //if(getFrontInfraredDistance() > TRACK_DISTANCE_SENSORS && bad_track_right == 1 && bad_track_left == 0) {
+    //    return LEFT_LARGE;
+   // }
+    //if(getFrontInfraredDistance() > TRACK_DISTANCE_SENSORS && bad_track_right == 0 && bad_track_left == 1) {
+    //    return RIGHT_LARGE;
+    //}
     return UNKNOWN_;
 }
 
