@@ -39,15 +39,6 @@ void setup() {
 
 
 void loop() {
-    while(true){
-      Track();
-     // Serial.print("bad_track_left-");  
-     // Serial.print(bad_track_left);
-     // Serial.print("           ");
-     // Serial.print("bad_track_right-");
-     // Serial.println(bad_track_right);
-      
-    }
 
   
     if(round_start_flag == 1){

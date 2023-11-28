@@ -349,11 +349,6 @@ if(theta<3 && theta>0 && d1_filtred <= TRACK_DISTANCE_SENSORS && d2_filtred <= T
   Y=d1_filtred*sin(theta); // X coordinate
   bad_track_left = false;
   bad_track_right = false;
-        Serial.print("d1_filtred  ");  
-      Serial.print(d1_filtred);
-      Serial.print("           ");
-      Serial.print("d2_filtred  ");
-      Serial.println(d2_filtred);
       
 }
 else{
@@ -375,7 +370,7 @@ else{
       
   }else{ 
       if(d2_filtred - d1_filtred > 20) bad_track_left = true;
-  }*/
+  }
       Serial.print("d1_filtred  ");  
       Serial.print(d1_filtred);
       Serial.print("           ");
@@ -386,6 +381,7 @@ else{
       Serial.print("           ");
       Serial.print("     bad_track_right-");
       Serial.println(bad_track_right);
+      */
       
   //
 }
