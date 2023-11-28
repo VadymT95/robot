@@ -440,6 +440,9 @@ void atack_round_2() {
                   if(getFrontInfraredDistance() < TRACK_DISTANCE_SENSORS){
                       stopMotors();
                       stage = 2;
+                      startQuickTurnRight(18);
+                      delay(20);
+                      stopMotors();
                       break;
                   }
             }
