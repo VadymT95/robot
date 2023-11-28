@@ -431,13 +431,15 @@ void atack_round_2() {
   initialDelay();
   Serial.println("go");
   startQuickTurnLeft(18);
+          d1_filtred = 450;
+
     while(millis() - round_length_time <= TOTAL_ROUND_LENGTH){
         //Serial.println("atack_round_2");
         Track();
-        d1_filtred = 450;
         if(stage == 1){
             Serial.println("stage == 1");
              while(millis() - round_length_time <= TOTAL_ROUND_LENGTH){
+                  Track();
                   if(getFrontInfraredDistance() < TRACK_DISTANCE_SENSORS/10 || d1_filtred < TRACK_DISTANCE_SENSORS){
                       stopMotors();
                       stage = 2;
