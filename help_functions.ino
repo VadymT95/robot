@@ -333,12 +333,20 @@ void Track()
    digitalWrite(10, LOW);
    d2 = pulseIn(9, HIGH);
    d2=d2*343/2000;
-  
-theta=acos((((d1*d1)+(dist*dist)-(d2*d2)))/(2*d1*dist));
+   
+   if(d1 >= 75 && d1 <= 110){
+       d1 = last_d1;  
+   }else{
+       last_d1 = d1;
+   }
+   d1_filtred = expRunningAverage(d1);
+   d2_filtred = expRunningAverage2(d2);
+      
+theta=acos((((d1_filtred*d1_filtred)+(dist*dist)-(d2_filtred*d2_filtred)))/(2*d1_filtred*dist));
 
 if(theta<3 && theta>0){               // to avoid impossible values
-  X=d1*cos(theta)+ dist/2; // y coordinate 
-  Y=d1*sin(theta); // X coordinate
+  X=d1_filtred*cos(theta)+ dist/2; // y coordinate 
+  Y=d1_filtred*sin(theta); // X coordinate
   bad_track_left = false;
   bad_track_right = false;
 }
@@ -346,17 +354,17 @@ else{
   #ifdef ENABLE_TRACK_ULTRASONIC_PRINTS
       Serial.print("bad track");
       Serial.print("-------->>>>> ");
-      Serial.print(d1);
+      Serial.print(d1_filtred);
       Serial.print("\t");
       Serial.print(" ------ ");
-      Serial.print(d2);
+      Serial.print(d2_filtred);
       Serial.println("\t");
   #endif
   //
-  if(d1>d2){
-      if(d1 - d2 > 20) bad_track_left = true;
+  if(d1_filtred>d2){
+      if(d1_filtred - d2_filtred > 20) bad_track_left = true;
   }else{ 
-      if(d2 - d1 > 20) bad_track_right = true;
+      if(d2_filtred - d1_filtred > 20) bad_track_right = true;
   }
   //
 }
@@ -368,6 +376,9 @@ else{
 ///
 byte get_enemy_position_horizontaly(){
     if(getFrontInfraredDistance() < TRACK_DISTANCE_SENSORS && bad_track_right == 0 && bad_track_left == 0) {
+        return FRONT;
+    }
+    if(getFrontInfraredDistance() < TRACK_DISTANCE_SENSORS && bad_track_right == 1 && bad_track_left == 1) {
         return FRONT;
     }
     if(getFrontInfraredDistance() < TRACK_DISTANCE_SENSORS && bad_track_right == 1 && bad_track_left == 0) {

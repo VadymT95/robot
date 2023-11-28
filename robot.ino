@@ -39,33 +39,8 @@ void setup() {
 
 
 void loop() {
-  int d1_filtred = 0;
-    int d2_filtred = 0;
 
-  startMoveForward(20);
-  while(true){
-      Track();
-      if(d1 >= 90 && d1 <= 105){
-        d1 = last_d1;  
-      }else{
-        last_d1 = d1;
-      }
-      Serial.print(d1);
-      Serial.print(",");
-      d1_filtred = expRunningAverage(d1);
-      Serial.print(d1_filtred);
-      Serial.print(",");
-      d2_filtred = expRunningAverage2(d2);
-      Serial.print(d2);
-      Serial.print(",");
-      Serial.print(0);
-      Serial.print(",");
-      Serial.println(d2_filtred);
-      if(millis() >= 15000){
-        stopMotors();
-      }
-  }
-  
+
   
     if(round_start_flag == 1){
   
