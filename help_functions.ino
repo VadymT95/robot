@@ -404,12 +404,12 @@ byte get_enemy_position_horizontaly(){
     if(getFrontInfraredDistance() < TRACK_DISTANCE_SENSORS && bad_track_right == 0 && bad_track_left == 1) {
         return RIGHT_SMALL;
     }
-    //if(getFrontInfraredDistance() > TRACK_DISTANCE_SENSORS && bad_track_right == 1 && bad_track_left == 0) {
-    //    return LEFT_LARGE;
-   // }
-    //if(getFrontInfraredDistance() > TRACK_DISTANCE_SENSORS && bad_track_right == 0 && bad_track_left == 1) {
-    //    return RIGHT_LARGE;
-    //}
+    if(getFrontInfraredDistance() > TRACK_DISTANCE_SENSORS/10 && bad_track_right == 1 && bad_track_left == 0) {
+        return LEFT_LARGE;
+    }
+    if(getFrontInfraredDistance() > TRACK_DISTANCE_SENSORS/10 && bad_track_right == 0 && bad_track_left == 1) {
+        return RIGHT_LARGE;
+    }
     return UNKNOWN_;
 }
 
@@ -450,19 +450,19 @@ void atack_round_2() {
                     Serial.println("forward  ");
                 break;
                 case LEFT_SMALL:
-                    startSlowTurnRight(18, 30);
+                    startSlowTurnLeft(18, 30);
                     Serial.println("LEFT_SMALL 3 3 3 3 3 ");
                 break;       
                 case RIGHT_SMALL:
-                    startSlowTurnLeft(18, 30);
+                    startSlowTurnRight(18, 30);
                     Serial.println("RIGHT_SMALL 3 3 3 3 3 ");
                 break;     
                 case LEFT_LARGE:
-                    startSlowTurnRight(18, 60);
+                    startSlowTurnLeft(18, 60);
                     Serial.println("LEFT_LARGE  6 6 6 6 6");
                 break;   
                 case RIGHT_LARGE:
-                    startSlowTurnLeft(18, 60);  
+                    startSlowTurnRight(18, 60);  
                     Serial.println("RIGHT_LARGE 6 6 6 6 6 6"); 
                 break; 
                 case UNKNOWN_:
