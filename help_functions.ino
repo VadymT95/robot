@@ -304,6 +304,12 @@ float expRunningAverage(float newVal) {
   filVal += (newVal - filVal) * k;
   return filVal;
 }
+float expRunningAverage2(float newVal) {
+  static float filVal2 = 0;
+  filVal2 += (newVal - filVal2) * k;
+  return filVal2;
+}
+
 void Track()
 {
    float dist=230; //distance between two sensors

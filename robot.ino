@@ -47,10 +47,10 @@ void loop() {
       Track();
       Serial.print(d1);
       Serial.print(",");
-      d1_filtred = expRunningAverage(d1_filtred);
+      d1_filtred = expRunningAverage(d1);
       Serial.print(d1_filtred);
       Serial.print(";");
-      d2_filtred = expRunningAverage(d2_filtred);
+      d2_filtred = expRunningAverage2(d2);
       Serial.print(d2);
       Serial.print(",");
       Serial.print(0);
