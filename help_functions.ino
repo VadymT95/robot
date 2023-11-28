@@ -437,7 +437,7 @@ void atack_round_2() {
         if(stage == 1){
             Serial.println("stage == 1");
              while(millis() - round_length_time <= TOTAL_ROUND_LENGTH){
-                  if(getFrontInfraredDistance() < TRACK_DISTANCE_SENSORS){
+                  if(getFrontInfraredDistance() < TRACK_DISTANCE_SENSORS/10){
                       stopMotors();
                       stage = 2;
                       startQuickTurnRight(18);
