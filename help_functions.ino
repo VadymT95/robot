@@ -325,7 +325,7 @@ void Track()
    d1=d1*343/2000;
 
   
-   delay(10);
+   delay(3);
    digitalWrite(10, LOW);
    delayMicroseconds(2);
    digitalWrite(10, HIGH);
@@ -436,9 +436,12 @@ void atack_round_2() {
         Track();
         if(stage == 1){
             Serial.println("stage == 1");
-            if(getFrontInfraredDistance() < TRACK_DISTANCE_SENSORS){
-                stopMotors();
-                stage = 2;
+             while(millis() - round_length_time <= TOTAL_ROUND_LENGTH){
+                  if(getFrontInfraredDistance() < TRACK_DISTANCE_SENSORS){
+                      stopMotors();
+                      stage = 2;
+                      break;
+                  }
             }
         }
         if(stage == 2){
