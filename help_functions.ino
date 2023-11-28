@@ -434,6 +434,7 @@ void atack_round_2() {
     while(millis() - round_length_time <= TOTAL_ROUND_LENGTH){
         //Serial.println("atack_round_2");
         Track();
+        d1_filtred = 450;
         if(stage == 1){
             Serial.println("stage == 1");
              while(millis() - round_length_time <= TOTAL_ROUND_LENGTH){
