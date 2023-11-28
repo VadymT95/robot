@@ -96,5 +96,6 @@ float  X,Y;
 float k = 0.1;  // коэффициент фильтрации, 0.0-1.0
 float d1_sum,d2_sum;
 float d1,d2, theta;
+float last_d1;
 boolean bad_track_left;
 boolean bad_track_right;

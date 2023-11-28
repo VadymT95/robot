@@ -45,11 +45,16 @@ void loop() {
   startMoveForward(20);
   while(true){
       Track();
+      if(d1 >= 90 && d1 <= 105){
+        d1 = last_d1;  
+      }else{
+        last_d1 = d1;
+      }
       Serial.print(d1);
       Serial.print(",");
       d1_filtred = expRunningAverage(d1);
       Serial.print(d1_filtred);
-      Serial.print(";");
+      Serial.print(",");
       d2_filtred = expRunningAverage2(d2);
       Serial.print(d2);
       Serial.print(",");
