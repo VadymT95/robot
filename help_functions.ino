@@ -361,16 +361,21 @@ else{
       Serial.println("\t");
   #endif
   //
-  if(d1_filtred >= TRACK_DISTANCE_SENSORS) bad_track_left = true;
-  if(d2_filtred >= TRACK_DISTANCE_SENSORS) bad_track_right = true;
-
-  if(d1_filtred > d2_filtred && d1_filtred < TRACK_DISTANCE_SENSORS && d2_filtred < TRACK_DISTANCE_SENSORS){
-      if(d1_filtred - d2_filtred > 20)bad_track_right = true;
-    /*   Serial.print("d1_filtred  ");  
+  //if(d1_filtred >= TRACK_DISTANCE_SENSORS) bad_track_left = true;
+  //if(d2_filtred >= TRACK_DISTANCE_SENSORS) bad_track_right = true;
+      Serial.print("d1_filtred  ");  
       Serial.print(d1_filtred);
       Serial.print("           ");
       Serial.print("d2_filtred  ");
-      Serial.println(d2_filtred);*/
+      Serial.print(d2_filtred);
+      Serial.print("  bad_track_left-");  
+      Serial.print(bad_track_left);
+      Serial.print("           ");
+      Serial.print("     bad_track_right-");
+      Serial.println(bad_track_right);
+      
+  if(d1_filtred > d2_filtred && d1_filtred < TRACK_DISTANCE_SENSORS && d2_filtred < TRACK_DISTANCE_SENSORS){
+      if(d1_filtred - d2_filtred > 20)bad_track_right = true;
       
   }else{ 
       if(d2_filtred - d1_filtred > 20) bad_track_left = true;
