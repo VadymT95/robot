@@ -299,7 +299,11 @@ void startSlowTurnLeft(byte speed_, byte slow_percent) {
 
   
 }
-
+float expRunningAverage(float newVal) {
+  static float filVal = 0;
+  filVal += (newVal - filVal) * k;
+  return filVal;
+}
 void Track()
 {
    float dist=230; //distance between two sensors
@@ -310,6 +314,7 @@ void Track()
    digitalWrite(12, HIGH);
    delayMicroseconds(10);
    digitalWrite(12, LOW);
+   d1_sum += 
    d1 = pulseIn(11, HIGH);
    d1=d1*343/2000;
 

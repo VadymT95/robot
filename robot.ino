@@ -39,7 +39,12 @@ void setup() {
 
 
 void loop() {
-
+  while(true){
+      Track();
+      Serial.print(d1);
+      Serial.print(",");
+      Serial.println(d2);
+  }
   
   
     if(round_start_flag == 1){

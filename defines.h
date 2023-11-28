@@ -93,6 +93,7 @@ boolean leftMotorStatus = 0;
 boolean rightMotorStatus = 0;
 
 float  X,Y;
+float k = 0.1;  // коэффициент фильтрации, 0.0-1.0
 float d1_sum,d2_sum;
 float d1,d2, theta;
 boolean bad_track_left;
