@@ -440,6 +440,11 @@ void atack_round_2() {
             Serial.println("stage == 1");
              while(millis() - round_length_time <= TOTAL_ROUND_LENGTH){
                   Track();
+                  Serial.print("getFrontInfraredDistance == ");
+                  Serial.print(getFrontInfraredDistance());   
+                  Serial.print("          ");
+                  Serial.println(d1_filtred());  
+                            
                   if(getFrontInfraredDistance() < TRACK_DISTANCE_SENSORS/10 || d1_filtred < TRACK_DISTANCE_SENSORS){
                       stopMotors();
                       stage = 2;
