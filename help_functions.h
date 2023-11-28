@@ -34,6 +34,7 @@ float getDistance(int trigPin, int echoPin);
 void printSensorsData();
 void setupSensorsPins();
 float expRunningAverage(float newVal);
+float expRunningAverage(float newVal);
 
 void stopMotors();
 void startMoveForward();
