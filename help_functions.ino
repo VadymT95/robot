@@ -431,7 +431,6 @@ void atack_round_2() {
   initialDelay();
   Serial.println("go");
   startQuickTurnLeft(18);
-          d1_filtred = 450;
 
     while(millis() - round_length_time <= TOTAL_ROUND_LENGTH){
         //Serial.println("atack_round_2");
