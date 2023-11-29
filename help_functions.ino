@@ -419,7 +419,12 @@ byte get_enemy_position_horizontaly(){
     }
     return UNKNOWN_;
 }
-
+float getFrontInfraredDistance_array_5(){
+  for(int i = 0; i < 5; i++){
+     float temp += getFrontInfraredDistance();
+  }
+  return temp/5;
+}
 ////////////////////<<<>>>>>>//////////////////
 void atack_round_1() {
   setTusksPosition(ENABLE); 
@@ -450,7 +455,7 @@ void atack_round_2() {
                  // Serial.print("getFrontInfraredDistance() == ");
                  // Serial.println(getFrontInfraredDistance());
                   //continue;
-                  result = expRunningAverage3(getFrontInfraredDistance());
+                  result = getFrontInfraredDistance_array_5();
                   
                   if(result < TRACK_DISTANCE_SENSORS/10){
                       stopMotors();
