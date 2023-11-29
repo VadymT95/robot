@@ -22,6 +22,8 @@
 #define LED_ROUND_3 A14
 #define LED_MODE A15
 
+#define LIGHT_RESISTOR_1 A6
+#define LIGHT_RESISTOR_2 A5
 
 #define SDApinFront 33
 #define SCLpinFront 35

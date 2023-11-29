@@ -93,8 +93,12 @@ ISR(TIMER2_A) {
       }
 
 
-
+      Serial.print("LIGHT_RESISTOR_1 -- ");
+      Serial.print(read_light_resistor_average(LIGHT_RESISTOR_1));
+      Serial.print("            LIGHT_RESISTOR_2 -- ");
+      Serial.println(read_light_resistor_average(LIGHT_RESISTOR_2));
       
+      //if(analogRead(LIGHT_RESISTOR_1))
       if(interrupts_count == COLOR_SENSOR_DELAY_CHECK){
           interrupts_count = 0;
 

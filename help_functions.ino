@@ -420,8 +420,16 @@ byte get_enemy_position_horizontaly(){
     return UNKNOWN_;
 }
 float getFrontInfraredDistance_array_5(){
+  float temp = 0;
   for(int i = 0; i < 5; i++){
-     float temp += getFrontInfraredDistance();
+     temp += getFrontInfraredDistance();
+  }
+  return temp/5;
+}
+int read_light_resistor_average(byte pin){
+  float temp = 0;
+  for(int i = 0; i < 5; i++){
+     temp += analogRead(pin);
   }
   return temp/5;
 }

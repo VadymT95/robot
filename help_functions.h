@@ -35,6 +35,7 @@ void printSensorsData();
 void setupSensorsPins();
 float expRunningAverage(float newVal);
 float expRunningAverage(float newVal);
+int read_light_resistor_average(byte pin);
 
 void stopMotors();
 void startMoveForward();
