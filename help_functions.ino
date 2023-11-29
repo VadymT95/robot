@@ -1,9 +1,9 @@
 void setup_leds_and_buttons(){
-    pinMode(LED_ROUND_START, OUTPUT);
-    pinMode(LED_ROUND_1, OUTPUT);
-    pinMode(LED_ROUND_2, OUTPUT);
-    pinMode(LED_ROUND_3, OUTPUT);
-    pinMode(LED_MODE, OUTPUT);
+   // pinMode(LED_ROUND_START, OUTPUT);
+   // pinMode(LED_ROUND_1, OUTPUT);
+   // pinMode(LED_ROUND_2, OUTPUT);
+   // pinMode(LED_ROUND_3, OUTPUT);
+   // pinMode(LED_MODE, OUTPUT);
     
     pinMode(ROUND_START_BUTTON, INPUT_PULLUP);
     pinMode(SET_NUM_OF_ROUND_BUTTON, INPUT_PULLUP);
