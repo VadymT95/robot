@@ -311,6 +311,11 @@ float expRunningAverage2(float newVal) {
   filVal2 += (newVal - filVal2) * k;
   return filVal2;
 }
+float expRunningAverage3(float newVal) {
+  static float filVal3 = 0;
+  filVal3 += (newVal - filVal3) * k;
+  return filVal3;
+}
 
 void Track()
 {
@@ -445,13 +450,15 @@ void atack_round_2() {
                  // Serial.print("getFrontInfraredDistance() == ");
                  // Serial.println(getFrontInfraredDistance());
                   //continue;
-                  result = getFrontInfraredDistance();
+                  result = expRunningAverage3(getFrontInfraredDistance());
+                  
                   if(result < TRACK_DISTANCE_SENSORS/10){
                       stopMotors();
                       stage = 2;
                       startQuickTurnRight(18);
                       if(result > 60)delay(350);
-                      if(result <= 60)delay(250);
+                      if(result <= 60 && result > 30)delay(250);
+                      if(result <= 30)delay(50);
                       stopMotors();
                       //stage = 3;
                       break;
