@@ -452,7 +452,7 @@ void atack_round_2() {
                       delay(100);
                       stopMotors();
                       stage = 3;
-                      //break;
+                      break;
                   }
             }
         }
