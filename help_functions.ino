@@ -451,6 +451,7 @@ void atack_round_2() {
                       startQuickTurnRight(18);
                       delay(100);
                       stopMotors();
+                      stage = 3;
                       //break;
                   }
             }
