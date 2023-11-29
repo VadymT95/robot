@@ -197,11 +197,11 @@ void printSensorsData(){
   Serial.println(" cm");  
 }
 void setupSensorsPins(){
-  //pinMode(pinUltrasonicFrontRightTrig, OUTPUT);
+  pinMode(pinUltrasonicFrontRightTrig, OUTPUT);
   pinMode(pinUltrasonicFrontRightEcho, INPUT);
-  //pinMode(pinUltrasonicFrontLeftTrig, OUTPUT);
+  pinMode(pinUltrasonicFrontLeftTrig, OUTPUT);
   pinMode(pinUltrasonicFrontLeftEcho, INPUT);
-  //pinMode(pinUltrasonicRearTrig, OUTPUT);
+  pinMode(pinUltrasonicRearTrig, OUTPUT);
   pinMode(pinUltrasonicRearEcho, INPUT);  
 }
 void setupMotorsPins(){
