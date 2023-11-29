@@ -325,7 +325,7 @@ void Track()
    d1=d1*343/2000;
 
   
-   delay(3);
+   delay(10);
    digitalWrite(10, LOW);
    delayMicroseconds(2);
    digitalWrite(10, HIGH);
@@ -443,14 +443,14 @@ void atack_round_2() {
                   Serial.print("getFrontInfraredDistance == ");
                   Serial.print(getFrontInfraredDistance());   
                   Serial.print("          ");
-                  Serial.println(d1_filtred());  
+                  Serial.println(d1_filtred);  
                             
-                  if(getFrontInfraredDistance() < TRACK_DISTANCE_SENSORS/10 || d1_filtred < TRACK_DISTANCE_SENSORS){
+                  if(getFrontInfraredDistance() < TRACK_DISTANCE_SENSORS/10){
                       stopMotors();
                       stage = 2;
-                      //startQuickTurnRight(18);
-                      //delay(20);
-                     // stopMotors();
+                      startQuickTurnRight(18);
+                      delay(100);
+                      stopMotors();
                       //break;
                   }
             }
