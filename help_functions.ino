@@ -424,7 +424,7 @@ void atack_round_1() {
 
 void atack_round_2() {
   byte stage = 1;
-  byte result = 255;
+  float result = 200;
   byte enemy_position = UNKNOWN_;
   Serial.println("atack_round_2");
 
