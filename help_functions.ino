@@ -424,6 +424,7 @@ void atack_round_1() {
 
 void atack_round_2() {
   byte stage = 1;
+  byte result = 255;
   byte enemy_position = UNKNOWN_;
   Serial.println("atack_round_2");
 
@@ -438,15 +439,17 @@ void atack_round_2() {
         if(stage == 1){
             Serial.println("stage == 1");
              while(millis() - round_length_time <= TOTAL_ROUND_LENGTH){   
-                  stopMotors();
-                  Serial.print("getFrontInfraredDistance() == ");
-                  Serial.println(getFrontInfraredDistance());
-                  continue;
-                  if(getFrontInfraredDistance() < TRACK_DISTANCE_SENSORS/10){
+                 // stopMotors();
+                 // Serial.print("getFrontInfraredDistance() == ");
+                 // Serial.println(getFrontInfraredDistance());
+                  //continue;
+                  result = getFrontInfraredDistance();
+                  if(result < TRACK_DISTANCE_SENSORS/10){
                       stopMotors();
                       stage = 2;
                       startQuickTurnRight(18);
-                      delay(250);
+                      if(result > 60)delay(350);
+                      if(result <= 60)delay(250);
                       stopMotors();
                       stage = 3;
                       break;
