@@ -282,8 +282,9 @@ void startSlowTurnRight(byte speed_, byte slow_percent) {
   digitalWrite(RPWM2, LOW);
   digitalWrite(LPWM2, HIGH);
   digitalWrite(RPWM, LOW);
-  //digitalWrite(LPWM, HIGH);
-  digitalWrite(LPWM, LOW);
+  
+  digitalWrite(LPWM, HIGH);          // comment this
+  //digitalWrite(LPWM, LOW);           // comment this
 
 }
 void startSlowTurnLeft(byte speed_, byte slow_percent) {
@@ -291,8 +292,9 @@ void startSlowTurnLeft(byte speed_, byte slow_percent) {
   low_time_left = (int) speed_ * slow_percent / 100;
   rightMotorStatus = 1;
   low_time_right = speed_;
-  //digitalWrite(RPWM2, HIGH);
-  digitalWrite(RPWM2, LOW);
+  digitalWrite(RPWM2, HIGH);        // comment this
+  //digitalWrite(RPWM2, LOW);           // comment this
+  
   digitalWrite(LPWM2, LOW);
   digitalWrite(RPWM, LOW);
   digitalWrite(LPWM, HIGH);
@@ -451,7 +453,7 @@ void atack_round_2() {
                       if(result > 60)delay(350);
                       if(result <= 60)delay(250);
                       stopMotors();
-                      stage = 3;
+                      //stage = 3;
                       break;
                   }
             }
@@ -460,8 +462,8 @@ void atack_round_2() {
             enemy_position = get_enemy_position_horizontaly();
                switch(enemy_position){
                 case FRONT:
-                   stopMotors();
-                   // startMoveForward(18);
+                   //stopMotors();
+                    startMoveForward(18);
                     Serial.println("forward  ");
                 break;
                 case LEFT_SMALL:
