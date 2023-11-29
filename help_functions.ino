@@ -449,7 +449,7 @@ void atack_round_2() {
                       stopMotors();
                       stage = 2;
                       startQuickTurnRight(18);
-                      delay(100);
+                      delay(125);
                       stopMotors();
                       stage = 3;
                       break;
