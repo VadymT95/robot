@@ -12,8 +12,8 @@
 #define ROUND_START_BUTTON A8 
 #define SET_NUM_OF_ROUND_BUTTON A9 
 #define MODE_TOGGLE_SWITCH A10 
-#define TOTAL_ROUND_LENGTH 15000
-#define TRACK_DISTANCE_SENSORS 450
+#define TOTAL_ROUND_LENGTH 12000
+#define TRACK_DISTANCE_SENSORS 650
 
 
 #define LED_ROUND_START A11
@@ -31,8 +31,7 @@
 #define SDApinRear 20 
 #define SCLpinRear 21
 
-
-
+#define RIGHT_MOTOR_BOOST_COEF 1.45
 // Піни для інфрачервоних датчиків
 const int pinInfraredFront = A1; // Front sensor connected to A1
 const int pinInfraredRear = A0;  // Rear sensor connected to A0
@@ -46,8 +45,8 @@ const int pinUltrasonicRearTrig = 8;
 const int pinUltrasonicRearEcho = 5;
 
 // Визначення пінів
-const int RPWM = 24; // purple
-const int LPWM = 22; // yellow
+const int RPWM = 22; // purple
+const int LPWM = 24; // yellow
 const int PWM_Right = 7;   // green
 
 const int RPWM2 = 30; // purple

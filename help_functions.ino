@@ -215,7 +215,7 @@ void setupMotorsPins(){
 }
 
 void setTusksPosition(TuskPosition position1) {
-  if (position1 == ENABLE) {
+  if (position1 == DISABLE) {
     servoRight.write(40);
     servoLeft.write(120);
   } else {
@@ -274,11 +274,17 @@ void startQuickTurnRight(byte speed_) {
   digitalWrite(LPWM, LOW);
 }
 
-void startSlowTurnRight(byte speed_, byte slow_percent) {
+void startSlowTurnRight(byte speed_, float slow_percent) {
   leftMotorStatus = 1;
   low_time_left = speed_;
   rightMotorStatus = 1;
-  low_time_right = (int) speed_ * slow_percent / 100;
+  low_time_right = (speed_ * slow_percent);
+      Serial.print("low_time_left");
+      Serial.print("-------->>>>> ");
+      Serial.print(low_time_left);
+      Serial.print(" low_time_right---- ");
+      Serial.print(low_time_right);
+      Serial.println("=");
   digitalWrite(RPWM2, LOW);
   digitalWrite(LPWM2, HIGH);
   digitalWrite(RPWM, LOW);
@@ -287,20 +293,36 @@ void startSlowTurnRight(byte speed_, byte slow_percent) {
   //digitalWrite(LPWM, LOW);           // comment this
 
 }
-void startSlowTurnLeft(byte speed_, byte slow_percent) {
+void startSlowTurnLeft(byte speed_, float slow_percent) {
   leftMotorStatus = 1;
-  low_time_left = (int) speed_ * slow_percent / 100;
+  low_time_left = (speed_ * slow_percent);
   rightMotorStatus = 1;
-  low_time_right = speed_;
-  digitalWrite(RPWM2, HIGH);        // comment this
-  //digitalWrite(RPWM2, LOW);           // comment this
+  low_time_right =  speed_;
+  //digitalWrite(RPWM2, HIGH);        // comment this
+  digitalWrite(RPWM2, LOW);           // comment this
   
-  digitalWrite(LPWM2, LOW);
+  digitalWrite(LPWM2, HIGH);
   digitalWrite(RPWM, LOW);
   digitalWrite(LPWM, HIGH);
 
   
 }
+
+void start_ONE_TurnLeft(byte speed_, float slow_percent) {
+  leftMotorStatus = 0;
+  low_time_left = (speed_ * slow_percent);
+  rightMotorStatus = 1;
+  low_time_right =  speed_;
+  //digitalWrite(RPWM2, HIGH);        // comment this
+  digitalWrite(RPWM2, LOW);           // comment this
+  
+  digitalWrite(LPWM2, HIGH);
+  digitalWrite(RPWM, LOW);
+  digitalWrite(LPWM, HIGH);
+
+  
+}
+
 float expRunningAverage(float newVal) {
   static float filVal = 0;
   filVal += (newVal - filVal) * k;
@@ -369,8 +391,16 @@ else{
       Serial.println("\t");
   #endif
   //
-  if(d1_filtred >= TRACK_DISTANCE_SENSORS) bad_track_right = true;
-  if(d2_filtred >= TRACK_DISTANCE_SENSORS) bad_track_left = true;
+  if(d1_filtred >= TRACK_DISTANCE_SENSORS){ 
+    bad_track_right = true;
+  }else{
+    bad_track_right = false;
+  }
+  if(d2_filtred >= TRACK_DISTANCE_SENSORS){ 
+    bad_track_left = true;
+  }else{
+    bad_track_left = false;
+  }
       
   /*if(d1_filtred > d2_filtred && d1_filtred < TRACK_DISTANCE_SENSORS && d2_filtred < TRACK_DISTANCE_SENSORS){
       if(d1_filtred - d2_filtred > 20)bad_track_right = true;
@@ -399,24 +429,26 @@ else{
 
 ///
 byte get_enemy_position_horizontaly(){
-    if(getFrontInfraredDistance() < TRACK_DISTANCE_SENSORS/10 && bad_track_right == 0 && bad_track_left == 0) {
-        return FRONT;
-    }
-    if(getFrontInfraredDistance() < TRACK_DISTANCE_SENSORS/10 && bad_track_right == 1 && bad_track_left == 1) {
-        return FRONT;
-    }
-    if(getFrontInfraredDistance() < TRACK_DISTANCE_SENSORS/10 && bad_track_right == 1 && bad_track_left == 0) {
+  float dist = getFrontInfraredDistance_array_5();
+    if(dist < TRACK_DISTANCE_SENSORS/10 && d1_filtred < d2_filtred && d2_filtred  - d1_filtred >= 40) {
         return LEFT_SMALL;
     }
-    if(getFrontInfraredDistance() < TRACK_DISTANCE_SENSORS/10 && bad_track_right == 0 && bad_track_left == 1) {
+    if(dist < TRACK_DISTANCE_SENSORS/10 && d2_filtred < d1_filtred && d1_filtred  - d2_filtred >= 40) {
         return RIGHT_SMALL;
     }
-    if(getFrontInfraredDistance() > TRACK_DISTANCE_SENSORS/10 && bad_track_right == 1 && bad_track_left == 0) {
-        return LEFT_LARGE;
+    if(dist < TRACK_DISTANCE_SENSORS/10 && bad_track_right == 0 && bad_track_left == 0) {
+        return FRONT;
     }
-    if(getFrontInfraredDistance() > TRACK_DISTANCE_SENSORS/10 && bad_track_right == 0 && bad_track_left == 1) {
-        return RIGHT_LARGE;
+    if(dist < TRACK_DISTANCE_SENSORS/10 && bad_track_right == 1 && bad_track_left == 1) {
+        return FRONT;
     }
+
+    //if(dist > TRACK_DISTANCE_SENSORS/10 && bad_track_right == 1 && bad_track_left == 0) {
+    //   return LEFT_LARGE;
+    //}
+    //if(dist > TRACK_DISTANCE_SENSORS/10 && bad_track_right == 0 && bad_track_left == 1) {
+    //    return RIGHT_LARGE;
+    //}
     return UNKNOWN_;
 }
 float getFrontInfraredDistance_array_5(){
@@ -426,6 +458,14 @@ float getFrontInfraredDistance_array_5(){
   }
   return temp/5;
 }
+float getRearInfraredDistance_array_5(){
+  float temp = 0;
+  for(int i = 0; i < 5; i++){
+     temp += getRearInfraredDistance();
+  }
+  return temp/5;
+}
+
 int read_light_resistor_average(byte pin){
   float temp = 0;
   for(int i = 0; i < 5; i++){
@@ -447,11 +487,42 @@ void atack_round_2() {
   float result = 200;
   byte enemy_position = UNKNOWN_;
   Serial.println("atack_round_2");
-
+  
   setTusksPosition(ENABLE); 
   initialDelay();
   Serial.println("go");
-  startQuickTurnLeft(18);
+  
+  
+  /*
+   // startSlowTurnRight(60,1.30);
+  while(millis() - round_length_time <= TOTAL_ROUND_LENGTH){
+  Track();
+    
+  Serial.print("aaaaaaaaaaaa    ");
+  Serial.print(get_enemy_position_horizontaly());
+  Serial.print("  ----  ");
+  Serial.print("bad_tr_right ");
+  Serial.print(bad_track_right);
+  Serial.print("  ----  ");
+  Serial.print("bad_tr_left ");
+  Serial.print(bad_track_left);
+  Serial.print("  ---  ");
+  Serial.print("Front ");
+  Serial.print(getFrontInfraredDistance());
+  
+  Serial.print("  ---  d1  ");
+  Serial.print(d1_filtred);
+  Serial.print("  ----  ");
+  Serial.print("d2  ");
+  Serial.println(d2_filtred);
+
+  delay(5);
+
+    }
+  return;
+  */
+  
+  startQuickTurnLeft(25);
 
     while(millis() - round_length_time <= TOTAL_ROUND_LENGTH){
         //Serial.println("atack_round_2");
@@ -463,17 +534,32 @@ void atack_round_2() {
                  // Serial.print("getFrontInfraredDistance() == ");
                  // Serial.println(getFrontInfraredDistance());
                   //continue;
+                  if(getRearInfraredDistance_array_5() < (TRACK_DISTANCE_SENSORS/10 + 5)){
+                    start_ONE_TurnLeft(45, 1.40);
+                    }
+                    delay(100);
                   result = getFrontInfraredDistance_array_5();
-                  
+                  if(result < TRACK_DISTANCE_SENSORS/10){
+                    delay(8);
+                    result = getFrontInfraredDistance_array_5();
+                    if(result >= TRACK_DISTANCE_SENSORS/10){
+                        continue;
+                    }
+                  }
                   if(result < TRACK_DISTANCE_SENSORS/10){
                       stopMotors();
                       stage = 2;
-                      startQuickTurnRight(18);
-                      if(result > 60)delay(350);
-                      if(result <= 60 && result > 30)delay(250);
-                      if(result <= 30)delay(50);
+                      //startSlowTurnRight(25, 1.60);
+                      //if(result > 60)delay(280);
+                      //if(result <= 60 && result > 30)delay(180);
+                      //if(result <= 30)delay(50);
+                      //stopMotors();
+                      startMoveForward(45);
+                      for(int i = 0; i < 8; i++){  
+                        Track();
+                      }
                       stopMotors();
-                      //stage = 3;
+                     // stage = 3;
                       break;
                   }
             }
@@ -483,28 +569,40 @@ void atack_round_2() {
                switch(enemy_position){
                 case FRONT:
                    //stopMotors();
-                    startMoveForward(18);
-                    Serial.println("forward  ");
+                    startMoveForward(45);
+                      Serial.print("Front ");
+  Serial.print(getFrontInfraredDistance());
+                    Serial.println("-forward  ");
                 break;
                 case LEFT_SMALL:
-                    startSlowTurnLeft(18, 30);
-                    Serial.println("LEFT_SMALL 3 3 3 3 3 ");
+                    startSlowTurnLeft(45, 1.30);
+                      Serial.print("Front ");
+  Serial.print(getFrontInfraredDistance());
+                    Serial.println("-LEFT_SMALL 3 3 3 3 3 ");
                 break;       
                 case RIGHT_SMALL:
-                    startSlowTurnRight(18, 30);
-                    Serial.println("RIGHT_SMALL 3 3 3 3 3 ");
+                    startSlowTurnRight(45, 1.30);
+                      Serial.print("Front ");
+  Serial.print(getFrontInfraredDistance());
+                    Serial.println("-RIGHT_SMALL 3 3 3 3 3 ");
                 break;     
                 case LEFT_LARGE:
-                    startSlowTurnLeft(18, 60);
-                    Serial.println("LEFT_LARGE  6 6 6 6 6");
+                    startSlowTurnLeft(45, 1.60);
+                      Serial.print("Front ");
+  Serial.print(getFrontInfraredDistance());
+                    Serial.println("-LEFT_LARGE  6 6 6 6 6");
                 break;   
                 case RIGHT_LARGE:
-                    startSlowTurnRight(18, 60);  
-                    Serial.println("RIGHT_LARGE 6 6 6 6 6 6"); 
+                    startSlowTurnRight(45, 1.60);  
+                      Serial.print("Front ");
+  Serial.print(getFrontInfraredDistance());
+                    Serial.println("-RIGHT_LARGE 6 6 6 6 6 6"); 
                 break; 
                 case UNKNOWN_:
-                    startQuickTurnLeft(18);
-                    Serial.println("UNKNOWN_    startQuickTurnLeft");
+                    startQuickTurnLeft(45);
+                      Serial.print("Front ");
+  Serial.print(getFrontInfraredDistance());
+                    Serial.println("-UNKNOWN_    startQuickTurnLeft");
                     stage = 1;
                 break;            
             }  
@@ -544,6 +642,7 @@ void atack_mode() {
       break;
   }
   round_start_flag = 0;
+  setTusksPosition(DISABLE);
   stopMotors();
 }
 void defence_mode(){

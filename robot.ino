@@ -26,9 +26,9 @@ void setup() {
     init_color_sensors();
     setupSensorsPins();
     setupMotorsPins();
-    //servoRight.attach(3); // Right servo connected to D3
-    //servoLeft.attach(4);  // Left servo connected to D4
-    //setTusksPosition(DISABLE);
+    servoRight.attach(2); // Right servo connected to D3
+    servoLeft.attach(3);  // Left servo connected to D4
+    setTusksPosition(DISABLE);
 
     
    
@@ -39,7 +39,10 @@ void setup() {
 
 
 void loop() {
-
+//while (true){ 
+//  printSensorsData();
+//  delay(50);
+//}
   
     if(round_start_flag == 1){
   
@@ -80,7 +83,7 @@ ISR(TIMER2_A) {
 
       }
 
-      if(millis() - lastTimeMotorSet_Right >= low_time_right && rightMotorStatus == 1){
+      if(millis() - lastTimeMotorSet_Right >= (low_time_right/RIGHT_MOTOR_BOOST_COEF) && rightMotorStatus == 1){
           lastTimeMotorSet_Right = millis();
           counter2 = high_time_right;
           analogWrite(PWM_Right, pwmValueHigh);
@@ -99,13 +102,14 @@ ISR(TIMER2_A) {
       //Serial.println(read_light_resistor_average(LIGHT_RESISTOR_2));
 
       
-      lastColorValue = read_light_resistor_average(LIGHT_RESISTOR_1);
+    /*  lastColorValue = read_light_resistor_average(LIGHT_RESISTOR_1);
       
       if(analogRead(LIGHT_RESISTOR_1) < defaultColorValue - 150 || analogRead(LIGHT_RESISTOR_2) < defaultColorValue - 150){
           stopMotors();
           round_start_flag = 0;
           round_length_time = 0;
       }
+      */
       if(interrupts_count == COLOR_SENSOR_DELAY_CHECK){
           interrupts_count = 0;
 
