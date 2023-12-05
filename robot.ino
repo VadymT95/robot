@@ -26,11 +26,11 @@ void setup() {
     init_color_sensors();
     setupSensorsPins();
     setupMotorsPins();
-    servoRight.attach(2); // Right servo connected to D3
-    servoLeft.attach(3);  // Left servo connected to D4
+    //servoRight.attach(2); // Right servo connected to D3
+    //servoLeft.attach(3);  // Left servo connected to D4
     setTusksPosition(DISABLE);
 
-    
+   Serial.println("voltage, empty, boost_coef, filtred_voltage");
    
     Timer2.setPeriod(1000);           // set
     Timer2.enableISR();               // Подключить стандартное прерывание, канал А, без сдига фаз
@@ -69,7 +69,7 @@ ISR(TIMER2_A) {
       
       interrupts_count++;
 
-      if(millis() - lastTimeMotorSet_Left >= low_time_left && leftMotorStatus == 1){
+      if(millis() - lastTimeMotorSet_Left >= (low_time_left/boost_coef) && leftMotorStatus == 1){
           lastTimeMotorSet_Left = millis();
           counter1 = high_time_left;
           analogWrite(PWM_Left, pwmValueHigh);
@@ -83,7 +83,7 @@ ISR(TIMER2_A) {
 
       }
 
-      if(millis() - lastTimeMotorSet_Right >= (low_time_right/RIGHT_MOTOR_BOOST_COEF) && rightMotorStatus == 1){
+      if(millis() - lastTimeMotorSet_Right >= ((low_time_right/RIGHT_MOTOR_BOOST_COEF)/boost_coef) && rightMotorStatus == 1){
           lastTimeMotorSet_Right = millis();
           counter2 = high_time_right;
           analogWrite(PWM_Right, pwmValueHigh);
@@ -112,11 +112,24 @@ ISR(TIMER2_A) {
       */
       if(interrupts_count == COLOR_SENSOR_DELAY_CHECK){
           interrupts_count = 0;
-
           roundButton();
           modeButton();
           startRoundButton();
-
+          
+          float voltage = analogRead(voltagePin) * (5.0 / 1023.0) * 5;   
+         
+          if(voltage < 18.5 && voltage > 10.0){   
+            low_voltage_motors_filtred = expRunningAverage4(voltage);
+            boost_coef = expRunningAverage5(calculateGain(low_voltage_motors_filtred));
+          }
+            Serial.print(voltage);
+            Serial.print(",");
+            Serial.print(12);
+            Serial.print(",");
+            Serial.print(boost_coef);
+            Serial.print(",");          
+            Serial.println(low_voltage_motors_filtred);
+            
           #if COLOR_SENSOR_TYPE == 0
               processSensor(tcsFront, "Front"); // Обробка переднього датчика
               processSensor(tcsRear, "Rear"); // Обробка заднього датчика з множником

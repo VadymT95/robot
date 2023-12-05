@@ -140,8 +140,15 @@ void init_color_sensors(){
     }
   #endif
 }
-
-
+float calculateGain(float voltage) {
+    // Обмежуємо напругу між мінімальною та максимальною границями
+    voltage = constrain(voltage, V_MIN, V_MAX);
+    
+    // Обчислюємо коефіцієнт усилення за лінійною залежністю
+    float gain = GAIN_MAX + (GAIN_MIN - GAIN_MAX) * (voltage - V_MAX) / (V_MIN - V_MAX);
+    
+    return constrain(gain, GAIN_MAX, GAIN_MIN);
+}
 
 // Функції для інфрачервоних датчиків
 float getFrontInfraredDistance() {
@@ -197,6 +204,7 @@ void printSensorsData(){
   Serial.println(" cm");  
 }
 void setupSensorsPins(){
+  pinMode(voltagePin, INPUT);
   pinMode(pinUltrasonicFrontRightTrig, OUTPUT);
   pinMode(pinUltrasonicFrontRightEcho, INPUT);
   pinMode(pinUltrasonicFrontLeftTrig, OUTPUT);
@@ -279,12 +287,6 @@ void startSlowTurnRight(byte speed_, float slow_percent) {
   low_time_left = speed_;
   rightMotorStatus = 1;
   low_time_right = (speed_ * slow_percent);
-      Serial.print("low_time_left");
-      Serial.print("-------->>>>> ");
-      Serial.print(low_time_left);
-      Serial.print(" low_time_right---- ");
-      Serial.print(low_time_right);
-      Serial.println("=");
   digitalWrite(RPWM2, LOW);
   digitalWrite(LPWM2, HIGH);
   digitalWrite(RPWM, LOW);
@@ -338,7 +340,17 @@ float expRunningAverage3(float newVal) {
   filVal3 += (newVal - filVal3) * k;
   return filVal3;
 }
+float expRunningAverage4(float newVal) {
+  static float filVal4 = 21;
+  filVal4 += (newVal - filVal4) * k_voltage;
+  return filVal4;
+}
 
+float expRunningAverage5(float newVal) {
+  static float filVal5 = 21;
+  filVal5 += (newVal - filVal5) * k_voltage2;
+  return filVal5;
+}
 void Track()
 {
    float dist=230; //distance between two sensors
@@ -478,7 +490,9 @@ void atack_round_1() {
   setTusksPosition(ENABLE); 
   initialDelay();
   while(millis() - round_length_time <= TOTAL_ROUND_LENGTH){
+    #ifdef ROUTE_PRINTS
         Serial.println("atack_round_1");
+    #endif
   }
 }
 
@@ -486,12 +500,14 @@ void atack_round_2() {
   byte stage = 1;
   float result = 200;
   byte enemy_position = UNKNOWN_;
-  Serial.println("atack_round_2");
-  
+  #ifdef ROUTE_PRINTS
+      Serial.println("atack_round_2");
+  #endif
   setTusksPosition(ENABLE); 
   initialDelay();
-  Serial.println("go");
-  
+  #ifdef ROUTE_PRINTS
+      Serial.println("go");
+  #endif
   
   /*
    // startSlowTurnRight(60,1.30);
@@ -521,28 +537,34 @@ void atack_round_2() {
     }
   return;
   */
-  
+  if(getFrontInfraredDistance_array_5() <= TRACK_DISTANCE_SENSORS/10){ 
+    stage = 2;
+  }else{
   startQuickTurnLeft(25);
+  }
 
     while(millis() - round_length_time <= TOTAL_ROUND_LENGTH){
         //Serial.println("atack_round_2");
         Track();
         if(stage == 1){
-            Serial.println("stage == 1");
+            #ifdef ROUTE_PRINTS
+              Serial.println("stage == 1");
+            #endif
              while(millis() - round_length_time <= TOTAL_ROUND_LENGTH){   
                  // stopMotors();
                  // Serial.print("getFrontInfraredDistance() == ");
                  // Serial.println(getFrontInfraredDistance());
                   //continue;
                   if(getRearInfraredDistance_array_5() < (TRACK_DISTANCE_SENSORS/10 + 5)){
+                    delay(100);
                     start_ONE_TurnLeft(45, 1.40);
                     }
-                    delay(100);
                   result = getFrontInfraredDistance_array_5();
                   if(result < TRACK_DISTANCE_SENSORS/10){
                     delay(8);
                     result = getFrontInfraredDistance_array_5();
                     if(result >= TRACK_DISTANCE_SENSORS/10){
+                        stage = 2;
                         continue;
                     }
                   }
@@ -569,40 +591,52 @@ void atack_round_2() {
                switch(enemy_position){
                 case FRONT:
                    //stopMotors();
-                    startMoveForward(45);
+                    startMoveForward(100);
+                    #ifdef ROUTE_PRINTS
                       Serial.print("Front ");
-  Serial.print(getFrontInfraredDistance());
-                    Serial.println("-forward  ");
+                      Serial.print(getFrontInfraredDistance());
+                      Serial.println("-forward  ");
+                    #endif
                 break;
                 case LEFT_SMALL:
-                    startSlowTurnLeft(45, 1.30);
+                    startSlowTurnLeft(100, 1.30);
+                    #ifdef ROUTE_PRINTS
                       Serial.print("Front ");
-  Serial.print(getFrontInfraredDistance());
-                    Serial.println("-LEFT_SMALL 3 3 3 3 3 ");
+                      Serial.print(getFrontInfraredDistance());
+                      Serial.println("-LEFT_SMALL 3 3 3 3 3 ");
+                    #endif
                 break;       
                 case RIGHT_SMALL:
-                    startSlowTurnRight(45, 1.30);
+                    startSlowTurnRight(100, 1.30);
+                    #ifdef ROUTE_PRINTS
                       Serial.print("Front ");
-  Serial.print(getFrontInfraredDistance());
-                    Serial.println("-RIGHT_SMALL 3 3 3 3 3 ");
+                      Serial.print(getFrontInfraredDistance());
+                      Serial.println("-RIGHT_SMALL 3 3 3 3 3 ");
+                    #endif
                 break;     
                 case LEFT_LARGE:
-                    startSlowTurnLeft(45, 1.60);
+                    startSlowTurnLeft(100, 1.60);
+                    #ifdef ROUTE_PRINTS
                       Serial.print("Front ");
-  Serial.print(getFrontInfraredDistance());
-                    Serial.println("-LEFT_LARGE  6 6 6 6 6");
+                      Serial.print(getFrontInfraredDistance());
+                      Serial.println("-LEFT_LARGE  6 6 6 6 6");
+                    #endif
                 break;   
                 case RIGHT_LARGE:
-                    startSlowTurnRight(45, 1.60);  
+                    startSlowTurnRight(100, 1.60);  
+                    #ifdef ROUTE_PRINTS
                       Serial.print("Front ");
-  Serial.print(getFrontInfraredDistance());
-                    Serial.println("-RIGHT_LARGE 6 6 6 6 6 6"); 
+                      Serial.print(getFrontInfraredDistance());
+                      Serial.println("-RIGHT_LARGE 6 6 6 6 6 6");
+                    #endif 
                 break; 
                 case UNKNOWN_:
                     startQuickTurnLeft(45);
+                    #ifdef ROUTE_PRINTS
                       Serial.print("Front ");
-  Serial.print(getFrontInfraredDistance());
-                    Serial.println("-UNKNOWN_    startQuickTurnLeft");
+                      Serial.print(getFrontInfraredDistance());
+                      Serial.println("-UNKNOWN_    startQuickTurnLeft");
+                    #endif
                     stage = 1;
                 break;            
             }  
@@ -612,7 +646,9 @@ void atack_round_2() {
 
         
   }
-Serial.println("end");
+#ifdef ROUTE_PRINTS
+  Serial.println("end");
+#endif
 }
 
 void atack_round_3() {

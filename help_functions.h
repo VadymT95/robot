@@ -40,3 +40,4 @@ int read_light_resistor_average(byte pin);
 void stopMotors();
 void startMoveForward(byte speed_);
 void startQuickTurnLeft(byte speed_);
+float calculateGain(float low_voltage_motors_filtered_local);

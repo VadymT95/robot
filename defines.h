@@ -5,6 +5,8 @@
 //#define ENABLE_COLOR_SENSOR_PRINTS
 //#define ENABLE_TRACK_ULTRASONIC_PRINTS
 #define ENABLE_INIT_PRINTS
+//#define ROUTE_PRINTS
+
 #define COLOR_SENSOR_TYPE 1 // 0 - I2C color sensors; 1 - photoResistors and leds
 
 
@@ -24,6 +26,7 @@
 
 #define LIGHT_RESISTOR_1 A6
 #define LIGHT_RESISTOR_2 A5
+#define voltagePin A7 // Дільник напруги
 
 #define SDApinFront 33
 #define SCLpinFront 35
@@ -32,6 +35,17 @@
 #define SCLpinRear 21
 
 #define RIGHT_MOTOR_BOOST_COEF 1.45
+
+#define GAIN_MAX 1.0f    // при 19.59!!!! треба прописать авто калібровку
+#define GAIN_MIN 2.4f
+#define V_MAX 17.4f      // при 19.59!!!! треба прописать авто калібровку
+#define V_MIN 15.5f      // при 19.59!!!! треба прописать авто калібровку
+
+
+#define GAIN_DIFF (GAIN_MIN - GAIN_MAX)
+#define VOLTAGE_RANGE (V_MAX - V_MIN)
+
+
 // Піни для інфрачервоних датчиків
 const int pinInfraredFront = A1; // Front sensor connected to A1
 const int pinInfraredRear = A0;  // Rear sensor connected to A0
@@ -93,8 +107,14 @@ byte high_time_right = 1;
 boolean leftMotorStatus = 0;
 boolean rightMotorStatus = 0;
 
+float  low_voltage_motors_filtred = 21.0;
+float  boost_coef = 1.0;
+
 float  X,Y;
 float k = 0.1;  // коэффициент фильтрации, 0.0-1.0
+float k_voltage = 0.5;
+float k_voltage2 = 0.3;
+
 float d1_sum,d2_sum;
 float d1,d2, theta;
 float last_d1;
