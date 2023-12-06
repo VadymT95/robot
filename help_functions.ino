@@ -607,7 +607,7 @@ void atack_round_2() {
                   //continue;
                   if(getRearInfraredDistance_array_5() < (TRACK_DISTANCE_SENSORS/10 + 5)){
                     delay(5);
-                    start_ONE_TurnLeft(turn_speed+40, 1.70);
+                    start_ONE_TurnLeft(turn_speed+20, 1.40);
                     }
                   result = getFrontInfraredDistance_array_5();
                   if(result < TRACK_DISTANCE_SENSORS/10){
