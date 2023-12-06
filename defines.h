@@ -125,3 +125,7 @@ float last_d1;
     
 boolean bad_track_left;
 boolean bad_track_right;
+
+
+int turn_speed = 25;
+int main_move_speed = 100;

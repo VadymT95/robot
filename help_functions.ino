@@ -77,6 +77,16 @@ void startRoundButton() {
       defaultColorValue2 = lastColorValue2;
       tusk_ararm_flag = 0;
       float voltage = analogRead(voltagePin) * (5.0 / 1023.0) * 5; 
+      if(voltage >= 21){
+          turn_speed = 35;  
+          main_move_speed = 115;
+      }else if(voltage >= 20){
+          turn_speed = 30; 
+          main_move_speed = 108;
+      }else{
+          turn_speed = 25; 
+          main_move_speed = 100;
+      }
       if(voltage >= 14){
           interrrupt_voltage_point_boost = voltage * 0.93;
           V_MAX = voltage * 0.88;
@@ -581,7 +591,7 @@ void atack_round_2() {
   if(getFrontInfraredDistance_array_5() <= TRACK_DISTANCE_SENSORS/10){ 
     stage = 2;
   }else{
-  startQuickTurnLeft(25);
+  startQuickTurnLeft(turn_speed);
   }
 
     while(millis() - round_length_time <= TOTAL_ROUND_LENGTH){
@@ -604,7 +614,7 @@ void atack_round_2() {
                   //continue;
                   if(getRearInfraredDistance_array_5() < (TRACK_DISTANCE_SENSORS/10 + 5)){
                     delay(5);
-                    start_ONE_TurnLeft(45, 1.40);
+                    start_ONE_TurnLeft(turn_speed+20, 1.40);
                     }
                   result = getFrontInfraredDistance_array_5();
                   if(result < TRACK_DISTANCE_SENSORS/10){
@@ -623,7 +633,7 @@ void atack_round_2() {
                       //if(result <= 60 && result > 30)delay(180);
                       //if(result <= 30)delay(50);
                       //stopMotors();
-                      startMoveForward(45);
+                      startMoveForward(turn_speed+20);
                       for(int i = 0; i < 8; i++){  
                         Track();
                       }
@@ -638,7 +648,7 @@ void atack_round_2() {
                switch(enemy_position){
                 case FRONT:
                    //stopMotors();
-                    startMoveForward(100);
+                    startMoveForward(main_move_speed);
                     #ifdef ROUTE_PRINTS
                       Serial.print("Front ");
                       Serial.print(getFrontInfraredDistance());
@@ -646,7 +656,7 @@ void atack_round_2() {
                     #endif
                 break;
                 case LEFT_SMALL:
-                    startSlowTurnLeft(100, 1.30);
+                    startSlowTurnLeft(main_move_speed, 1.30);
                     #ifdef ROUTE_PRINTS
                       Serial.print("Front ");
                       Serial.print(getFrontInfraredDistance());
@@ -654,7 +664,7 @@ void atack_round_2() {
                     #endif
                 break;       
                 case RIGHT_SMALL:
-                    startSlowTurnRight(100, 1.30);
+                    startSlowTurnRight(main_move_speed, 1.30);
                     #ifdef ROUTE_PRINTS
                       Serial.print("Front ");
                       Serial.print(getFrontInfraredDistance());
@@ -662,7 +672,7 @@ void atack_round_2() {
                     #endif
                 break;     
                 case LEFT_LARGE:
-                    startSlowTurnLeft(100, 1.60);
+                    startSlowTurnLeft(main_move_speed, 1.60);
                     #ifdef ROUTE_PRINTS
                       Serial.print("Front ");
                       Serial.print(getFrontInfraredDistance());
@@ -670,7 +680,7 @@ void atack_round_2() {
                     #endif
                 break;   
                 case RIGHT_LARGE:
-                    startSlowTurnRight(100, 1.60);  
+                    startSlowTurnRight(main_move_speed, 1.60);  
                     #ifdef ROUTE_PRINTS
                       Serial.print("Front ");
                       Serial.print(getFrontInfraredDistance());
@@ -678,7 +688,7 @@ void atack_round_2() {
                     #endif 
                 break; 
                 case UNKNOWN_:
-                    startQuickTurnLeft(45);
+                    startQuickTurnLeft(turn_speed+20);
                     #ifdef ROUTE_PRINTS
                       Serial.print("Front ");
                       Serial.print(getFrontInfraredDistance());
