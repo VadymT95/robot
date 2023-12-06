@@ -26,11 +26,11 @@ void setup() {
     init_color_sensors();
     setupSensorsPins();
     setupMotorsPins();
-    //servoRight.attach(2); // Right servo connected to D3
-   // servoLeft.attach(3);  // Left servo connected to D4
+    servoRight.attach(2); // Right servo connected to D3
+    servoLeft.attach(3);  // Left servo connected to D4
 
     //ENABLE DISABLE
-    setTusksPosition(ENABLE);
+    setTusksPosition(DISABLE);
    Serial.println("voltage, empty, boost_coef, filtred_voltage");
    
     Timer2.setPeriod(1000);           // set
@@ -107,12 +107,18 @@ ISR(TIMER2_A) {
       Serial.println(read_light_resistor_average(LIGHT_RESISTOR_2));
 */
       
-      lastColorValue1 = read_light_resistor_average(LIGHT_RESISTOR_1);
-      lastColorValue2 = read_light_resistor_average(LIGHT_RESISTOR_2);
+      
+      
+      
+      if(interrupts_count == COLOR_SENSOR_DELAY_CHECK){
+          interrupts_count = 0;
+
+      lastColorValue1 = analogRead(LIGHT_RESISTOR_1);
+      lastColorValue2 = analogRead(LIGHT_RESISTOR_2);
 
 
       if(round_start_flag == 1){
-          if(analogRead(LIGHT_RESISTOR_1) < defaultColorValue1 - 150){
+          if(lastColorValue1 < defaultColorValue1 - 150){
           if(photoresistor_ararm_flag == 0){
               stopMotors();
               round_length_time = 0;
@@ -120,7 +126,7 @@ ISR(TIMER2_A) {
               photoresistor_ararm_flag = 1;
             }
           }
-          if(analogRead(LIGHT_RESISTOR_2) < defaultColorValue2 - 150){
+          if(lastColorValue2 < defaultColorValue2 - 150){
               tusk_ararm_flag = 1;
               if(counter_backward > 1) counter_backward = 1;
           }
@@ -133,11 +139,8 @@ ISR(TIMER2_A) {
           }else{
               photoresistor_ararm_flag = 0;
           }
-      
-      
-      
-      if(interrupts_count == COLOR_SENSOR_DELAY_CHECK){
-          interrupts_count = 0;
+
+          
           roundButton();
           modeButton();
           startRoundButton();

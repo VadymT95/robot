@@ -78,11 +78,11 @@ void startRoundButton() {
       tusk_ararm_flag = 0;
       float voltage = analogRead(voltagePin) * (5.0 / 1023.0) * 5; 
       if(voltage >= 21){
-          turn_speed = 60;  
-          main_move_speed = 135;
+          turn_speed = 30;  
+          main_move_speed = 100;
       }else if(voltage >= 20){
-          turn_speed = 40; 
-          main_move_speed = 120;
+          turn_speed = 25; 
+          main_move_speed = 100;
       }else{
           turn_speed = 25; 
           main_move_speed = 100;
@@ -249,20 +249,13 @@ void setupMotorsPins(){
 }
 
 void setTusksPosition(TuskPosition position1) {
-    servoRight.attach(2); // Right servo connected to D3
-    servoLeft.attach(3);  // Left servo connected to D4
-    delay(100);
-    
-  if (position1 == DISABLE) {
+ if (position1 == DISABLE) {
     servoRight.write(40);
     servoLeft.write(120);
   } else {
     servoRight.write(80);
     servoLeft.write(80);
   }
-    delay(100);
-    servoRight.detach(); // Right servo connected to D3
-    servoLeft.detach();  // Left servo connected to D4
     
 }
 
@@ -552,7 +545,7 @@ void atack_round_2() {
       Serial.println("atack_round_2");
   #endif
   
-    //setTusksPosition(ENABLE); 
+    setTusksPosition(ENABLE); 
 
 
   initialDelay();
