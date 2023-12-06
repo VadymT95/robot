@@ -78,11 +78,11 @@ void startRoundButton() {
       tusk_ararm_flag = 0;
       float voltage = analogRead(voltagePin) * (5.0 / 1023.0) * 5; 
       if(voltage >= 21){
-          turn_speed = 45;  
-          main_move_speed = 115;
+          turn_speed = 60;  
+          main_move_speed = 135;
       }else if(voltage >= 20){
-          turn_speed = 35; 
-          main_move_speed = 108;
+          turn_speed = 40; 
+          main_move_speed = 120;
       }else{
           turn_speed = 25; 
           main_move_speed = 100;
