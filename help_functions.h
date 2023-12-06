@@ -7,9 +7,10 @@ unsigned long last_print1 = 0;
 int lastButtonStateRound = LOW; // Попередній стан круглої кнопки
 int lastButtonStateStart = LOW; // Попередній стан кнопки старту
 char* lastSensorName;
-int defaultColorValue;
-int lastColorValue;
-
+int defaultColorValue1;
+int defaultColorValue2;
+int lastColorValue1;
+int lastColorValue2;
 
 void modeButton();
 void roundButton();
@@ -39,5 +40,6 @@ int read_light_resistor_average(byte pin);
 
 void stopMotors();
 void startMoveForward(byte speed_);
+void startMoveBackward(byte speed_);
 void startQuickTurnLeft(byte speed_);
 float calculateGain(float low_voltage_motors_filtered_local);

@@ -14,14 +14,14 @@
 #define ROUND_START_BUTTON A8 
 #define SET_NUM_OF_ROUND_BUTTON A9 
 #define MODE_TOGGLE_SWITCH A10 
-#define TOTAL_ROUND_LENGTH 12000
+#define TOTAL_ROUND_LENGTH 30000
 #define TRACK_DISTANCE_SENSORS 650
 
 
-#define LED_ROUND_START A11
+#define LED_ROUND_START A14 // 11
 #define LED_ROUND_1 A12
 #define LED_ROUND_2 A13
-#define LED_ROUND_3 A14
+#define LED_ROUND_3 A11 // 14
 #define LED_MODE A15
 
 #define LIGHT_RESISTOR_1 A6
@@ -38,10 +38,10 @@
 
 #define GAIN_MAX 1.0f    // при 19.59!!!! треба прописать авто калібровку
 #define GAIN_MIN 2.4f
-#define V_MAX 17.4f      // при 19.59!!!! треба прописать авто калібровку
-#define V_MIN 15.5f      // при 19.59!!!! треба прописать авто калібровку
-
-
+float V_MAX = 17.4f;      // при 19.59!!!! треба прописать авто калібровку
+float V_MIN = 15.5f;      // при 19.59!!!! треба прописать авто калібровку
+float interrrupt_voltage_point_boost = 18.5f; // при 19.59!!!! треба прописать авто калібровку
+boolean boost_permit = 0;
 #define GAIN_DIFF (GAIN_MIN - GAIN_MAX)
 #define VOLTAGE_RANGE (V_MAX - V_MIN)
 
@@ -73,6 +73,8 @@ const int pwmValueLow = 0;    // Мінімальне значення ШІМ
 enum MotorDirection { FORWARD, BACKWARD };
 unsigned long lastTimeMotorSet_Right = 0;
 unsigned long lastTimeMotorSet_Left = 0;
+boolean photoresistor_ararm_flag = 0;
+byte  tusk_ararm_flag = 0;
 
 // interrupts for listening port
 volatile byte interrupts_count = 0;

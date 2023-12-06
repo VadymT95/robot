@@ -73,7 +73,20 @@ void startRoundButton() {
       round_length_time = currentMillis;
       round_start_flag = 1;
       digitalWrite(LED_ROUND_START, HIGH);
-      defaultColorValue = lastColorValue;
+      defaultColorValue1 = lastColorValue1;
+      defaultColorValue2 = lastColorValue2;
+      tusk_ararm_flag = 0;
+      float voltage = analogRead(voltagePin) * (5.0 / 1023.0) * 5; 
+      if(voltage >= 14){
+          interrrupt_voltage_point_boost = voltage * 0.93;
+          V_MAX = voltage * 0.88;
+          V_MIN = voltage * 0.8;
+      }else{
+          interrrupt_voltage_point_boost = 20;
+          V_MAX = 19.5;
+          V_MIN = 18;         
+      }
+      
     }
   }
   if (buttonState == 0 && lastButtonStateStart == 1) {
@@ -142,7 +155,10 @@ void init_color_sensors(){
 }
 float calculateGain(float voltage) {
     // Обмежуємо напругу між мінімальною та максимальною границями
+    if(voltage >= V_MAX)return GAIN_MAX;
+    if(voltage <= V_MIN)return GAIN_MIN;
     voltage = constrain(voltage, V_MIN, V_MAX);
+
     
     // Обчислюємо коефіцієнт усилення за лінійною залежністю
     float gain = GAIN_MAX + (GAIN_MIN - GAIN_MAX) * (voltage - V_MAX) / (V_MIN - V_MAX);
@@ -223,6 +239,10 @@ void setupMotorsPins(){
 }
 
 void setTusksPosition(TuskPosition position1) {
+    servoRight.attach(2); // Right servo connected to D3
+    servoLeft.attach(3);  // Left servo connected to D4
+    delay(100);
+    
   if (position1 == DISABLE) {
     servoRight.write(40);
     servoLeft.write(120);
@@ -230,18 +250,21 @@ void setTusksPosition(TuskPosition position1) {
     servoRight.write(80);
     servoLeft.write(80);
   }
+    delay(100);
+    servoRight.detach(); // Right servo connected to D3
+    servoLeft.detach();  // Left servo connected to D4
+    
 }
 
 void initialDelay() {
   unsigned long function_start_time = millis();
   while (millis() - function_start_time < 5000) {
-    // Цикл виконується 5 секунд
 
-    // тут має бути визначення позиції робота якщо це можливо. визначення усіх початкових величин. 
   }
 }
 
 void stopMotors() {
+  boost_permit = 0;
   digitalWrite(RPWM, LOW);
   digitalWrite(LPWM, LOW);
   leftMotorStatus = 0;
@@ -251,6 +274,7 @@ void stopMotors() {
   rightMotorStatus = 0;
 }
 void startMoveForward(byte speed_) {
+  boost_permit = 1;
   leftMotorStatus = 1;
   low_time_left = speed_;
   rightMotorStatus = 1;
@@ -260,8 +284,19 @@ void startMoveForward(byte speed_) {
   digitalWrite(RPWM, LOW);
   digitalWrite(LPWM, HIGH);
 }
-
+void startMoveBackward(byte speed_) {
+  boost_permit = 0;
+  leftMotorStatus = 1;
+  low_time_left = speed_;
+  rightMotorStatus = 1;
+  low_time_right = speed_;
+  digitalWrite(RPWM2, HIGH);
+  digitalWrite(LPWM2, LOW);
+  digitalWrite(RPWM, HIGH);
+  digitalWrite(LPWM, LOW);
+}
 void startQuickTurnLeft(byte speed_) {
+  boost_permit = 0;
   leftMotorStatus = 1;
   low_time_left = speed_;
   rightMotorStatus = 1;
@@ -272,6 +307,7 @@ void startQuickTurnLeft(byte speed_) {
   digitalWrite(LPWM, HIGH);
 }
 void startQuickTurnRight(byte speed_) {
+  boost_permit = 0;
   leftMotorStatus = 1;
   low_time_left = speed_;
   rightMotorStatus = 1;
@@ -283,6 +319,7 @@ void startQuickTurnRight(byte speed_) {
 }
 
 void startSlowTurnRight(byte speed_, float slow_percent) {
+  boost_permit = 1;
   leftMotorStatus = 1;
   low_time_left = speed_;
   rightMotorStatus = 1;
@@ -296,6 +333,7 @@ void startSlowTurnRight(byte speed_, float slow_percent) {
 
 }
 void startSlowTurnLeft(byte speed_, float slow_percent) {
+  boost_permit = 1;
   leftMotorStatus = 1;
   low_time_left = (speed_ * slow_percent);
   rightMotorStatus = 1;
@@ -311,6 +349,7 @@ void startSlowTurnLeft(byte speed_, float slow_percent) {
 }
 
 void start_ONE_TurnLeft(byte speed_, float slow_percent) {
+  boost_permit = 0;
   leftMotorStatus = 0;
   low_time_left = (speed_ * slow_percent);
   rightMotorStatus = 1;
@@ -347,7 +386,7 @@ float expRunningAverage4(float newVal) {
 }
 
 float expRunningAverage5(float newVal) {
-  static float filVal5 = 21;
+  static float filVal5 = 1;
   filVal5 += (newVal - filVal5) * k_voltage2;
   return filVal5;
 }
@@ -487,7 +526,6 @@ int read_light_resistor_average(byte pin){
 }
 ////////////////////<<<>>>>>>//////////////////
 void atack_round_1() {
-  setTusksPosition(ENABLE); 
   initialDelay();
   while(millis() - round_length_time <= TOTAL_ROUND_LENGTH){
     #ifdef ROUTE_PRINTS
@@ -503,7 +541,10 @@ void atack_round_2() {
   #ifdef ROUTE_PRINTS
       Serial.println("atack_round_2");
   #endif
-  setTusksPosition(ENABLE); 
+  
+    //setTusksPosition(ENABLE); 
+
+
   initialDelay();
   #ifdef ROUTE_PRINTS
       Serial.println("go");
@@ -546,6 +587,12 @@ void atack_round_2() {
     while(millis() - round_length_time <= TOTAL_ROUND_LENGTH){
         //Serial.println("atack_round_2");
         Track();
+        if(tusk_ararm_flag == 1) {
+          tusk_ararm_flag = 2;
+          setTusksPosition(DISABLE);
+          }
+        if(photoresistor_ararm_flag ==1)continue;
+        
         if(stage == 1){
             #ifdef ROUTE_PRINTS
               Serial.println("stage == 1");
@@ -556,7 +603,7 @@ void atack_round_2() {
                  // Serial.println(getFrontInfraredDistance());
                   //continue;
                   if(getRearInfraredDistance_array_5() < (TRACK_DISTANCE_SENSORS/10 + 5)){
-                    delay(100);
+                    delay(5);
                     start_ONE_TurnLeft(45, 1.40);
                     }
                   result = getFrontInfraredDistance_array_5();
@@ -652,7 +699,6 @@ void atack_round_2() {
 }
 
 void atack_round_3() {
-  setTusksPosition(ENABLE); 
   initialDelay();
     while(millis() - round_length_time <= TOTAL_ROUND_LENGTH){
         Serial.println("atack_round_3");
