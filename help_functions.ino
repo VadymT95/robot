@@ -78,10 +78,10 @@ void startRoundButton() {
       tusk_ararm_flag = 0;
       float voltage = analogRead(voltagePin) * (5.0 / 1023.0) * 5; 
       if(voltage >= 21){
-          turn_speed = 35;  
+          turn_speed = 45;  
           main_move_speed = 115;
       }else if(voltage >= 20){
-          turn_speed = 30; 
+          turn_speed = 35; 
           main_move_speed = 108;
       }else{
           turn_speed = 25; 
@@ -614,7 +614,7 @@ void atack_round_2() {
                   //continue;
                   if(getRearInfraredDistance_array_5() < (TRACK_DISTANCE_SENSORS/10 + 5)){
                     delay(5);
-                    start_ONE_TurnLeft(turn_speed+20, 1.40);
+                    start_ONE_TurnLeft(turn_speed+40, 1.70);
                     }
                   result = getFrontInfraredDistance_array_5();
                   if(result < TRACK_DISTANCE_SENSORS/10){
