@@ -115,8 +115,13 @@ ISR(TIMER2_A) {
 
       lastColorValue1 = analogRead(LIGHT_RESISTOR_1);
       lastColorValue2 = analogRead(LIGHT_RESISTOR_2);
+      #ifdef COLOR_RESISTORS_ENABLED
+          lastColorValue1 = defaultColorValue1;
+          lastColorValue2 = defaultColorValue2;
+      #endif
 
 
+      #ifdef COLOR_RESISTORS_ENABLED
       if(round_start_flag == 1){
           if(lastColorValue1 < defaultColorValue1 - 150){
           if(photoresistor_ararm_flag == 0){
@@ -139,7 +144,7 @@ ISR(TIMER2_A) {
           }else{
               photoresistor_ararm_flag = 0;
           }
-
+      #endif
           
           roundButton();
           modeButton();

@@ -179,6 +179,8 @@ float calculateGain(float voltage) {
 // Функції для інфрачервоних датчиків
 float getFrontInfraredDistance() {
   int sensorValue = analogRead(pinInfraredFront);
+  if(sensorValue <= 2){return 9999;}
+  if(sensorValue > 200){return 9999;}
   return convertToDistance(sensorValue);
 }
 
@@ -594,7 +596,7 @@ void atack_round_2() {
           tusk_ararm_flag = 2;
           setTusksPosition(DISABLE);
           }
-        if(photoresistor_ararm_flag ==1)continue;
+        if(photoresistor_ararm_flag == 1)continue;
         
         if(stage == 1){
             #ifdef ROUTE_PRINTS
@@ -605,34 +607,54 @@ void atack_round_2() {
                  // Serial.print("getFrontInfraredDistance() == ");
                  // Serial.println(getFrontInfraredDistance());
                   //continue;
-                  if(getRearInfraredDistance_array_5() < (TRACK_DISTANCE_SENSORS/10 + 5)){
-                    delay(5);
-                    start_ONE_TurnLeft(turn_speed+40, 1.70);
+                  int rear_distance = getRearInfraredDistance_array_5();
+
+                  if(rear_distance < (TRACK_DISTANCE_SENSORS/10 + 5) && rear_distance >= 10 && rear_distance_flag == 0){
+                        if(rear_distance <= 55){
+                            start_ONE_TurnLeft(turn_speed+20, 1.40);
+                        }else{
+                            start_ONE_TurnLeft(turn_speed+45, 1.40);
+                        }
+                        rear_distance_flag = 1;
                     }
+
+
+
+                    
                   result = getFrontInfraredDistance_array_5();
+                 
                   if(result < TRACK_DISTANCE_SENSORS/10){
-                    delay(8);
-                    result = getFrontInfraredDistance_array_5();
-                    if(result >= TRACK_DISTANCE_SENSORS/10){
-                        stage = 2;
-                        continue;
-                    }
-                  }
-                  if(result < TRACK_DISTANCE_SENSORS/10){
-                      stopMotors();
-                      stage = 2;
-                      //startSlowTurnRight(25, 1.60);
-                      //if(result > 60)delay(280);
-                      //if(result <= 60 && result > 30)delay(180);
-                      //if(result <= 30)delay(50);
-                      //stopMotors();
-                      startMoveForward(turn_speed+20);
-                      for(int i = 0; i < 8; i++){  
-                        Track();
+                    delay(4);
+                    rear_distance_flag = 0;
+                      if(getFrontInfraredDistance_array_5() < TRACK_DISTANCE_SENSORS/10){
+                          stage = 2;
+                          stopMotors();
+                          delay(2500);
+                          /*Serial.print("target find >> ");
+                          while(true){
+                              printSensorsData();
+                              delay(200);
+                          }
+                           Serial.print(result);*/
+                         /* startSlowTurnRight(main_move_speed, 1.20);
+
+
+                          for(int i = 0; i < 45; i++){  
+                            Track();
+                          }
+                          stopMotors();
+                          */
+                         // stage = 3;
+                          break;
                       }
+<<<<<<< HEAD
+                      
+                      
                       stopMotors();
                      // stage = 3;
                       break;
+=======
+>>>>>>> ff66aa7 (dfgdfg)
                   }
             }
         }
