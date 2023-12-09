@@ -607,9 +607,6 @@ void atack_round_2() {
                   //continue;
                   int rear_distance = getRearInfraredDistance_array_5();
 
-                   Serial.print("rear_distancet >> ");
-                      Serial.println(rear_distance);
-                      delay(200);
                   if(rear_distance < (TRACK_DISTANCE_SENSORS/10 + 5) && rear_distance >= 10){
                     delay(5);
                         if(rear_distance <= 55){
@@ -620,18 +617,18 @@ void atack_round_2() {
                     }
                   result = getFrontInfraredDistance_array_5();
                  
-                  if(result < TRACK_DISTANCE_SENSORS/10){
+                 /* if(result < TRACK_DISTANCE_SENSORS/10){
                     // Serial.println("check 1111");
-                    //delay(8);
+                    delay(8);
                     //result = getFrontInfraredDistance_array_5();
                     //Serial.print("check 2 >>");
                     //Serial.println(result);
-                    //if(result >= TRACK_DISTANCE_SENSORS/10){
+                    if(result >= TRACK_DISTANCE_SENSORS/10){
 
-                    //    stage = 2;
-                    //    continue;
-                    //}
-                  }
+                        stage = 2;
+                        continue;
+                    }
+                  }*/
                   if(result < TRACK_DISTANCE_SENSORS/10){
                      Serial.println("target find");
                       stopMotors();
