@@ -179,6 +179,8 @@ float calculateGain(float voltage) {
 // Функції для інфрачервоних датчиків
 float getFrontInfraredDistance() {
   int sensorValue = analogRead(pinInfraredFront);
+  if(sensorValue <= 2){return 9999;}
+  if(sensorValue > 200){return 9999;}
   return convertToDistance(sensorValue);
 }
 
