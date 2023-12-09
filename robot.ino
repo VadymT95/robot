@@ -26,8 +26,8 @@ void setup() {
     init_color_sensors();
     setupSensorsPins();
     setupMotorsPins();
-    servoRight.attach(2); // Right servo connected to D3
-    servoLeft.attach(3);  // Left servo connected to D4
+    //servoRight.attach(2); // Right servo connected to D3
+    //servoLeft.attach(3);  // Left servo connected to D4
 
     //ENABLE DISABLE
     setTusksPosition(DISABLE);
