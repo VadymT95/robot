@@ -609,21 +609,19 @@ void atack_round_2() {
                   //continue;
                   int rear_distance = getRearInfraredDistance_array_5();
 
-                  if(rear_distance < (TRACK_DISTANCE_SENSORS/10 + 5) && rear_distance >= 10){
-                    delay(5);
+                  if(rear_distance < (TRACK_DISTANCE_SENSORS/10 + 5) && rear_distance >= 10 && rear_distance_flag == 0)
                         if(rear_distance <= 55){
                             start_ONE_TurnLeft(turn_speed+20, 1.40);
-                            Serial.print("rear_distance 111111 find >> ");
                         }else{
-                            start_ONE_TurnLeft(turn_speed+65, 1.40);
-                            Serial.print("rear_distance 222222222 find >> ");
+                            start_ONE_TurnLeft(turn_speed+85, 1.40);
                         }
+                        rear_distance_flag = 1;
                     }
                   result = getFrontInfraredDistance_array_5();
                  
                   if(result < TRACK_DISTANCE_SENSORS/10){
                     delay(4);
-                    
+                    rear_distance_flag = 0;
                       if(getFrontInfraredDistance_array_5() < TRACK_DISTANCE_SENSORS/10){
                           stage = 2;
                           stopMotors();

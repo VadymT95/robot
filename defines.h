@@ -82,7 +82,7 @@ volatile byte interrupts_count = 0;
 
 long round_length_time = 0;
 boolean round_start_flag = 0;
-
+boolean rear_distance_flag = 0;;
 
 byte curr_mode = 1;
 byte curr_round = 1;
