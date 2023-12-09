@@ -6,6 +6,7 @@
 //#define ENABLE_TRACK_ULTRASONIC_PRINTS
 #define ENABLE_INIT_PRINTS
 #define ROUTE_PRINTS
+//#define COLOR_RESISTORS_ENABLED
 
 #define COLOR_SENSOR_TYPE 1 // 0 - I2C color sensors; 1 - photoResistors and leds
 
