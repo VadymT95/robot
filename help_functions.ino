@@ -605,9 +605,14 @@ void atack_round_2() {
                  // Serial.print("getFrontInfraredDistance() == ");
                  // Serial.println(getFrontInfraredDistance());
                   //continue;
-                  if(getRearInfraredDistance_array_5() < (TRACK_DISTANCE_SENSORS/10 + 5)){
+                  int rear_distance = getRearInfraredDistance_array_5();
+                  if(rear_distance < (TRACK_DISTANCE_SENSORS/10 + 5)){
                     delay(5);
-                    start_ONE_TurnLeft(turn_speed+20, 1.40);
+                        if(rear_distance <= 55){
+                            start_ONE_TurnLeft(turn_speed+20, 1.40);
+                        }else{
+                            start_ONE_TurnLeft(turn_speed+45, 1.40);
+                        }
                     }
                   result = getFrontInfraredDistance_array_5();
                   if(result < TRACK_DISTANCE_SENSORS/10){
