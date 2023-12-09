@@ -606,6 +606,10 @@ void atack_round_2() {
                  // Serial.println(getFrontInfraredDistance());
                   //continue;
                   int rear_distance = getRearInfraredDistance_array_5();
+
+                   Serial.print("rear_distancet >> ");
+                      Serial.println(rear_distance);
+                      delay(200);
                   if(rear_distance < (TRACK_DISTANCE_SENSORS/10 + 5)){
                     delay(5);
                         if(rear_distance <= 55){
@@ -615,8 +619,7 @@ void atack_round_2() {
                         }
                     }
                   result = getFrontInfraredDistance_array_5();
-                  Serial.print("result >> ");
-                      Serial.println(result);
+                 
                   if(result < TRACK_DISTANCE_SENSORS/10){
                     // Serial.println("check 1111");
                     //delay(8);
