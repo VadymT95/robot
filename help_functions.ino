@@ -633,7 +633,7 @@ void atack_round_2() {
                           }
                            Serial.print(result);*/
                           startSlowTurnRight(main_move_speed, 1.20);
-                          for(int i = 0; i < 10; i++){  
+                          for(int i = 0; i < 45; i++){  
                             Track();
                           }
                           stopMotors();
