@@ -618,8 +618,8 @@ void atack_round_2() {
                   result = getFrontInfraredDistance_array_5();
                  
                   if(result < TRACK_DISTANCE_SENSORS/10){
-                    delay(4);
-                  
+                    delay(10);
+                      result = getFrontInfraredDistance_array_5();
                       if(result < TRACK_DISTANCE_SENSORS/10){
                           stage = 2;
                           stopMotors();
