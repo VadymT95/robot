@@ -619,8 +619,12 @@ void atack_round_2() {
                  
                   if(result < TRACK_DISTANCE_SENSORS/10){
                     delay(10);
-                      result = getFrontInfraredDistance_array_5();
-                      if(result < TRACK_DISTANCE_SENSORS/10){
+                    float temp = 0;
+                    for(int i = 0; i <= 10; i++){
+                        temp += getFrontInfraredDistance_array_5();
+                        delay(2);
+                    }
+                      if(temp/10 < TRACK_DISTANCE_SENSORS/10){
                           stage = 2;
                           stopMotors();
                           Serial.print("target find >> ");
