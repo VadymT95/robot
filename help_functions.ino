@@ -639,7 +639,7 @@ void atack_round_2() {
                       //if(result <= 30)delay(50);
                       //stopMotors();
                       startMoveForward(turn_speed+20);
-                      for(int i = 0; i < 25; i++){  
+                      for(int i = 0; i < 60; i++){  
                         Track();
                       }
                       stopMotors();
