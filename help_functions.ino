@@ -612,17 +612,16 @@ void atack_round_2() {
                         if(rear_distance <= 55){
                             start_ONE_TurnLeft(turn_speed+20, 1.40);
                         }else{
-                            start_ONE_TurnLeft(turn_speed+45, 1.40);
+                            start_ONE_TurnLeft(turn_speed+65, 1.40);
                         }
                     }
                   result = getFrontInfraredDistance_array_5();
                  
                   if(result < TRACK_DISTANCE_SENSORS/10){
-                    delay(10);
+                    delay(4);
                     float temp = 0;
-                    for(int i = 0; i <= 10; i++){
+                    for(int i = 0; i <= 2; i++){
                         temp += getFrontInfraredDistance_array_5();
-                        delay(2);
                     }
                       if(temp/10 < TRACK_DISTANCE_SENSORS/10){
                           stage = 2;
@@ -639,7 +638,7 @@ void atack_round_2() {
                           //if(result <= 30)delay(50);
                           //stopMotors();
                           startMoveForward(turn_speed+20);
-                          for(int i = 0; i < 60; i++){  
+                          for(int i = 0; i < 5; i++){  
                             Track();
                           }
                           stopMotors();
