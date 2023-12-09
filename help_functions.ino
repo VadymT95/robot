@@ -625,14 +625,15 @@ void atack_round_2() {
                       if(getFrontInfraredDistance_array_5() < TRACK_DISTANCE_SENSORS/10){
                           stage = 2;
                           stopMotors();
-                          Serial.print("target find >> ");
+                          delay(20);
+                          /*Serial.print("target find >> ");
                           while(true){
                               printSensorsData();
                               delay(200);
                           }
-                           Serial.print(result);
+                           Serial.print(result);*/
                           startMoveForward(turn_speed+20);
-                          for(int i = 0; i < 5; i++){  
+                          for(int i = 0; i < 10; i++){  
                             Track();
                           }
                           stopMotors();
