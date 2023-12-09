@@ -613,8 +613,10 @@ void atack_round_2() {
                     delay(5);
                         if(rear_distance <= 55){
                             start_ONE_TurnLeft(turn_speed+20, 1.40);
+                            Serial.print("rear_distance 111111 find >> ");
                         }else{
                             start_ONE_TurnLeft(turn_speed+65, 1.40);
+                            Serial.print("rear_distance 222222222 find >> ");
                         }
                     }
                   result = getFrontInfraredDistance_array_5();
