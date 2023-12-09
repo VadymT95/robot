@@ -618,16 +618,16 @@ void atack_round_2() {
                   Serial.print("result >> ");
                       Serial.println(result);
                   if(result < TRACK_DISTANCE_SENSORS/10){
-                     Serial.println("check 1111");
-                    delay(8);
-                    result = getFrontInfraredDistance_array_5();
-                    Serial.print("check 2 >>");
-                    Serial.println(result);
-                    if(result >= TRACK_DISTANCE_SENSORS/10){
+                    // Serial.println("check 1111");
+                    //delay(8);
+                    //result = getFrontInfraredDistance_array_5();
+                    //Serial.print("check 2 >>");
+                    //Serial.println(result);
+                    //if(result >= TRACK_DISTANCE_SENSORS/10){
 
-                        stage = 2;
-                        continue;
-                    }
+                    //    stage = 2;
+                    //    continue;
+                    //}
                   }
                   if(result < TRACK_DISTANCE_SENSORS/10){
                      Serial.println("target find");
