@@ -116,8 +116,8 @@ ISR(TIMER2_A) {
       lastColorValue1 = analogRead(LIGHT_RESISTOR_1);
       lastColorValue2 = analogRead(LIGHT_RESISTOR_2);
       #ifdef COLOR_RESISTORS_ENABLED
-          lastColorValue1 = lastColorValue1;
-          lastColorValue2 = lastColorValue2;
+          lastColorValue1 = defaultColorValue1;
+          lastColorValue2 = defaultColorValue2;
       #endif
 
 
