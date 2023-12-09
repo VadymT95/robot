@@ -594,7 +594,7 @@ void atack_round_2() {
           tusk_ararm_flag = 2;
           setTusksPosition(DISABLE);
           }
-        if(photoresistor_ararm_flag ==1)continue;
+        if(photoresistor_ararm_flag == 1)continue;
         
         if(stage == 1){
             #ifdef ROUTE_PRINTS
@@ -617,34 +617,26 @@ void atack_round_2() {
                     }
                   result = getFrontInfraredDistance_array_5();
                  
-                 /* if(result < TRACK_DISTANCE_SENSORS/10){
-                    // Serial.println("check 1111");
-                    delay(8);
-                    //result = getFrontInfraredDistance_array_5();
-                    //Serial.print("check 2 >>");
-                    //Serial.println(result);
-                    if(result >= TRACK_DISTANCE_SENSORS/10){
-
-                        stage = 2;
-                        continue;
-                    }
-                  }*/
                   if(result < TRACK_DISTANCE_SENSORS/10){
-                     Serial.println("target find");
-                      stopMotors();
-                      stage = 2;
-                      //startSlowTurnRight(25, 1.60);
-                      //if(result > 60)delay(280);
-                      //if(result <= 60 && result > 30)delay(180);
-                      //if(result <= 30)delay(50);
-                      //stopMotors();
-                      startMoveForward(turn_speed+20);
-                      for(int i = 0; i < 60; i++){  
-                        Track();
+                    delay(4);
+                  
+                      if(result < TRACK_DISTANCE_SENSORS/10){
+                          stage = 2;
+                          stopMotors();
+                          Serial.println("target find");
+                          //startSlowTurnRight(25, 1.60);
+                          //if(result > 60)delay(280);
+                          //if(result <= 60 && result > 30)delay(180);
+                          //if(result <= 30)delay(50);
+                          //stopMotors();
+                          startMoveForward(turn_speed+20);
+                          for(int i = 0; i < 60; i++){  
+                            Track();
+                          }
+                          stopMotors();
+                         // stage = 3;
+                          break;
                       }
-                      stopMotors();
-                     // stage = 3;
-                      break;
                   }
             }
         }
