@@ -627,11 +627,11 @@ void atack_round_2() {
                       if(temp/10 < TRACK_DISTANCE_SENSORS/10){
                           stage = 2;
                           stopMotors();
-                          Serial.print("target find >> ");
+                         /* Serial.print("target find >> ");
                           while(true){
                               printSensorsData();
                               delay(50);
-                          }
+                          }*/
                            Serial.print(result);
                           //startSlowTurnRight(25, 1.60);
                           //if(result > 60)delay(280);
