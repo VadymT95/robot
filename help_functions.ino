@@ -613,7 +613,7 @@ void atack_round_2() {
                         if(rear_distance <= 55){
                             start_ONE_TurnLeft(turn_speed+20, 1.40);
                         }else{
-                            start_ONE_TurnLeft(turn_speed+85, 1.40);
+                            start_ONE_TurnLeft(turn_speed+45, 1.40);
                         }
                         rear_distance_flag = 1;
                     }
@@ -632,7 +632,7 @@ void atack_round_2() {
                               delay(200);
                           }
                            Serial.print(result);*/
-                          startMoveForward(turn_speed+20);
+                          startSlowTurnRight(main_move_speed, 1.20);
                           for(int i = 0; i < 10; i++){  
                             Track();
                           }
