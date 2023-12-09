@@ -5,7 +5,7 @@
 //#define ENABLE_COLOR_SENSOR_PRINTS
 //#define ENABLE_TRACK_ULTRASONIC_PRINTS
 #define ENABLE_INIT_PRINTS
-//#define ROUTE_PRINTS
+#define ROUTE_PRINTS
 
 #define COLOR_SENSOR_TYPE 1 // 0 - I2C color sensors; 1 - photoResistors and leds
 
@@ -15,7 +15,7 @@
 #define SET_NUM_OF_ROUND_BUTTON A9 
 #define MODE_TOGGLE_SWITCH A10 
 #define TOTAL_ROUND_LENGTH 30000
-#define TRACK_DISTANCE_SENSORS 650
+#define TRACK_DISTANCE_SENSORS 900
 
 
 #define LED_ROUND_START A14 // 11
