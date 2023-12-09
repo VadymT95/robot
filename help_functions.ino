@@ -484,15 +484,15 @@ else{
 ///
 byte get_enemy_position_horizontaly(){
   float dist = getFrontInfraredDistance_array_5();
-  Serial.print("d1");
-  Serial.print(d1_filtred);
-  Serial.print("d2");
-  Serial.println(d2_filtred);
-    if(dist < TRACK_DISTANCE_SENSORS/10 && d1_filtred < d2_filtred && d2_filtred  - d1_filtred >= 40) {
-        return LEFT_SMALL;
-    }
-    if(dist < TRACK_DISTANCE_SENSORS/10 && d2_filtred < d1_filtred && d1_filtred  - d2_filtred >= 40) {
+  //Serial.print("d1");
+  //Serial.print(d1_filtred);
+ // Serial.print("d2");
+  //Serial.println(d2_filtred);
+    if(dist < TRACK_DISTANCE_SENSORS/10 && d1_filtred < d2_filtred && d2_filtred  - d1_filtred >= 20) {
         return RIGHT_SMALL;
+    }
+    if(dist < TRACK_DISTANCE_SENSORS/10 && d2_filtred < d1_filtred && d1_filtred  - d2_filtred >= 20) {
+        return LEFT_SMALL;
     }
     if(dist < TRACK_DISTANCE_SENSORS/10 && bad_track_right == 0 && bad_track_left == 0) {
         return FRONT;

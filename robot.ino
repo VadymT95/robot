@@ -44,11 +44,11 @@ void loop() {
 //  printSensorsData();
 //  delay(50);
 //}
-        
+ /*       
 while (true){ 
   Track();
   get_enemy_position_horizontaly();
-}
+}*/
   
     if(round_start_flag == 1){
   
