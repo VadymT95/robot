@@ -617,6 +617,10 @@ void atack_round_2() {
                         }
                         rear_distance_flag = 1;
                     }
+
+
+
+                    
                   result = getFrontInfraredDistance_array_5();
                  
                   if(result < TRACK_DISTANCE_SENSORS/10){
@@ -625,7 +629,7 @@ void atack_round_2() {
                       if(getFrontInfraredDistance_array_5() < TRACK_DISTANCE_SENSORS/10){
                           stage = 2;
                           stopMotors();
-                          delay(20);
+                          delay(1000);
                           /*Serial.print("target find >> ");
                           while(true){
                               printSensorsData();
@@ -633,6 +637,9 @@ void atack_round_2() {
                           }
                            Serial.print(result);*/
                           startSlowTurnRight(main_move_speed, 1.20);
+                          delay(1000);
+
+
                           for(int i = 0; i < 45; i++){  
                             Track();
                           }
