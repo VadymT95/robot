@@ -610,7 +610,7 @@ void atack_round_2() {
                    Serial.print("rear_distancet >> ");
                       Serial.println(rear_distance);
                       delay(200);
-                  if(rear_distance < (TRACK_DISTANCE_SENSORS/10 + 5)){
+                  if(rear_distance < (TRACK_DISTANCE_SENSORS/10 + 5) && rear_distance >= 10){
                     delay(5);
                         if(rear_distance <= 55){
                             start_ONE_TurnLeft(turn_speed+20, 1.40);
