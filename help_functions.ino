@@ -609,7 +609,7 @@ void atack_round_2() {
                   //continue;
                   int rear_distance = getRearInfraredDistance_array_5();
 
-                  if(rear_distance < (TRACK_DISTANCE_SENSORS/10 + 5) && rear_distance >= 10 && rear_distance_flag == 0)
+                  if(rear_distance < (TRACK_DISTANCE_SENSORS/10 + 5) && rear_distance >= 10 && rear_distance_flag == 0){
                         if(rear_distance <= 55){
                             start_ONE_TurnLeft(turn_speed+20, 1.40);
                         }else{
