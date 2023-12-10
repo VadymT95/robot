@@ -73,8 +73,8 @@ void manageBlinking() {
           if(millis() - previousMillis >= blinkDuration){
               previousMillis = millis();
               counter++;
-              if(ledState == 0){ digitalWrite(LED_ROUND_2, HIGH); ledState = 1;}
-              if(ledState == 1){ digitalWrite(LED_ROUND_2, LOW); ledState = 0;}
+              if(ledState == 0){ digitalWrite(LED_ROUND_2, HIGH); ledState = 1;
+              } else { digitalWrite(LED_ROUND_2, LOW); ledState = 0;}
           }
       }
       if(counter == curr_round * 2){

@@ -91,7 +91,7 @@ const long blinkDuration = 200;
 const long pauseDuration = 200;   
 const long endPause = 1000;       
 int counter = 0;
-boolean blink_start_flag = 0;
+boolean blink_start_flag = 1;
 boolean ledState = 0;
 
 
