@@ -758,6 +758,61 @@ void atack_mode() {
   stopMotors();
 }
 void defence_mode(){
-    Serial.println("defence_mode");
+  boolean turn_start_flag_1 = 1;
+  #ifdef ROUTE_PRINTS
+        Serial.println("defence_mode");
+  #endif
+    digitalWrite(LED_ROUND_START, HIGH);
+    
+    setTusksPosition(ENABLE); 
+    initialDelay();
+    
+    #ifdef ROUTE_PRINTS
+        Serial.println("go");
+    #endif
+
+    while(millis() - round_length_time <= TOTAL_ROUND_LENGTH){
+        if(curr_round == 1){
+             startMoveForward(main_move_speed);
+             #ifdef ROUTE_PRINTS
+                  Serial.println("forward ");
+             #endif
+        } 
+        if(curr_round == 2){
+
+             if(turn_start_flag_1 == 1){
+                 startQuickTurnLeft(turn_speed);
+                 turn_start_flag_1 = 0;
+                 delay(350);
+                 stopMotors();
+             }
+             startMoveForward(main_move_speed);
+             #ifdef ROUTE_PRINTS
+                  Serial.println("forward ");
+             #endif
+        } 
+        if(curr_round == 3){
+             if(turn_start_flag_1 == 1){
+                 startQuickTurnLeft(turn_speed);
+                 turn_start_flag_1 = 0;
+                 delay(650);
+                 stopMotors();
+             }     
+             startMoveForward(main_move_speed);
+             #ifdef ROUTE_PRINTS
+                  Serial.println("forward ");
+             #endif
+        }       
+    }
+
+
+    #ifdef ROUTE_PRINTS
+      Serial.println("end");
+    #endif
+
+    round_start_flag = 0;
+    setTusksPosition(DISABLE);
+    stopMotors();
+  
 
 }
