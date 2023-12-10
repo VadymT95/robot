@@ -631,8 +631,8 @@ void atack_round_2() {
                       //if(result <= 30)delay(50);
                       //stopMotors();
                       //startMoveForward(turn_speed+20);
-                      startSlowTurnRight(main_move_speed, 1.60);
-                      for(int i = 0; i < 8; i++){  
+                      startSlowTurnRight(main_move_speed, 1.70);
+                      for(int i = 0; i < 25; i++){  
                         Track();
                       }
                       stopMotors();
