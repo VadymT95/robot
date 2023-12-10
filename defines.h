@@ -86,12 +86,13 @@ boolean round_start_flag = 0;
 byte curr_mode = 1;
 byte curr_round = 1;
 
-unsigned long previousMillis = 0;
-const long interval = 200;       
-const long pause_blink = 1000;          
-int roundNumber = 0;              
-int blinkCount = 0;               
-
+unsigned long previousMillis = 0; // Час останнього оновлення
+const long blinkDuration = 200;   // Тривалість блимання
+const long pauseDuration = 200;   // Тривалість паузи між блиманнями
+const long endPause = 1000;       // Тривалість паузи після серії блимань
+int blinkState = 0;               // Стан блимання (0 - вимкнуто, 1 - увімкнуто)
+int roundNumber = 0;              // Номер раунду
+int blinksDone = 0;               // Кількість зроблених блимань
 
 
 enum TuskPosition {

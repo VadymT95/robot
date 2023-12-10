@@ -33,6 +33,10 @@ void roundButton() {
     lastDebounceTimeRound = currentMillis;
     lastButtonStateRound = 1;
 
+  blinksDone = 0;
+  blinkState = 0;
+  previousMillis = millis();
+  
       curr_round++;
       if (curr_round == 4) {
         curr_round = 1;
@@ -58,7 +62,7 @@ void roundButton() {
   }
 }
 
-void blinkLed() {
+void manageBlinking() {
   unsigned long currentMillis = millis();
 
   if (curr_round == 0) {
@@ -66,19 +70,22 @@ void blinkLed() {
     return;
   }
 
-  if (blinkCount < curr_round * 2) {
-    if (currentMillis - previousMillis >= interval) {
-      previousMillis = currentMillis;
-      if (digitalRead(LED_ROUND_2) == LOW) {
-        digitalWrite(LED_ROUND_2, HIGH);
-        blinkCount++;
-      } else {
-        digitalWrite(LED_ROUND_2, LOW);
-      }
-    }
-  } else {
-    if (currentMillis - previousMillis >= pause_blink) {
-      blinkCount = 0; // Скидаємо лічильник блимань для наступної серії
+  if (blinkState == 0 && (currentMillis - previousMillis >= endPause)) {
+    // Початок нового циклу блимання
+    blinksDone = 0;
+    blinkState = 1;
+    previousMillis = currentMillis;
+    digitalWrite(LED_ROUND_2, HIGH);
+  } else if (blinkState == 1 && (currentMillis - previousMillis >= blinkDuration)) {
+    // Кінець блимання, початок паузи
+    blinkState = 0;
+    previousMillis = currentMillis;
+    digitalWrite(LED_ROUND_2, LOW);
+    blinksDone++;
+
+    if (blinksDone == curr_round * 2 - 1) {
+      // Завершення всіх блимань в цьому раунді
+      previousMillis = currentMillis - blinkDuration + endPause;
     }
   }
 }
