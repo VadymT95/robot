@@ -62,18 +62,18 @@ void blinkLed() {
   unsigned long currentMillis = millis();
 
   if (curr_round == 0) {
-    digitalWrite(LED_PIN, LOW);
+    digitalWrite(LED_ROUND_2, LOW);
     return;
   }
 
   if (blinkCount < curr_round * 2) {
     if (currentMillis - previousMillis >= interval) {
       previousMillis = currentMillis;
-      if (digitalRead(LED_PIN) == LOW) {
-        digitalWrite(LED_PIN, HIGH);
+      if (digitalRead(LED_ROUND_2) == LOW) {
+        digitalWrite(LED_ROUND_2, HIGH);
         blinkCount++;
       } else {
-        digitalWrite(LED_PIN, LOW);
+        digitalWrite(LED_ROUND_2, LOW);
       }
     }
   } else {
@@ -740,8 +740,8 @@ void atack_round_3() {
 
 
 void atack_mode() {
-      atack_round_2();
-  }
+  atack_round_2();
+
   round_start_flag = 0;
   setTusksPosition(DISABLE);
   stopMotors();
