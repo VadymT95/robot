@@ -117,7 +117,7 @@ ISR(TIMER2_A) {
       
       if(interrupts_count == COLOR_SENSOR_DELAY_CHECK){
           interrupts_count = 0;
-
+          blinkLed();
       lastColorValue1 = analogRead(LIGHT_RESISTOR_1);
       lastColorValue2 = analogRead(LIGHT_RESISTOR_2);
 

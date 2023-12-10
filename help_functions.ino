@@ -37,7 +37,7 @@ void roundButton() {
       if (curr_round == 4) {
         curr_round = 1;
       }
-       switch(curr_round){
+      /* switch(curr_round){
         case 1:
             digitalWrite(LED_ROUND_1, HIGH);
             digitalWrite(LED_ROUND_3, LOW);
@@ -50,7 +50,7 @@ void roundButton() {
             digitalWrite(LED_ROUND_2, LOW);
             digitalWrite(LED_ROUND_3, HIGH);
         break;        
-    }
+    }*/
     
   }
     if (buttonState == 0 && lastButtonStateRound == 1) {
@@ -58,6 +58,30 @@ void roundButton() {
   }
 }
 
+void blinkLed() {
+  unsigned long currentMillis = millis();
+
+  if (curr_round == 0) {
+    digitalWrite(LED_PIN, LOW);
+    return;
+  }
+
+  if (blinkCount < curr_round * 2) {
+    if (currentMillis - previousMillis >= interval) {
+      previousMillis = currentMillis;
+      if (digitalRead(LED_PIN) == LOW) {
+        digitalWrite(LED_PIN, HIGH);
+        blinkCount++;
+      } else {
+        digitalWrite(LED_PIN, LOW);
+      }
+    }
+  } else {
+    if (currentMillis - previousMillis >= pause_blink) {
+      blinkCount = 0; // Скидаємо лічильник блимань для наступної серії
+    }
+  }
+}
 
 
 void startRoundButton() {
@@ -548,7 +572,7 @@ void atack_round_2() {
   #ifdef ROUTE_PRINTS
       Serial.println("atack_round_2");
   #endif
-  
+    digitalWrite(LED_ROUND_START, HIGH);
     setTusksPosition(ENABLE); 
 
 
@@ -716,20 +740,7 @@ void atack_round_3() {
 
 
 void atack_mode() {
-
-  switch (curr_round) {
-    case 1:
-      atack_round_1();
-      break;
-    case 2:
       atack_round_2();
-      break;
-    case 3:
-      atack_round_3();
-      break;
-    default:
-      Serial.println("Invalid round number");
-      break;
   }
   round_start_flag = 0;
   setTusksPosition(DISABLE);

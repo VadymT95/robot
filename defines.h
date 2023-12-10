@@ -86,6 +86,14 @@ boolean round_start_flag = 0;
 byte curr_mode = 1;
 byte curr_round = 1;
 
+unsigned long previousMillis = 0;
+const long interval = 200;       
+const long pause_blink = 1000;          
+int roundNumber = 0;              
+int blinkCount = 0;               
+
+
+
 enum TuskPosition {
   DISABLE,
   ENABLE
