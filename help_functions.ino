@@ -33,7 +33,10 @@ void roundButton() {
     lastDebounceTimeRound = currentMillis;
     lastButtonStateRound = 1;
 
-  previousMillis = millis();
+    counter = 0;
+    blink_start_flag = 1;
+    ledState = 0;
+    previousMillis = millis();
   
       curr_round++;
       if (curr_round == 4) {
