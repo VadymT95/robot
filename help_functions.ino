@@ -33,8 +33,6 @@ void roundButton() {
     lastDebounceTimeRound = currentMillis;
     lastButtonStateRound = 1;
 
-  blinksDone = 0;
-  blinkState = 0;
   previousMillis = millis();
   
       curr_round++;
@@ -70,24 +68,27 @@ void manageBlinking() {
     return;
   }
 
-  if (blinkState == 0 && (currentMillis - previousMillis >= endPause)) {
-    // Початок нового циклу блимання
-    blinksDone = 0;
-    blinkState = 1;
-    previousMillis = currentMillis;
-    digitalWrite(LED_ROUND_2, HIGH);
-  } else if (blinkState == 1 && (currentMillis - previousMillis >= blinkDuration)) {
-    // Кінець блимання, початок паузи
-    blinkState = 0;
-    previousMillis = currentMillis;
-    digitalWrite(LED_ROUND_2, LOW);
-    blinksDone++;
-
-    if (blinksDone == curr_round * 2 - 1) {
-      // Завершення всіх блимань в цьому раунді
-      previousMillis = currentMillis - blinkDuration + endPause;
-    }
+  if(blink_start_flag == 1){
+      if(counter < curr_round * 2){
+          if(millis() - previousMillis >= blinkDuration){
+              previousMillis = millis();
+              counter++;
+              if(ledState == 0){ digitalWrite(LED_ROUND_2, HIGH); ledState = 1;}
+              if(ledState == 1){ digitalWrite(LED_ROUND_2, LOW); ledState = 0;}
+          }
+      }
+      if(counter == curr_round * 2){
+          counter = 0;
+          blink_start_flag = 0;
+      }
+  }else{
+      if(millis() - previousMillis >= endPause){
+          blink_start_flag = 1;
+          previousMillis = millis();
+      }
   }
+
+
 }
 
 
