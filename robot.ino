@@ -93,7 +93,7 @@ ISR(TIMER2_A) {
 
       }
 //right_motor_additional_boost
-      if(millis() - lastTimeMotorSet_Right >= ((low_time_right/RIGHT_MOTOR_BOOST_COEF)/(boost_coef*right_motor_additional_boost)) && rightMotorStatus == 1){
+      if(millis() - lastTimeMotorSet_Right >= ((low_time_right/RIGHT_MOTOR_BOOST_COEF)/(boost_coef*right_motor_additional_boost*1.25)) && rightMotorStatus == 1){
           lastTimeMotorSet_Right = millis();
           counter2 = high_time_right;
           analogWrite(PWM_Right, pwmValueHigh);
