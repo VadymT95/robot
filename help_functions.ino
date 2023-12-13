@@ -641,7 +641,7 @@ void atack_round_2() {
   if(getFrontInfraredDistance_array_5() <= TRACK_DISTANCE_SENSORS/10){ 
     stage = 2;
   }else{
-  startQuickTurnLeft(turn_speed);
+  startQuickTurnLeft(35);
   }
 
     while(millis() - round_length_time <= TOTAL_ROUND_LENGTH){
