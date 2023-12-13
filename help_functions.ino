@@ -203,8 +203,11 @@ void init_color_sensors(){
   #endif
 }
 void set_right_motor_additional_boost_CHECK(){
-  if((d1_filtred <= 120 || d2_filtred <= 120) && right_motor_add_boost_permit == 1 && boost_permit == 1)
-  right_motor_additional_boost = RIGHT_MOTOR_ADD_BOOST_MAX_VALUE;
+  if((d1_filtred <= 120 || d2_filtred <= 120) && right_motor_add_boost_permit == 1 && boost_permit == 1){
+      right_motor_additional_boost = RIGHT_MOTOR_ADD_BOOST_MAX_VALUE;
+  }else{
+      right_motor_additional_boost = 1.0;
+  }
 }
 float calculateGain(float voltage) {
     // Обмежуємо напругу між мінімальною та максимальною границями
@@ -641,7 +644,7 @@ void atack_round_2() {
   if(getFrontInfraredDistance_array_5() <= TRACK_DISTANCE_SENSORS/10){ 
     stage = 2;
   }else{
-  startQuickTurnLeft(turn_speed);
+    startQuickTurnLeft(turn_speed);
   }
 
     while(millis() - round_length_time <= TOTAL_ROUND_LENGTH){

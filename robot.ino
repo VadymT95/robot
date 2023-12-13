@@ -93,7 +93,7 @@ ISR(TIMER2_A) {
 
       }
 //right_motor_additional_boost
-      if(millis() - lastTimeMotorSet_Right >= ((low_time_right/RIGHT_MOTOR_BOOST_COEF)/(boost_coef*1.0)) && rightMotorStatus == 1){
+      if(millis() - lastTimeMotorSet_Right >= ((low_time_right/RIGHT_MOTOR_BOOST_COEF)/(boost_coef*right_motor_additional_boost)) && rightMotorStatus == 1){
           lastTimeMotorSet_Right = millis();
           counter2 = high_time_right;
           analogWrite(PWM_Right, pwmValueHigh);
@@ -141,7 +141,7 @@ ISR(TIMER2_A) {
           if(lastColorValue1 < defaultColorValue1 - 150){
           if(photoresistor_ararm_flag == 0){
               stopMotors();
-              round_length_time = 0;
+              //round_length_time = 0;
               counter_backward = 1000;
               photoresistor_ararm_flag = 1;
             }
