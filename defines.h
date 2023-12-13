@@ -37,13 +37,20 @@
 #define RIGHT_MOTOR_BOOST_COEF 1.45
 
 #define GAIN_MAX 1.0f    // при 19.59!!!! треба прописать авто калібровку
-#define GAIN_MIN 4.0f
+#define MAIN_GAIN_MIN 4.0f
+#define START_GAIN_MIN 2.4f
+
+float GAIN_MIN = 2.4f;
 float V_MAX = 17.4f;      // при 19.59!!!! треба прописать авто калібровку
 float V_MIN = 15.5f;      // при 19.59!!!! треба прописать авто калібровку
 
 #define RIGHT_MOTOR_ADD_BOOST_MAX_VALUE 1.55f
 #define RIGHT_MOTOR_ADD_BOOST_SENSOR_VALUE 120 // in mm
 #define TIME_RIGHT_BOOST_BLOCK 15000
+#define TIME_MAIN_BOOST_BLOCK 9000
+
+        
+unsigned int start_round_time_for_main_boost = 0;
 unsigned int start_round_time_for_boost = 0;
 float right_motor_additional_boost = 1.0f; 
 boolean right_motor_add_boost_permit = 0;

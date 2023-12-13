@@ -59,6 +59,7 @@ while (true){
             atack_mode();
         }
     }else{
+      GAIN_MIN = START_GAIN_MIN;
       right_motor_add_boost_permit = 0;
       digitalWrite(LED_ROUND_START, LOW);
     }
@@ -130,7 +131,13 @@ ISR(TIMER2_A) {
           }else{
               right_motor_add_boost_permit = 0;
           }
-        
+          
+          if(millis() - start_round_time_for_main_boost >= TIME_MAIN_BOOST_BLOCK){
+              GAIN_MIN = MAIN_GAIN_MIN;  
+          }else{
+              GAIN_MIN = START_GAIN_MIN;
+          }
+               
           if(lastColorValue1 < defaultColorValue1 - 150){
           if(photoresistor_ararm_flag == 0){
               stopMotors();
