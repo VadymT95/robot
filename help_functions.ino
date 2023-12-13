@@ -106,11 +106,14 @@ void startRoundButton() {
 
     if (buttonState == HIGH) {
       round_length_time = currentMillis;
+      start_round_time_for_boost = millis();
+
       round_start_flag = 1;
       digitalWrite(LED_ROUND_START, HIGH);
       defaultColorValue1 = lastColorValue1;
       defaultColorValue2 = lastColorValue2;
       tusk_ararm_flag = 0;
+      
       float voltage = analogRead(voltagePin) * (5.0 / 1023.0) * 5; 
       if(voltage >= 21){
           turn_speed = 30;  
@@ -198,10 +201,14 @@ void init_color_sensors(){
     }
   #endif
 }
+void set_right_motor_additional_boost_CHECK(){
+  if((d1_filtred <= 120 || d2_filtred <= 120) && right_motor_add_boost_permit == 1;)
+  right_motor_additional_boost = RIGHT_MOTOR_ADD_BOOST_MAX_VALUE;
+}
 float calculateGain(float voltage) {
     // Обмежуємо напругу між мінімальною та максимальною границями
     if(voltage >= V_MAX){
-      right_motor_additional_boost = RIGHT_MOTOR_ADD_BOOST_MAX_VALUE;
+         set_right_motor_additional_boost_CHECK();
       return GAIN_MAX;
     }
     if(voltage <= V_MIN){
@@ -214,8 +221,10 @@ float calculateGain(float voltage) {
     // Обчислюємо коефіцієнт усилення за лінійною залежністю
     float gain = GAIN_MAX + (GAIN_MIN - GAIN_MAX) * (voltage - V_MAX) / (V_MIN - V_MAX);
     if(gain >= GAIN_MAX+1.2){
-      right_motor_additional_boost = RIGHT_MOTOR_ADD_BOOST_MAX_VALUE;
-    }else{right_motor_additional_boost = 1.0;}
+        set_right_motor_additional_boost_CHECK();
+     }else{
+        right_motor_additional_boost = 1.0;
+    }
     return constrain(gain, GAIN_MAX, GAIN_MIN);
 }
 

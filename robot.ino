@@ -59,6 +59,7 @@ while (true){
             atack_mode();
         }
     }else{
+      right_motor_add_boost_permit = 0;
       digitalWrite(LED_ROUND_START, LOW);
     }
 
@@ -118,11 +119,18 @@ ISR(TIMER2_A) {
       if(interrupts_count == COLOR_SENSOR_DELAY_CHECK){
           interrupts_count = 0;
           manageBlinking();
-      lastColorValue1 = analogRead(LIGHT_RESISTOR_1);
-      lastColorValue2 = analogRead(LIGHT_RESISTOR_2);
+          
+          lastColorValue1 = analogRead(LIGHT_RESISTOR_1);
+          lastColorValue2 = analogRead(LIGHT_RESISTOR_2);
 
 
       if(round_start_flag == 1){
+          if(millis() - start_round_time_for_boost >= TIME_RIGHT_BOOST_BLOCK){
+              right_motor_add_boost_permit = 1;  
+          }else{
+              right_motor_add_boost_permit = 0;
+          }
+        
           if(lastColorValue1 < defaultColorValue1 - 150){
           if(photoresistor_ararm_flag == 0){
               stopMotors();
