@@ -203,7 +203,7 @@ void init_color_sensors(){
   #endif
 }
 void set_right_motor_additional_boost_CHECK(){
-  if((d1_filtred <= 120 || d2_filtred <= 120) && right_motor_add_boost_permit == 1)
+  if((d1_filtred <= 120 || d2_filtred <= 120) && right_motor_add_boost_permit == 1 && boost_permit == 1)
   right_motor_additional_boost = RIGHT_MOTOR_ADD_BOOST_MAX_VALUE;
 }
 float calculateGain(float voltage) {
