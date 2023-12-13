@@ -206,7 +206,7 @@ void set_right_motor_additional_boost_CHECK(){
   if((d1_filtred <= 120 || d2_filtred <= 120) && right_motor_add_boost_permit == 1 && boost_permit == 1){
       right_motor_additional_boost = RIGHT_MOTOR_ADD_BOOST_MAX_VALUE;
   }else{
-      //right_motor_additional_boost = 1.0;
+      right_motor_additional_boost = 1.0;
   }
 }
 float calculateGain(float voltage) {
@@ -802,7 +802,7 @@ void defence_mode(){
         if(curr_round == 2){
 
              if(turn_start_flag_1 == 1){
-                 startQuickTurnLeft(turn_speed);
+                 startQuickTurnLeft(30);
                  turn_start_flag_1 = 0;
                  delay(500);
                  stopMotors();
@@ -814,7 +814,7 @@ void defence_mode(){
         } 
         if(curr_round == 3){
              if(turn_start_flag_1 == 1){
-                 startQuickTurnLeft(turn_speed);
+                 startQuickTurnLeft(30);
                  turn_start_flag_1 = 0;
                  delay(1010);
                  stopMotors();
