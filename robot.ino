@@ -91,7 +91,7 @@ ISR(TIMER2_A) {
 
       }
 
-      if(millis() - lastTimeMotorSet_Right >= ((low_time_right/RIGHT_MOTOR_BOOST_COEF)/boost_coef) && rightMotorStatus == 1){
+      if(millis() - lastTimeMotorSet_Right >= ((low_time_right/RIGHT_MOTOR_BOOST_COEF)/(boost_coef*right_motor_additional_boost)) && rightMotorStatus == 1){
           lastTimeMotorSet_Right = millis();
           counter2 = high_time_right;
           analogWrite(PWM_Right, pwmValueHigh);
@@ -157,6 +157,7 @@ ISR(TIMER2_A) {
             if( boost_permit == 1){
               boost_coef = expRunningAverage5(calculateGain(low_voltage_motors_filtred));
             }else{
+              right_motor_additional_boost = 1.0;
               boost_coef = 1.0;
             }
           }

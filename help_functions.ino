@@ -200,14 +200,22 @@ void init_color_sensors(){
 }
 float calculateGain(float voltage) {
     // Обмежуємо напругу між мінімальною та максимальною границями
-    if(voltage >= V_MAX)return GAIN_MAX;
-    if(voltage <= V_MIN)return GAIN_MIN;
+    if(voltage >= V_MAX){
+      right_motor_additional_boost = RIGHT_MOTOR_ADD_BOOST_MAX_VALUE;
+      return GAIN_MAX;
+    }
+    if(voltage <= V_MIN){
+      right_motor_additional_boost = 1.0;
+      return GAIN_MIN;
+    }
     voltage = constrain(voltage, V_MIN, V_MAX);
 
     
     // Обчислюємо коефіцієнт усилення за лінійною залежністю
     float gain = GAIN_MAX + (GAIN_MIN - GAIN_MAX) * (voltage - V_MAX) / (V_MIN - V_MAX);
-    
+    if(gain >= GAIN_MAX+1.2){
+      right_motor_additional_boost = RIGHT_MOTOR_ADD_BOOST_MAX_VALUE;
+    }else{right_motor_additional_boost = 1.0;}
     return constrain(gain, GAIN_MAX, GAIN_MIN);
 }
 
@@ -783,7 +791,7 @@ void defence_mode(){
              if(turn_start_flag_1 == 1){
                  startQuickTurnLeft(turn_speed);
                  turn_start_flag_1 = 0;
-                 delay(600);
+                 delay(500);
                  stopMotors();
              }
              startMoveForward(main_move_speed);
@@ -795,7 +803,7 @@ void defence_mode(){
              if(turn_start_flag_1 == 1){
                  startQuickTurnLeft(turn_speed);
                  turn_start_flag_1 = 0;
-                 delay(1000);
+                 delay(1010);
                  stopMotors();
              }     
              startMoveForward(main_move_speed);
