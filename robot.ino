@@ -59,8 +59,6 @@ while (true){
             atack_mode();
         }
     }else{
-      GAIN_MIN = START_GAIN_MIN;
-      right_motor_add_boost_permit = 0;
       digitalWrite(LED_ROUND_START, LOW);
     }
 
@@ -92,8 +90,8 @@ ISR(TIMER2_A) {
           //Serial.println("PWM_Left 000");
 
       }
-//right_motor_additional_boost
-      if(millis() - lastTimeMotorSet_Right >= ((low_time_right/RIGHT_MOTOR_BOOST_COEF)/(boost_coef*right_motor_additional_boost)) && rightMotorStatus == 1){
+
+      if(millis() - lastTimeMotorSet_Right >= ((low_time_right/RIGHT_MOTOR_BOOST_COEF)/boost_coef) && rightMotorStatus == 1){
           lastTimeMotorSet_Right = millis();
           counter2 = high_time_right;
           analogWrite(PWM_Right, pwmValueHigh);
@@ -104,7 +102,6 @@ ISR(TIMER2_A) {
           }else{counter2--;}
          // Serial.println("PWM_Right 000");
       }
-              
 
 /*
       Serial.print("LIGHT_RESISTOR_1 -- ");
@@ -121,29 +118,15 @@ ISR(TIMER2_A) {
       if(interrupts_count == COLOR_SENSOR_DELAY_CHECK){
           interrupts_count = 0;
           manageBlinking();
-          
-          lastColorValue1 = analogRead(LIGHT_RESISTOR_1);
-          lastColorValue2 = analogRead(LIGHT_RESISTOR_2);
+      lastColorValue1 = analogRead(LIGHT_RESISTOR_1);
+      lastColorValue2 = analogRead(LIGHT_RESISTOR_2);
 
 
       if(round_start_flag == 1){
-          if(start_round_time_for_boost != 0 && millis() - start_round_time_for_boost >= TIME_RIGHT_BOOST_BLOCK ){
-              right_motor_add_boost_permit = 1;  
-          }else{
-              right_motor_additional_boost = 1.0;
-              right_motor_add_boost_permit = 0;
-          }
-          
-          if(start_round_time_for_main_boost != 0 && millis() - start_round_time_for_main_boost >= TIME_MAIN_BOOST_BLOCK){
-              GAIN_MIN = MAIN_GAIN_MIN;  
-          }else{
-              GAIN_MIN = START_GAIN_MIN;
-          }
-               
           if(lastColorValue1 < defaultColorValue1 - 150){
           if(photoresistor_ararm_flag == 0){
               stopMotors();
-              //round_length_time = 0;
+              round_length_time = 0;
               counter_backward = 1000;
               photoresistor_ararm_flag = 1;
             }
@@ -174,7 +157,6 @@ ISR(TIMER2_A) {
             if( boost_permit == 1){
               boost_coef = expRunningAverage5(calculateGain(low_voltage_motors_filtred));
             }else{
-              right_motor_additional_boost = 1.0;
               boost_coef = 1.0;
             }
           }

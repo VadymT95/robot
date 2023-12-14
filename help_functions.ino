@@ -106,15 +106,11 @@ void startRoundButton() {
 
     if (buttonState == HIGH) {
       round_length_time = currentMillis;
-      start_round_time_for_boost = millis();
-      start_round_time_for_main_boost  = millis();
-      
       round_start_flag = 1;
       digitalWrite(LED_ROUND_START, HIGH);
       defaultColorValue1 = lastColorValue1;
       defaultColorValue2 = lastColorValue2;
       tusk_ararm_flag = 0;
-      
       float voltage = analogRead(voltagePin) * (5.0 / 1023.0) * 5; 
       if(voltage >= 21){
           turn_speed = 30;  
@@ -202,33 +198,16 @@ void init_color_sensors(){
     }
   #endif
 }
-void set_right_motor_additional_boost_CHECK(){
-  if((d1_filtred <= 120 || d2_filtred <= 120) && right_motor_add_boost_permit == 1 && boost_permit == 1){
-      right_motor_additional_boost = RIGHT_MOTOR_ADD_BOOST_MAX_VALUE;
-  }else{
-      right_motor_additional_boost = 1.0;
-  }
-}
 float calculateGain(float voltage) {
     // Обмежуємо напругу між мінімальною та максимальною границями
-    if(voltage >= V_MAX){
-         set_right_motor_additional_boost_CHECK();
-      return GAIN_MAX;
-    }
-    if(voltage <= V_MIN){
-      right_motor_additional_boost = 1.0;
-      return GAIN_MIN;
-    }
+    if(voltage >= V_MAX)return GAIN_MAX;
+    if(voltage <= V_MIN)return GAIN_MIN;
     voltage = constrain(voltage, V_MIN, V_MAX);
 
     
     // Обчислюємо коефіцієнт усилення за лінійною залежністю
     float gain = GAIN_MAX + (GAIN_MIN - GAIN_MAX) * (voltage - V_MAX) / (V_MIN - V_MAX);
-    if(gain >= GAIN_MAX+1.2){
-        set_right_motor_additional_boost_CHECK();
-     }else{
-        right_motor_additional_boost = 1.0;
-    }
+    
     return constrain(gain, GAIN_MAX, GAIN_MIN);
 }
 
@@ -644,7 +623,7 @@ void atack_round_2() {
   if(getFrontInfraredDistance_array_5() <= TRACK_DISTANCE_SENSORS/10){ 
     stage = 2;
   }else{
-    startQuickTurnLeft(45);
+  startQuickTurnLeft(turn_speed);
   }
 
     while(millis() - round_length_time <= TOTAL_ROUND_LENGTH){
@@ -710,7 +689,7 @@ void atack_round_2() {
                     #endif
                 break;
                 case LEFT_SMALL:
-                    startSlowTurnLeft(main_move_speed, 1.50);
+                    startSlowTurnLeft(main_move_speed, 1.30);
                     #ifdef ROUTE_PRINTS
                       Serial.print("Front ");
                       Serial.print(getFrontInfraredDistance());
@@ -718,7 +697,7 @@ void atack_round_2() {
                     #endif
                 break;       
                 case RIGHT_SMALL:
-                    startSlowTurnRight(main_move_speed, 1.50);
+                    startSlowTurnRight(main_move_speed, 1.30);
                     #ifdef ROUTE_PRINTS
                       Serial.print("Front ");
                       Serial.print(getFrontInfraredDistance());
@@ -802,9 +781,9 @@ void defence_mode(){
         if(curr_round == 2){
 
              if(turn_start_flag_1 == 1){
-                 startQuickTurnLeft(30);
+                 startQuickTurnLeft(turn_speed);
                  turn_start_flag_1 = 0;
-                 delay(500);
+                 delay(600);
                  stopMotors();
              }
              startMoveForward(main_move_speed);
@@ -814,9 +793,9 @@ void defence_mode(){
         } 
         if(curr_round == 3){
              if(turn_start_flag_1 == 1){
-                 startQuickTurnLeft(30);
+                 startQuickTurnLeft(turn_speed);
                  turn_start_flag_1 = 0;
-                 delay(1010);
+                 delay(1000);
                  stopMotors();
              }     
              startMoveForward(main_move_speed);
