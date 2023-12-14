@@ -126,7 +126,7 @@ ISR(TIMER2_A) {
           if(lastColorValue1 < defaultColorValue1 - 150){
           if(photoresistor_ararm_flag == 0){
               stopMotors();
-              round_length_time = 0;
+              //round_length_time = 0;
               counter_backward = 1000;
               photoresistor_ararm_flag = 1;
             }

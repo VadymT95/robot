@@ -783,7 +783,7 @@ void defence_mode(){
              if(turn_start_flag_1 == 1){
                  startQuickTurnLeft(turn_speed);
                  turn_start_flag_1 = 0;
-                 delay(600);
+                 delay(500);
                  stopMotors();
              }
              startMoveForward(main_move_speed);
@@ -795,7 +795,7 @@ void defence_mode(){
              if(turn_start_flag_1 == 1){
                  startQuickTurnLeft(turn_speed);
                  turn_start_flag_1 = 0;
-                 delay(1000);
+                 delay(1010);
                  stopMotors();
              }     
              startMoveForward(main_move_speed);
