@@ -104,7 +104,7 @@ ISR(TIMER2_A) {
           }else{counter2--;}
          // Serial.println("PWM_Right 000");
       }
-               Serial.println(right_motor_additional_boost);
+              
 
 /*
       Serial.print("LIGHT_RESISTOR_1 -- ");
@@ -127,6 +127,7 @@ ISR(TIMER2_A) {
 
 
       if(round_start_flag == 1){
+        Serial.println(right_motor_additional_boost);
           if(start_round_time_for_boost != 0 && millis() - start_round_time_for_boost >= TIME_RIGHT_BOOST_BLOCK ){
               right_motor_add_boost_permit = 1;  
           }else{
