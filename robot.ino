@@ -93,7 +93,7 @@ ISR(TIMER2_A) {
 
       }
 //right_motor_additional_boost
-      if(millis() - lastTimeMotorSet_Right >= ((low_time_right/RIGHT_MOTOR_BOOST_COEF)/(boost_coef*right_motor_additional_boost*1.25)) && rightMotorStatus == 1){
+      if(millis() - lastTimeMotorSet_Right >= ((low_time_right/RIGHT_MOTOR_BOOST_COEF)/(boost_coef*right_motor_additional_boost)) && rightMotorStatus == 1){
           lastTimeMotorSet_Right = millis();
           counter2 = high_time_right;
           analogWrite(PWM_Right, pwmValueHigh);
@@ -126,13 +126,14 @@ ISR(TIMER2_A) {
 
 
       if(round_start_flag == 1){
-          if(millis() - start_round_time_for_boost >= TIME_RIGHT_BOOST_BLOCK){
+          if(start_round_time_for_boost != 0 && millis() - start_round_time_for_boost >= TIME_RIGHT_BOOST_BLOCK ){
               right_motor_add_boost_permit = 1;  
           }else{
+              right_motor_additional_boost = 1.0;
               right_motor_add_boost_permit = 0;
           }
           
-          if(millis() - start_round_time_for_main_boost >= TIME_MAIN_BOOST_BLOCK){
+          if(start_round_time_for_main_boost != 0 && millis() - start_round_time_for_main_boost >= TIME_MAIN_BOOST_BLOCK){
               GAIN_MIN = MAIN_GAIN_MIN;  
           }else{
               GAIN_MIN = START_GAIN_MIN;
