@@ -710,7 +710,7 @@ void atack_round_2() {
                     #endif
                 break;
                 case LEFT_SMALL:
-                    startSlowTurnLeft(main_move_speed, 1.30);
+                    startSlowTurnLeft(main_move_speed, 1.50);
                     #ifdef ROUTE_PRINTS
                       Serial.print("Front ");
                       Serial.print(getFrontInfraredDistance());
@@ -718,7 +718,7 @@ void atack_round_2() {
                     #endif
                 break;       
                 case RIGHT_SMALL:
-                    startSlowTurnRight(main_move_speed, 1.30);
+                    startSlowTurnRight(main_move_speed, 1.50);
                     #ifdef ROUTE_PRINTS
                       Serial.print("Front ");
                       Serial.print(getFrontInfraredDistance());
